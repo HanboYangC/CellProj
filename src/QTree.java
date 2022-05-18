@@ -23,7 +23,7 @@ public class QTree {
         public Node nw;
         public Node se;
         public Node sw;
-        public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne, nw, se, sw));
+        public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne,nw,se,sw));
         // leaf
         private ArrayList<Cell> cells;
         // TODO : = null as node; = list as leaf (no longer than 4)
@@ -105,7 +105,7 @@ public class QTree {
             this.nw.brother = new ArrayList<>((Arrays.asList(this.se, this.ne, this.sw)));
             this.sw.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.ne)));
 
-            this.son = new ArrayList<>(Arrays.asList(this.ne, this.nw, this.se, this.sw));
+            this.son = new ArrayList<>(Arrays.asList(this.ne,this.nw,this.se,this.sw));
 
             this.divided = true;
             this.cells = null;
@@ -143,15 +143,16 @@ public class QTree {
             return foundCell;
         }
 
-        // ????
-        public ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
-            ArrayList<Cell> res = new ArrayList<>();
-            for (Cell tmp : cells) {
-                if (tmp.check_if_overlapped(tmp, cell))
-                    res.add(tmp);
-            }
-            return res;
+    }
+
+    // ????
+    public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
+        ArrayList<Cell> res = new ArrayList<>();
+        for (Cell tmp : cells) {
+            if (tmp.check_if_overlapped(tmp, cell))
+                res.add(tmp);
         }
+        return res;
     }
 
     // construct function 1
@@ -233,15 +234,84 @@ public class QTree {
         return cells_visited;
     }
 
-    public void color_test_output() {
-        ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp : cells)
-            System.out.println(tmp.color);
-    }
+    //
+    public boolean move(Node node) {
+        if(node==null)
+            return false;
+        if (node.divided) {
+            move(node.ne);
+            move(node.nw);
+            move(node.se);
+            move(node.sw);
+        } else {
+            for (Cell cell : node.cells) {
+                Rectangle collisionArea = new Rectangle(cell.x, cell.y, (cell.radius + 1 / 15) * 2, (cell.radius + 1 / 15) * 2);
+                ArrayList<Cell> collision = this.root.cellInRange(collisionArea);
+                cell.move();
+                if (cellOverlap(collision, cell).size() != 0) {
+                    switch (cell.color) {
+                        case RED:
+                            double maxBackY=0;
+                            for (Cell collided : collision) {
+                                double idleDistance=cell.radius+collided.radius;
+                                double deltax=cell.x-collided.x;
+                                double deltay=collided.y-cell.y;//>0
+                                double idledy=Math.sqrt(idleDistance * idleDistance - deltax * deltax);
+                                double backY=deltay-idledy;//<0
+                                if(backY<maxBackY)
+                                    maxBackY=backY;
+                            }
+                            cell.move(cell.x,cell.y+maxBackY);
+                        case GREEN:
+                            double maxForwardY=0;
+                            for (Cell collided : collision) {
+                                double idleDistance=cell.radius+collided.radius;
+                                double deltax=cell.x-collided.x;
+                                double deltay=cell.y-collided.y;//>0
+                                double idledy=Math.sqrt(idleDistance * idleDistance - deltax * deltax);
+                                double forwardY=idledy-deltay;//>0
+                                if(forwardY>maxForwardY)
+                                    maxForwardY=forwardY;
+                            }
+                            cell.move(cell.x,cell.y+maxForwardY);
+                        case BLUE:
+                            //move(this.x -= 1.0 / 15.0, this.y);
+                            double maxForwardX=0;
+                            for (Cell collided : collision) {
+                                double idleDistance=cell.radius+collided.radius;
+                                double deltax=cell.x-collided.x;//>0
+                                double deltay=cell.y-collided.y;
+                                double idledx=Math.sqrt(idleDistance * idleDistance - deltay * deltay);
+                                double forwardX=idledx-deltax;//>0
+                                if(forwardX>maxForwardX)
+                                    maxForwardX=forwardX;
+                            }
+                            cell.move(cell.x+maxForwardX,cell.y);
+                        case YELLOW:
+                            //move(this.x += 1.0 / 15.0, this.y);
+                            double maxBackX=0;
+                            for (Cell collided : collision) {
+                                double idleDistance=cell.radius+collided.radius;
+                                double deltax=collided.x-cell.x;//>0
+                                double deltay=cell.y-collided.y;
+                                double idledx=Math.sqrt(idleDistance * idleDistance - deltay * deltay);
+                                double backX=deltax-idledx;//<0
+                                if(backX<maxBackX)
+                                    maxBackX=backX;
+                            }
+                            cell.move(cell.x+maxBackX,cell.y);
+                    }
 
-    public void simple_test_output() {
+
+                }
+
+            }
+        }
+        return true;
+    }
+    public void simple_test_output(){
         ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp : cells)
+        for (Cell tmp: cells)
             System.out.println(Arrays.toString(tmp.position));
     }
 
@@ -249,6 +319,12 @@ public class QTree {
         ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle);
         Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
         cell.setColor(colors_changed);
+    }
+
+    public void color_test_output(){
+        ArrayList<Cell> cells_visited = dfs(root);
+        for (Cell tmp: cells)
+            System.out.println(tmp.color);
     }
 
 }

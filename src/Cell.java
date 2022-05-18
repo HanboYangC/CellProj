@@ -134,6 +134,7 @@ public class Cell {
         return true;
     }
 
+
     // Find and add up all the cells in the perception range
     public int[] perception() {
         int red = 0;
