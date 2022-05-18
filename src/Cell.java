@@ -53,10 +53,10 @@ public class Cell {
         this.perception_range = perception_range;
         this.perception_rectangle=new Rectangle(x,y,2*perception_range,2*perception_range);
         switch (c) {
-            case 'r' -> this.color_before = Color.RED;
-            case 'g' -> this.color_before = Color.GREEN;
-            case 'b' -> this.color_before = Color.BLUE;
-            case 'y' -> this.color_before = Color.YELLOW;
+            case 'r' : this.color_before = Color.RED;break;
+            case 'g' : this.color_before = Color.GREEN;break;
+            case 'b' : this.color_before = Color.BLUE;break;
+            case 'y' : this.color_before = Color.YELLOW;
         }
 //        this.ID = num;
         cells.add(this);
@@ -100,10 +100,10 @@ public class Cell {
             return;
         }
         switch (this.color_before) {
-            case RED -> move(this.x, this.y += 1.0 / 15.0);
-            case GREEN -> move(this.x, this.y -= 1.0 / 15.0);
-            case BLUE -> move(this.x -= 1.0 / 15.0, this.y);
-            case YELLOW -> move(this.x += 1.0 / 15.0, this.y);
+            case RED    : move(this.x, this.y += 1.0 / 15.0);break;
+            case GREEN  : move(this.x, this.y -= 1.0 / 15.0);break;
+            case BLUE   : move(this.x -= 1.0 / 15.0, this.y);break;
+            case YELLOW : move(this.x += 1.0 / 15.0, this.y);break;
         }
     }
 
@@ -130,10 +130,10 @@ public class Cell {
         int[] count_color = new int[4]; // r,g,b,y
         for (Color col : perception_color) {
             switch (col) {
-                case RED -> count_color[0] = count_color[0] + 1;
-                case GREEN -> count_color[1] = count_color[1] + 1;
-                case BLUE -> count_color[2] = count_color[2] + 1;
-                case YELLOW -> count_color[3] = count_color[3] + 1;
+                case RED    : count_color[0] = count_color[0] + 1;break;
+                case GREEN  : count_color[1] = count_color[1] + 1;break;
+                case BLUE   : count_color[2] = count_color[2] + 1;break;
+                case YELLOW : count_color[3] = count_color[3] + 1;break;
             }
         }
         double[] prop_color = new double[4];
