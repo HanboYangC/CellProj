@@ -36,6 +36,8 @@ public class QuadTree {
             return false;
         }
         if (this.cells.size() < capacity) {
+            if(cellOverlap(this.cells,cell).size()!=0)
+                return false;
             this.cells.add(cell);
             return true;
         }
@@ -116,7 +118,7 @@ public class QuadTree {
         return foundCell;
     }
 
-    public ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
+    public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
         ArrayList<Cell> res = new ArrayList<>();
         for (Cell tmp : cells) {
             if (tmp.check_if_overlapped(tmp, cell))

@@ -15,7 +15,7 @@ public class Cell {
     }
 
     // Variables & its default value
-    public int ID = num;  //  default: from 0 to num-1
+    public static int ID = num;  //  default: from 0 to num-1
     //    public Color color = Color.RED;
 
     public Color color_before; // color before change in each loop
@@ -31,6 +31,8 @@ public class Cell {
     public Rectangle perception_rectangle;
 
     public Cell() {
+        if(QuadTree.cellOverlap(Cell.cells,this).size()!=0)
+            return;
         cells.add(this);
         Cell.num++;
     }  // default instantiate
@@ -40,6 +42,8 @@ public class Cell {
         this.ID = identity;
         this.color_before = color;
         this.radius = radius;
+        if(QuadTree.cellOverlap(Cell.cells,this).size()!=0)
+            return;
         cells.add(this);
         Cell.num++;
     }
@@ -50,6 +54,8 @@ public class Cell {
         this.y = y;
         this.position = new double[]{this.x, this.y};
         this.radius = radius;
+        if(QuadTree.cellOverlap(Cell.cells,this).size()!=0)
+            return;
         this.perception_range = perception_range;
         this.perception_rectangle=new Rectangle(x,y,2*perception_range,2*perception_range);
         switch (c) {
