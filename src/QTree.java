@@ -117,6 +117,16 @@ public class QTree {
             return foundCell;
         }
 
+        // ????
+        public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
+            ArrayList<Cell> res = new ArrayList<>();
+            for (Cell tmp : cells) {
+                if (tmp.check_if_overlapped(tmp, cell))
+                    res.add(tmp);
+            }
+            return res;
+        }
+
 
 
 
