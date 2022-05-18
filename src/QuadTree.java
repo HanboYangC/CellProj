@@ -127,32 +127,6 @@ public class QuadTree {
         return res;
     }
 
-/*
-    public ArrayList<Cell> dfs(QuadTree root, Cell cell) {
-        ArrayList<Cell> cells_res = new ArrayList<>();
-        for (QuadTree quadtree = root; quadtree != null; ) {
-            if (quadtree.divided) {
-                quadtree = quadtree.nw;
-                cells_res.addAll(cellOverlap(quadtree.cells, cell));
-                cells_res.addAll(dfs(quadtree, cell));
-
-                quadtree = quadtree.ne;
-                cells_res.addAll(cellOverlap(quadtree.cells, cell));
-                cells_res.addAll(dfs(quadtree, cell));
-
-                quadtree = quadtree.sw;
-                cells_res.addAll(cellOverlap(quadtree.cells, cell));
-                cells_res.addAll(dfs(quadtree, cell));
-
-                quadtree = quadtree.se;
-                cells_res.addAll(cellOverlap(quadtree.cells, cell));
-                cells_res.addAll(dfs(quadtree, cell));
-            }
-        }
-        return cells_res;
-    }
-*/
-
     public ArrayList<Cell> dfs(QuadTree quadTree) {  //纯DFS遍历，返回遍历过的Cell
         ArrayList<Cell> cells_visited = new ArrayList<>();
         if (quadTree.divided) {
@@ -179,5 +153,23 @@ public class QuadTree {
 //
 //    }
 
+   /* public static boolean move(Node) {
+        if (quadTree == null)
+            return false;
+        if (quadTree.divided) {
+            move(quadTree.ne);
+            move(quadTree.se);
+            move(quadTree.nw);
+            move(quadTree.sw);
+        } else {
+            for (Cell cell : quadTree.cells) {
+                Rectangle collision =new Rectangle(cell.x,cell.y,cell.radius+Cell.maxRadius, cell.radius+Cell.maxRadius);
+                ArrayList<Cell>collisionCells=cellInRange()
+                if(quadTree.cellInRange(collision).size()!=0){
 
+                }
+            }
+        }
+        return true;
+    }*/
 }

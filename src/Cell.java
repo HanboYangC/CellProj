@@ -7,9 +7,10 @@ public class Cell {
 
     public static int num = 0;  // total number of cells
     public static ArrayList<Cell> cells = new ArrayList<Cell>();
+    public static double maxRadius=0;
     public static double step = 1.0 / 0.15;  // default move step
 
-    public static void release(){
+    public static void release() {
         num = 0;
         cells.clear();
     }
@@ -18,9 +19,7 @@ public class Cell {
     public static int ID = num;  //  default: from 0 to num-1
     //    public Color color = Color.RED;
 
-    public Color color_before; // color before change in each loop
-    public Color color_changed; // color after change in each loop
-
+    public Color color;
     public double radius = 0.0;
     public double x = 0.0;
     public double y = 0.0;
@@ -31,8 +30,9 @@ public class Cell {
     public Rectangle perception_rectangle;
 
     public Cell() {
-        if(QuadTree.cellOverlap(Cell.cells,this).size()!=0)
-            return;
+
+        if(this.radius>maxRadius)
+            maxRadius=this.radius;
         cells.add(this);
         Cell.num++;
     }  // default instantiate
@@ -40,10 +40,10 @@ public class Cell {
     public Cell(double[] position, double radius, int identity, Color color) {
         this.position = position;
         this.ID = identity;
-        this.color_before = color;
+        this.color= color;
         this.radius = radius;
-        if(QuadTree.cellOverlap(Cell.cells,this).size()!=0)
-            return;
+        if(this.radius>maxRadius)
+            maxRadius=this.radius;
         cells.add(this);
         Cell.num++;
     }
@@ -54,17 +54,26 @@ public class Cell {
         this.y = y;
         this.position = new double[]{this.x, this.y};
         this.radius = radius;
-        if(QuadTree.cellOverlap(Cell.cells,this).size()!=0)
+        if (QuadTree.cellOverlap(Cell.cells, this).size() != 0)
             return;
         this.perception_range = perception_range;
-        this.perception_rectangle=new Rectangle(x,y,2*perception_range,2*perception_range);
+        this.perception_rectangle = new Rectangle(x, y, 2 * perception_range, 2 * perception_range);
         switch (c) {
-            case 'r' : this.color_before = Color.RED;break;
-            case 'g' : this.color_before = Color.GREEN;break;
-            case 'b' : this.color_before = Color.BLUE;break;
-            case 'y' : this.color_before = Color.YELLOW;
+            case 'r':
+                this.color = Color.RED;
+                break;
+            case 'g':
+                this.color = Color.GREEN;
+                break;
+            case 'b':
+                this.color = Color.BLUE;
+                break;
+            case 'y':
+                this.color = Color.YELLOW;
         }
 //        this.ID = num;
+        if(this.radius>maxRadius)
+            maxRadius=this.radius;
         cells.add(this);
         Cell.num++;
     }
@@ -75,14 +84,14 @@ public class Cell {
     public boolean check_if_overlapped(Wall wall) {
         double pow2dist = Math.pow((wall.height - this.y), 2) + Math.pow((wall.width - this.x), 2);
         double pow2body = Math.pow(this.radius, 2);
-        this.hit_wall =pow2body >= pow2dist;
+        this.hit_wall = pow2body >= pow2dist;
         return pow2body >= pow2dist;
     }  //Check the cell and the wall, true for overlapped
 
     public boolean check_if_overlapped(Cell a, Cell b) {
         double pow2dist = Math.pow((a.y - b.y), 2) + Math.pow((a.x - b.x), 2);
         double pow2body = Math.pow(a.radius, 2) + Math.pow(b.radius, 2);
-        this.hit_others =pow2body >= pow2dist;
+        this.hit_others = pow2body >= pow2dist;
         return pow2body >= pow2dist;
     }  //Check the cell a and the cell b, true for overlapped
 
@@ -100,17 +109,26 @@ public class Cell {
         this.y = position[1];
     }
 
-    public void move() {
+    public boolean move() {
         // when hit others, stop
         if (hit_others || hit_wall) {
-            return;
+            return false;
         }
-        switch (this.color_before) {
-            case RED    : move(this.x, this.y += 1.0 / 15.0);break;
-            case GREEN  : move(this.x, this.y -= 1.0 / 15.0);break;
-            case BLUE   : move(this.x -= 1.0 / 15.0, this.y);break;
-            case YELLOW : move(this.x += 1.0 / 15.0, this.y);break;
+        switch (this.color) {
+            case RED:
+                move(this.x, this.y += 1.0 / 15.0);
+                break;
+            case GREEN:
+                move(this.x, this.y -= 1.0 / 15.0);
+                break;
+            case BLUE:
+                move(this.x -= 1.0 / 15.0, this.y);
+                break;
+            case YELLOW:
+                move(this.x += 1.0 / 15.0, this.y);
+                break;
         }
+        return true;
     }
 
     // Find and add up all the cells in the perception range
@@ -126,7 +144,7 @@ public class Cell {
     }
 
     public void change_color(Color color_changed) {
-        this.color_changed = color_changed;
+        this.color = color_changed;
     }
 
     // input : Color[] perception_color
@@ -136,60 +154,68 @@ public class Cell {
         int[] count_color = new int[4]; // r,g,b,y
         for (Color col : perception_color) {
             switch (col) {
-                case RED    : count_color[0] = count_color[0] + 1;break;
-                case GREEN  : count_color[1] = count_color[1] + 1;break;
-                case BLUE   : count_color[2] = count_color[2] + 1;break;
-                case YELLOW : count_color[3] = count_color[3] + 1;break;
+                case RED:
+                    count_color[0] = count_color[0] + 1;
+                    break;
+                case GREEN:
+                    count_color[1] = count_color[1] + 1;
+                    break;
+                case BLUE:
+                    count_color[2] = count_color[2] + 1;
+                    break;
+                case YELLOW:
+                    count_color[3] = count_color[3] + 1;
+                    break;
             }
         }
         double[] prop_color = new double[4];
         for (int i = 0; i < prop_color.length; i++) {
-            prop_color[i] = (double) count_color[i]/count_color.length;
+            prop_color[i] = (double) count_color[i] / count_color.length;
         }
 
         // 0-red; 1-green; 2-blue; 3-yellow
-        switch (this.color_before) {
+        switch (this.color) {
             case RED:
-                if(count_color[0]>=3 & prop_color[0] > 0.7){
+                if (count_color[0] >= 3 & prop_color[0] > 0.7) {
 //                    this.color_before = Color.GREEN;
-                    change_color( Color.GREEN);
-                }else if(count_color[3] >= 1 & prop_color[3] < 0.1 ){
+                    change_color(Color.GREEN);
+                } else if (count_color[3] >= 1 & prop_color[3] < 0.1) {
 //                    this.color_before = Color.YELLOW;
-                    change_color( Color.YELLOW);
+                    change_color(Color.YELLOW);
                 }
                 break;
             case GREEN:
-                if(count_color[1]>=3 & prop_color[1] > 0.7){
+                if (count_color[1] >= 3 & prop_color[1] > 0.7) {
 //                    this.color_before = Color.BLUE;
-                    change_color( Color.BLUE);
-                }else if(count_color[0] >= 1 & prop_color[0] < 0.1 ){
+                    change_color(Color.BLUE);
+                } else if (count_color[0] >= 1 & prop_color[0] < 0.1) {
 //                    this.color_before = Color.RED;
-                    change_color( Color.RED);
+                    change_color(Color.RED);
                 }
                 break;
             case BLUE:
-                if(count_color[2]>=3 & prop_color[2] > 0.7){
+                if (count_color[2] >= 3 & prop_color[2] > 0.7) {
 //                    this.color_before = Color.YELLOW;
-                    change_color( Color.YELLOW);
-                }else if(count_color[1] >= 1 & prop_color[1] < 0.1 ){
+                    change_color(Color.YELLOW);
+                } else if (count_color[1] >= 1 & prop_color[1] < 0.1) {
 //                    this.color_before = Color.GREEN;
-                    change_color( Color.GREEN);
+                    change_color(Color.GREEN);
                 }
                 break;
             case YELLOW:
-                if(count_color[3]>=3 & prop_color[3] > 0.7){
+                if (count_color[3] >= 3 & prop_color[3] > 0.7) {
 //                    this.color_before = Color.RED;
-                    change_color( Color.RED);
-                }else if(count_color[2] >= 1 & prop_color[2] < 0.1 ){
+                    change_color(Color.RED);
+                } else if (count_color[2] >= 1 & prop_color[2] < 0.1) {
 //                    this.color_before = Color.BLUE;
-                    change_color( Color.BLUE);
+                    change_color(Color.BLUE);
                 }
                 break;
         }
 
     }
 
-    public static Cell queryID(int num){
+    public static Cell queryID(int num) {
         return cells.get(num);
     }
 

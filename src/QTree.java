@@ -127,8 +127,6 @@ public class QTree {
         }
 
 
-
-
     }
 
     // construct function 1
@@ -167,6 +165,26 @@ public class QTree {
 
         return cells_visited;
     }
+
+    public boolean move(Node node) {
+        double step=1/15;
+        if (node == null)
+            return false;
+        if (node.divided) {
+            move(node.ne);
+            move(node.se);
+            move(node.nw);
+            move(node.sw);
+        } else {
+            for (Cell cell : node.cells) {//默认按照 id
+                Rectangle collision =new Rectangle(cell.x,cell.y,cell.radius+Cell.maxRadius, cell.radius+Cell.maxRadius);
+                ArrayList<Cell>collisionCells= this.root.cellInRange(collision);
+                cell.move();
+            }
+        }
+        return true;
+    }
+
 
 
 }
