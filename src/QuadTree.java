@@ -22,7 +22,10 @@ public class QuadTree {
 
     public QuadTree(Rectangle rectangle, ArrayList<Cell> cells) {
         this(rectangle);
-        this.cells = cells;
+        for(Cell c : cells){
+            insert(c);
+        }
+//        this.cells = cells;
     }
 
     public boolean insert(Cell cell) {
@@ -167,6 +170,14 @@ public class QuadTree {
         Rectangle perception=cell.perception_rectangle;
         return quadTree.cellInRange(perception);
     }
+
+//    // check whether the points are in the right positions
+//    public static void reconstruct(QuadTree quadTree){
+//        QuadTree node = this;
+//        while (tree.ne )
+//
+//
+//    }
 
 
 
