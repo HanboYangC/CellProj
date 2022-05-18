@@ -165,4 +165,8 @@ public class Test {
         for (Cell tmp: cells)
             System.out.println(Arrays.toString(tmp.position));
     }
+
+    public static void main(String[] args) {
+        simpletest();
+    }
 }
