@@ -4,6 +4,7 @@ public class QTree {
     public Wall wall ;
     public Node root = null;
     public ArrayList<Cell> cells = new ArrayList<Cell>();
+    public ArrayList<Node> leaves = new ArrayList<>();
 
     class Node{
         public Rectangle boundary;
@@ -23,6 +24,7 @@ public class QTree {
             this.divided = false;
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
+            leaves.add(this);
         }
 
         // given rectangle and cells
@@ -30,6 +32,9 @@ public class QTree {
             this(rectangle);
             for(Cell c : cells){
                 insert(c);
+            }
+            if(!this.divided){
+                leaves.add(this);
             }
         }
 
@@ -44,6 +49,9 @@ public class QTree {
             }
             if (!this.divided && this.cells.size() >= capacity) {
                 this.divide();
+                if(leaves.contains(this)){
+                    leaves.remove(this);
+                }
             }
 
             if (this.divided) {
@@ -117,7 +125,7 @@ public class QTree {
         }
 
         // ????
-        public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
+        public ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
             ArrayList<Cell> res = new ArrayList<>();
             for (Cell tmp : cells) {
                 if (tmp.check_if_overlapped(tmp, cell))
