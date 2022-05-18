@@ -125,49 +125,47 @@ public class QuadTree {
         return res;
     }
 
+/*
     public ArrayList<Cell> dfs(QuadTree root, Cell cell) {
         ArrayList<Cell> cells_res = new ArrayList<>();
         for (QuadTree quadtree = root; quadtree != null; ) {
-            quadtree = quadtree.nw;
-            cells_res.addAll(cellOverlap(quadtree.cells, cell));
-            cells_res.addAll(dfs(quadtree, cell));
+            if (quadtree.divided) {
+                quadtree = quadtree.nw;
+                cells_res.addAll(cellOverlap(quadtree.cells, cell));
+                cells_res.addAll(dfs(quadtree, cell));
 
-            quadtree = quadtree.ne;
-            cells_res.addAll(cellOverlap(quadtree.cells, cell));
-            cells_res.addAll(dfs(quadtree, cell));
+                quadtree = quadtree.ne;
+                cells_res.addAll(cellOverlap(quadtree.cells, cell));
+                cells_res.addAll(dfs(quadtree, cell));
 
-            quadtree = quadtree.sw;
-            cells_res.addAll(cellOverlap(quadtree.cells, cell));
-            cells_res.addAll(dfs(quadtree, cell));
+                quadtree = quadtree.sw;
+                cells_res.addAll(cellOverlap(quadtree.cells, cell));
+                cells_res.addAll(dfs(quadtree, cell));
 
-            quadtree = quadtree.se;
-            cells_res.addAll(cellOverlap(quadtree.cells, cell));
-            cells_res.addAll(dfs(quadtree, cell));
+                quadtree = quadtree.se;
+                cells_res.addAll(cellOverlap(quadtree.cells, cell));
+                cells_res.addAll(dfs(quadtree, cell));
+            }
         }
         return cells_res;
     }
+*/
 
-    public ArrayList<Cell> dfs(QuadTree root) {  //纯DFS遍历，返回遍历过的Cell
+    public ArrayList<Cell> dfs(QuadTree quadTree) {  //纯DFS遍历，返回遍历过的Cell
         ArrayList<Cell> cells_visited = new ArrayList<>();
-        for (QuadTree quadtree = root; quadtree != null; ) {
-            quadtree = quadtree.nw;
-            cells_visited.addAll(quadtree.cells);
-            dfs(quadtree);
-            quadtree = quadtree.ne;
-            cells_visited.addAll(quadtree.cells);
-            dfs(quadtree);
-            quadtree = quadtree.sw;
-            cells_visited.addAll(quadtree.cells);
-            dfs(quadtree);
-            quadtree = quadtree.se;
-            cells_visited.addAll(quadtree.cells);
-            dfs(quadtree);
-        }
+        if(quadTree.divided){
+            cells_visited.addAll(dfs(quadTree.ne));
+            cells_visited.addAll(dfs(quadTree.nw));
+            cells_visited.addAll(dfs(quadTree.se));
+            cells_visited.addAll(dfs(quadTree.sw));
+        }else
+            cells_visited.addAll(quadTree.cells);
+
         return cells_visited;
     }
 
-    public static ArrayList<Cell> cellsInPerception(QuadTree quadTree,Cell cell){
-        Rectangle perception=cell.perception_rectangle;
+    public static ArrayList<Cell> cellsInPerception(QuadTree quadTree, Cell cell) {
+        Rectangle perception = cell.perception_rectangle;
         return quadTree.cellInRange(perception);
     }
 
@@ -178,7 +176,6 @@ public class QuadTree {
 //
 //
 //    }
-
 
 
 }

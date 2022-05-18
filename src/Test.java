@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import edu.princeton.cs.algs4.*;
@@ -148,5 +150,23 @@ public class Test {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void simpletest(){
+        QuadTree qt = new QuadTree(new Rectangle(4, 4));
+        double[] x_seq = new double[]{1, 2, 3, 1, 3};
+        double[] y_seq = new double[]{3, 2, 3, 1, 1};
+        double r = 0.1;
+        double pr = 0.2;
+        char c = 'r';
+        for (int i=0;i<5;i++)
+            qt.insert(new Cell(x_seq[i], y_seq[i], r, pr, c));
+        ArrayList<Cell> cells = qt.dfs(qt);
+        for (Cell tmp: cells)
+            System.out.println(Arrays.toString(tmp.position));
+    }
+
+    public static void main(String[] args) {
+        simpletest();
     }
 }
