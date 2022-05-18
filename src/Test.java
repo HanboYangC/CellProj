@@ -126,6 +126,7 @@ public class Test {
 
                 /*  Write the test code here */
 
+
                 // Perception Test
 
                 // Wall Test
@@ -148,5 +149,21 @@ public class Test {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        // write your code here
+        // Test
+        Test.genData();
+        Test.genScenery();
+
+
+//        while (true){
+//            try {
+//                Thread.sleep(1000/15);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }
