@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class QTree {
@@ -14,14 +15,15 @@ public class QTree {
         public boolean divided; // if divided ? node : leaf
         final static private int capacity = 4;
         // relationship with other nodes
-        public Node father = null;
+        public Node father = null; // null if it is the root
+        public ArrayList<Node> brother = null; // null if it is the root
 
         // node
-        public ArrayList<Node> brother = null;
         public Node ne;
         public Node nw;
         public Node se;
         public Node sw;
+        public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne,nw,se,sw));
         // leaf
         private ArrayList<Cell> cells;
         // TODO : = null as node; = list as leaf (no longer than 4)
@@ -88,15 +90,22 @@ public class QTree {
             double w = this.boundary.w / 2;
             double h = this.boundary.h / 2;
 
+            this.ne = new Node(new Rectangle(centx + w / 2, centy + h / 2, w, h));
+            this.se = new Node(new Rectangle(centx + w / 2, centy - h / 2, w, h));
+            this.nw = new Node(new Rectangle(centx - w / 2, centy + h / 2, w, h));
+            this.sw = new Node(new Rectangle(centx - w / 2, centy - h / 2, w, h));
+
             this.ne.father = this;
             this.se.father = this;
             this.nw.father = this;
             this.sw.father = this;
 
-            this.ne = new Node(new Rectangle(centx + w / 2, centy + h / 2, w, h));
-            this.se = new Node(new Rectangle(centx + w / 2, centy - h / 2, w, h));
-            this.nw = new Node(new Rectangle(centx - w / 2, centy + h / 2, w, h));
-            this.sw = new Node(new Rectangle(centx - w / 2, centy - h / 2, w, h));
+            this.ne.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.sw)));
+            this.se.brother = new ArrayList<>((Arrays.asList(this.ne,this.nw,this.sw)));
+            this.nw.brother = new ArrayList<>((Arrays.asList(this.se,this.ne,this.sw)));
+            this.sw.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.ne)));
+
+            this.son = new ArrayList<>(Arrays.asList(this.ne,this.nw,this.se,this.sw));
 
             this.divided = true;
             this.cells = null;
@@ -165,6 +174,53 @@ public class QTree {
         cells.add(cell);
         this.root.insert(cell);
     }
+
+    // for a certain cell, change its place on tree
+    public void CellShouldChange(Cell cell){
+        if(cell.node.isContain(cell)){
+            return;
+        }
+
+        // remove cell from its original node
+        cell.node.cells.remove(cell);
+
+        Node n = cell.node;
+        Node rightNode;
+        boolean find = false;
+        for(Node node : n.brother){
+            if(node.isContain(cell)){
+                find = true;
+                rightNode = node;
+                rightNode.insert(cell);
+            }
+        }
+        if(find==false){
+            n = n.father;
+            for(Node node : n.brother){
+                if(node.isContain(cell)){
+                    find = true;
+                    if(!node.divided){
+                        rightNode = node;
+                        rightNode.insert(cell);
+                    }else{
+                        for(Node n1 : node.son){
+
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+
+        while (find == false){
+
+
+        }
+
+    }
+
 
     // other functions like dfs
     public ArrayList<Cell> dfs(){
