@@ -164,6 +164,7 @@ public class Test {
         ArrayList<Cell> cells = qt.dfs(qt);
         for (Cell tmp: cells)
             System.out.println(Arrays.toString(tmp.position));
+        System.out.println("Notice: the correct output is [1, 3][2, 2][3, 3][1, 1][3, 1]");
     }
 
     public static void main(String[] args) {
