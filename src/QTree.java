@@ -179,13 +179,11 @@ public class QTree {
             return;
         }
 
-        // remove cell from its original node
-        cell.node.cells.remove(cell);
-
         Node n = cell.node;
         Node rightNode = null;
         boolean find = false;
 
+        // find the right node (upwards)
         while (!find) {
             for (Node node : n.brother) {
                 if (node.isContain(cell)) {
@@ -197,23 +195,22 @@ public class QTree {
             n = n.father;
         }
 
-        // find a right place
-        if (!rightNode.divided) {
-            rightNode.insert(cell);
-        }else{
-            for(Node node : rightNode.son){
-
+        // find the exact node (downwards)
+        while (rightNode.divided){
+            for(Node node:rightNode.son){
+                if(node.isContain(cell)){
+                    rightNode = node;
+                    break;
+                }
             }
         }
 
-//        if(!node.divided){
-//            rightNode = node;
-//            rightNode.insert(cell);
-//        }else{
-//            for(Node n1 : node.son){
-//
-//            }
-//        }
+        // now that the right node is found
+        // 1. remove cell from its original node
+        cell.node.cells.remove(cell);
+        // 2. add the cell into the right node
+        rightNode.insert(cell);
+
 
     }
 
