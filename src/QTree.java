@@ -230,6 +230,7 @@ public class QTree {
         ArrayList<Cell> cells_visited = dfs(root);
         for (Cell tmp: cells)
             System.out.println(tmp.color);
+
     }
 
     public void simple_test_output(){

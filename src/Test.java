@@ -178,7 +178,7 @@ public class Test {
             qt.insert(new Cell(x_seq[i], y_seq[i], r, pr, c));
         System.out.println("------------Color Test-------------");
         qt.color_test_output();
-        System.out.println("Notice: the correct output is all red with one yellow]");
+        System.out.println("Notice: the correct second output is all red but one yellow]");
         System.out.println("--------Color Test Finished--------");
     }
 
