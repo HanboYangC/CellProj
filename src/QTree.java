@@ -117,6 +117,9 @@ public class QTree {
             return foundCell;
         }
 
+
+
+
     }
 
     // construct function 1
@@ -139,7 +142,22 @@ public class QTree {
     }
 
     // other functions
+    public ArrayList<Cell> dfs(){
+        return dfs(root);
+    }
 
+    public ArrayList<Cell> dfs(Node node) {  //纯DFS遍历，返回遍历过的Cell
+        ArrayList<Cell> cells_visited = new ArrayList<>();
+        if (node.divided) {
+            cells_visited.addAll(dfs(node.ne));
+            cells_visited.addAll(dfs(node.nw));
+            cells_visited.addAll(dfs(node.se));
+            cells_visited.addAll(dfs(node.sw));
+        } else
+            cells_visited.addAll(node.cells);
+
+        return cells_visited;
+    }
 
 
 }
