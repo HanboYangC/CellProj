@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QTree {
     public Wall wall ;
@@ -12,11 +13,15 @@ public class QTree {
         public Rectangle boundary;
         public boolean divided; // if divided ? node : leaf
         final static private int capacity = 4;
+        // relationship with other nodes
+        public Node father = null;
+
         // node
-        private Node ne;
-        private Node nw;
-        private Node se;
-        private Node sw;
+        public ArrayList<Node> brother = null;
+        public Node ne;
+        public Node nw;
+        public Node se;
+        public Node sw;
         // leaf
         private ArrayList<Cell> cells;
         // TODO : = null as node; = list as leaf (no longer than 4)
@@ -83,6 +88,11 @@ public class QTree {
             double w = this.boundary.w / 2;
             double h = this.boundary.h / 2;
 
+            this.ne.father = this;
+            this.se.father = this;
+            this.nw.father = this;
+            this.sw.father = this;
+
             this.ne = new Node(new Rectangle(centx + w / 2, centy + h / 2, w, h));
             this.se = new Node(new Rectangle(centx + w / 2, centy - h / 2, w, h));
             this.nw = new Node(new Rectangle(centx - w / 2, centy + h / 2, w, h));
@@ -133,8 +143,6 @@ public class QTree {
             }
             return res;
         }
-
-
 
 
     }
