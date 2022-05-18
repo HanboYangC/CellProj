@@ -150,9 +150,9 @@ public class QTree {
         this.root.insert(cell);
     }
 
-    // other functions
+    // other functions like dfs
     public ArrayList<Cell> dfs(){
-        return dfs(root);
+        return dfs(this.root);
     }
 
     private ArrayList<Cell> dfs(Node node) {  //纯DFS遍历，返回遍历过的Cell
