@@ -185,37 +185,25 @@ public class QTree {
         Node n = cell.node;
         Node rightNode;
         boolean find = false;
-        for(Node node : n.brother){
-            if(node.isContain(cell)){
-                find = true;
-                rightNode = node;
-                rightNode.insert(cell);
-            }
-        }
-        if(find==false){
-            n = n.father;
+
+        while (!find){
             for(Node node : n.brother){
                 if(node.isContain(cell)){
                     find = true;
-                    if(!node.divided){
-                        rightNode = node;
-                        rightNode.insert(cell);
-                    }else{
-                        for(Node n1 : node.son){
-
-                        }
-
-                    }
-
+                    break;
                 }
             }
-
+            n = n.father;
         }
 
-        while (find == false){
-
-
-        }
+//        if(!node.divided){
+//            rightNode = node;
+//            rightNode.insert(cell);
+//        }else{
+//            for(Node n1 : node.son){
+//
+//            }
+//        }
 
     }
 
