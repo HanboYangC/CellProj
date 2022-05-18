@@ -23,7 +23,7 @@ public class QTree {
         public Node nw;
         public Node se;
         public Node sw;
-        public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne,nw,se,sw));
+        public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne, nw, se, sw));
         // leaf
         private ArrayList<Cell> cells;
         // TODO : = null as node; = list as leaf (no longer than 4)
@@ -100,12 +100,12 @@ public class QTree {
             this.nw.father = this;
             this.sw.father = this;
 
-            this.ne.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.sw)));
-            this.se.brother = new ArrayList<>((Arrays.asList(this.ne,this.nw,this.sw)));
-            this.nw.brother = new ArrayList<>((Arrays.asList(this.se,this.ne,this.sw)));
-            this.sw.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.ne)));
+            this.ne.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.sw)));
+            this.se.brother = new ArrayList<>((Arrays.asList(this.ne, this.nw, this.sw)));
+            this.nw.brother = new ArrayList<>((Arrays.asList(this.se, this.ne, this.sw)));
+            this.sw.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.ne)));
 
-            this.son = new ArrayList<>(Arrays.asList(this.ne,this.nw,this.se,this.sw));
+            this.son = new ArrayList<>(Arrays.asList(this.ne, this.nw, this.se, this.sw));
 
             this.divided = true;
             this.cells = null;
@@ -174,8 +174,8 @@ public class QTree {
     }
 
     // for a certain cell, change its place on tree
-    public void CellShouldChange(Cell cell){
-        if(cell.node.isContain(cell)){
+    public void CellShouldChange(Cell cell) {
+        if (cell.node.isContain(cell)) {
             return;
         }
 
@@ -183,17 +183,27 @@ public class QTree {
         cell.node.cells.remove(cell);
 
         Node n = cell.node;
-        Node rightNode;
+        Node rightNode = null;
         boolean find = false;
 
-        while (!find){
-            for(Node node : n.brother){
-                if(node.isContain(cell)){
+        while (!find) {
+            for (Node node : n.brother) {
+                if (node.isContain(cell)) {
                     find = true;
+                    rightNode = node;
                     break;
                 }
             }
             n = n.father;
+        }
+
+        // find a right place
+        if (!rightNode.divided) {
+            rightNode.insert(cell);
+        }else{
+            for(Node node : rightNode.son){
+
+            }
         }
 
 //        if(!node.divided){
@@ -226,15 +236,15 @@ public class QTree {
         return cells_visited;
     }
 
-    public void color_test_output(){
+    public void color_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp: cells)
+        for (Cell tmp : cells)
             System.out.println(tmp.color);
     }
 
-    public void simple_test_output(){
+    public void simple_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp: cells)
+        for (Cell tmp : cells)
             System.out.println(Arrays.toString(tmp.position));
     }
 
