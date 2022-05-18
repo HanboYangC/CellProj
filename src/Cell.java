@@ -215,11 +215,17 @@ public class Cell {
                 }
                 break;
         }
-
     }
 
     public static Cell queryID(int num) {
         return cells.get(num);
+    }
+
+    public Color[] count_detected_cells(ArrayList<Cell> detected_cells){
+        Color[] colors = new Color[detected_cells.size()];
+        for (int i=0;i<detected_cells.size();i++)
+            colors[i] = detected_cells.get(i).color;
+        return colors;
     }
 
 }

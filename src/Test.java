@@ -87,6 +87,7 @@ public class Test {
                     Generate Your Wall Here
                 */
 
+                QTree qTree = new QTree(wall);
                 int _n_cell = fin.readInt();
 
                 for (int j = 0; j < _n_cell; j++) {
@@ -99,7 +100,7 @@ public class Test {
                     /*
                     Generate Your Cell Here, One by One
                 */
-                    new Cell(_x, _y, _r, _pr, _color);
+                    qTree.insert(new Cell(_x, _y, _r, _pr, _color));
                 /*
                     Generate Your Wall Here, One by One
                 */
@@ -115,7 +116,7 @@ public class Test {
                     Query Your Cell Here, One by One
                     */
                     Cell _cell = Cell.queryID(_ID);
-                    // StdOut.println(_cell);
+                    StdOut.println(Arrays.toString(_cell.position));
                     /*
                     Query Your Cell Here, One by One
                     */
@@ -128,9 +129,7 @@ public class Test {
 
                 /*  Write the test code here */
 
-                // Perception Test
 
-                // Wall Test
 
                 // Color Change Test
 
@@ -153,7 +152,7 @@ public class Test {
     }
 
     public static void simpletest(){
-        QuadTree qt = new QuadTree(new Rectangle(4, 4));
+        QTree qt = new QTree(new Rectangle(4, 4));
         double[] x_seq = new double[]{1, 2, 3, 1, 3};
         double[] y_seq = new double[]{3, 2, 3, 1, 1};
         double r = 0.1;
@@ -161,13 +160,32 @@ public class Test {
         char c = 'r';
         for (int i=0;i<5;i++)
             qt.insert(new Cell(x_seq[i], y_seq[i], r, pr, c));
-        ArrayList<Cell> cells = qt.dfs(qt);
-        for (Cell tmp: cells)
-            System.out.println(Arrays.toString(tmp.position));
+
+        System.out.println("------------Simple Test-------------");
+        qt.simple_test_output();
         System.out.println("Notice: the correct output is [1, 3][2, 2][3, 3][1, 1][3, 1]");
+        System.out.println("--------Simple Test Finished--------");
+    }
+
+    public static void colortest(){
+        QTree qt = new QTree(new Rectangle(4, 4));
+        double[] x_seq = new double[]{1, 2, 3, 1, 3, 1.5, 2.5, 3.5, 1.5, 3.5};
+        double[] y_seq = new double[]{3, 2, 3, 1, 1, 3.5, 2.5, 3.5, 1.5, 1.5};
+        double r = 0.1;
+        double pr = 1.6;
+        char c = 'r';
+        for (int i=0;i<10;i++)
+            qt.insert(new Cell(x_seq[i], y_seq[i], r, pr, c));
+        System.out.println("------------Color Test-------------");
+        qt.color_test_output();
+        System.out.println("Notice: the correct output is all red with one yellow]");
+        System.out.println("--------Color Test Finished--------");
     }
 
     public static void main(String[] args) {
         simpletest();
+        genData();
+        genScenery();
+        colortest();
     }
 }
