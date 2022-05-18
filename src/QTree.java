@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class QTree {
     public Wall wall ;
     public Node root = null;
-    public static ArrayList<Cell> cells = new ArrayList<Cell>();
+    public ArrayList<Cell> cells = new ArrayList<Cell>();
 
     class Node{
         public Rectangle boundary;
@@ -127,6 +127,8 @@ public class QTree {
         }
 
 
+
+
     }
 
     // construct function 1
@@ -139,7 +141,7 @@ public class QTree {
     QTree(Rectangle rectangle,ArrayList<Cell> cellArrayList){
         wall = new Wall(rectangle.h, rectangle.w);
         root = new Node(rectangle,cellArrayList);
-        cells = cellArrayList;
+        cells = cellArrayList; // actually the number of cells would not change
     }
 
     // tree's insert
@@ -166,25 +168,7 @@ public class QTree {
         return cells_visited;
     }
 
-    public boolean move(Node node) {
-        double step=1/15;
-        if (node == null)
-            return false;
-        if (node.divided) {
-            move(node.ne);
-            move(node.se);
-            move(node.nw);
-            move(node.sw);
-        } else {
-            for (Cell cell : node.cells) {//默认按照 id
-                Rectangle collision =new Rectangle(cell.x,cell.y,cell.radius+Cell.maxRadius, cell.radius+Cell.maxRadius);
-                ArrayList<Cell>collisionCells= this.root.cellInRange(collision);
-                cell.move();
-            }
-        }
-        return true;
-    }
-
+    //
 
 
 }
