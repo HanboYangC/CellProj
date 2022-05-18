@@ -63,7 +63,6 @@ public class QTree {
             return false;
         }
 
-        // TODO : Yang is working on it ; [20:47] (maybe?)
         public boolean divide() {
             if (this.divided)
                 return false;
@@ -156,7 +155,7 @@ public class QTree {
         return dfs(root);
     }
 
-    public ArrayList<Cell> dfs(Node node) {  //纯DFS遍历，返回遍历过的Cell
+    private ArrayList<Cell> dfs(Node node) {  //纯DFS遍历，返回遍历过的Cell
         ArrayList<Cell> cells_visited = new ArrayList<>();
         if (node.divided) {
             cells_visited.addAll(dfs(node.ne));
