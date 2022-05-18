@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class QTree {
     public Wall wall ;
@@ -136,6 +135,8 @@ public class QTree {
         }
 
 
+
+
     }
 
     // construct function 1
@@ -156,21 +157,6 @@ public class QTree {
         cells.add(cell);
         this.root.insert(cell);
     }
-
-    // given a certain cell, return node
-    public Node findNode(Cell cell){
-
-        return null;
-    }
-
-    private Node findNode(Node node,Cell cell){
-
-
-        return null;
-
-    }
-
-
 
     // other functions like dfs
     public ArrayList<Cell> dfs(){
