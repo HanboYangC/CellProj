@@ -3,14 +3,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class QTree {
-    public Wall wall ;
+    public Wall wall;
     public Node root = null;
     public ArrayList<Cell> cells = new ArrayList<Cell>();
 //    public HashMap<Cell,Node> cn_link = new HashMap<>();
 //    public HashMap<Node, ArrayList<Cell>> nc_link = new HashMap<>();
 //    public ArrayList<Node> leaves = new ArrayList<>();
 
-    class Node{
+    class Node {
         public Rectangle boundary;
         public boolean divided; // if divided ? node : leaf
         final static private int capacity = 4;
@@ -39,7 +39,7 @@ public class QTree {
         // given rectangle and cells
         public Node(Rectangle rectangle, ArrayList<Cell> cells) {
             this(rectangle);
-            for(Cell c : cells){
+            for (Cell c : cells) {
                 insert(c);
             }
 //            if(!this.divided){
@@ -152,25 +152,23 @@ public class QTree {
             }
             return res;
         }
-
-
     }
 
     // construct function 1
-    QTree(Rectangle rectangle){
+    QTree(Rectangle rectangle) {
         wall = new Wall(rectangle.h, rectangle.w);
         root = new Node(rectangle);
     }
 
     // construct function 2
-    QTree(Rectangle rectangle,ArrayList<Cell> cellArrayList){
+    QTree(Rectangle rectangle, ArrayList<Cell> cellArrayList) {
         wall = new Wall(rectangle.h, rectangle.w);
-        root = new Node(rectangle,cellArrayList);
+        root = new Node(rectangle, cellArrayList);
         cells = cellArrayList; // actually the number of cells would not change
     }
 
     // tree's insert
-    public void insert(Cell cell){
+    public void insert(Cell cell) {
         cells.add(cell);
         this.root.insert(cell);
     }
@@ -223,7 +221,7 @@ public class QTree {
 
 
     // other functions like dfs
-    public ArrayList<Cell> dfs(){
+    public ArrayList<Cell> dfs() {
         return dfs(this.root);
     }
 
@@ -240,7 +238,22 @@ public class QTree {
         return cells_visited;
     }
 
-    //
+    public void color_test_output(){
+        ArrayList<Cell> cells_visited = dfs(root);
+        for (Cell tmp: cells)
+            System.out.println(tmp.color);
+    }
 
+    public void simple_test_output(){
+        ArrayList<Cell> cells_visited = dfs(root);
+        for (Cell tmp: cells)
+            System.out.println(Arrays.toString(tmp.position));
+    }
+
+    public void detect_and_set_color(Cell cell, Node root) {
+        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle);
+        Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
+        cell.setColor(colors_changed);
+    }
 
 }
