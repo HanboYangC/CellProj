@@ -163,6 +163,11 @@ public class QuadTree {
         return cells_visited;
     }
 
+    public static ArrayList<Cell> cellsInPerception(QuadTree quadTree,Cell cell){
+        Rectangle perception=cell.perception_rectangle;
+        return quadTree.cellInRange(perception);
+    }
+
 
 
 }
