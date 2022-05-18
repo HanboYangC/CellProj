@@ -1,10 +1,13 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QTree {
     public Wall wall ;
     public Node root = null;
     public ArrayList<Cell> cells = new ArrayList<Cell>();
-    public ArrayList<Node> leaves = new ArrayList<>();
+//    public HashMap<Cell,Node> cn_link = new HashMap<>();
+//    public HashMap<Node, ArrayList<Cell>> nc_link = new HashMap<>();
+//    public ArrayList<Node> leaves = new ArrayList<>();
 
     class Node{
         public Rectangle boundary;
@@ -24,7 +27,7 @@ public class QTree {
             this.divided = false;
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
-            leaves.add(this);
+//            leaves.add(this);
         }
 
         // given rectangle and cells
@@ -33,9 +36,9 @@ public class QTree {
             for(Cell c : cells){
                 insert(c);
             }
-            if(!this.divided){
-                leaves.add(this);
-            }
+//            if(!this.divided){
+//                leaves.add(this);
+//            }
         }
 
 
@@ -49,9 +52,6 @@ public class QTree {
             }
             if (!this.divided && this.cells.size() >= capacity) {
                 this.divide();
-                if(leaves.contains(this)){
-                    leaves.remove(this);
-                }
             }
 
             if (this.divided) {
@@ -64,8 +64,9 @@ public class QTree {
                 } else if (this.sw.insert(cell)) {
                     return true;
                 }
-            } else {
+            } else { // this is not divided and have enough space
                 this.cells.add(cell);
+                cell.node = this; // link cell and node
             }
 
             return false;
@@ -135,8 +136,6 @@ public class QTree {
         }
 
 
-
-
     }
 
     // construct function 1
@@ -157,6 +156,21 @@ public class QTree {
         cells.add(cell);
         this.root.insert(cell);
     }
+
+    // given a certain cell, return node
+    public Node findNode(Cell cell){
+
+        return null;
+    }
+
+    private Node findNode(Node node,Cell cell){
+
+
+        return null;
+
+    }
+
+
 
     // other functions like dfs
     public ArrayList<Cell> dfs(){

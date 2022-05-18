@@ -21,6 +21,9 @@ public class Cell {
     public Color color_before; // color before change in each loop
     public Color color_changed; // color after change in each loop
 
+    // Node :
+    public QTree.Node node;
+
     public double radius = 0.0;
     public double x = 0.0;
     public double y = 0.0;
