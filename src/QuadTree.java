@@ -22,7 +22,7 @@ public class QuadTree {
 
     public QuadTree(Rectangle rectangle, ArrayList<Cell> cells) {
         this(rectangle);
-        for(Cell c : cells){
+        for (Cell c : cells) {
             insert(c);
         }
 //        this.cells = cells;
@@ -35,16 +35,12 @@ public class QuadTree {
         if (!this.isContain(cell)) {
             return false;
         }
-        if (this.cells.size() < capacity) {
-            if(cellOverlap(this.cells,cell).size()!=0)
-                return false;
-            this.cells.add(cell);
-            return true;
-        }
 
         if (!this.divided && this.cells.size() >= QuadTree.capacity) {
             this.divide();
-        } else if (this.divided) {
+        }
+
+        if (this.divided) {
             if (this.ne.insert(cell)) {
                 return true;
             } else if (this.se.insert(cell)) {
@@ -58,6 +54,10 @@ public class QuadTree {
             this.cells.add(cell);
         }
 
+        /*if (this.cells.size() < capacity) {
+            this.cells.add(cell);
+            return true;
+        }*/
         return false;
     }
 
@@ -155,12 +155,12 @@ public class QuadTree {
 
     public ArrayList<Cell> dfs(QuadTree quadTree) {  //纯DFS遍历，返回遍历过的Cell
         ArrayList<Cell> cells_visited = new ArrayList<>();
-        if(quadTree.divided){
+        if (quadTree.divided) {
             cells_visited.addAll(dfs(quadTree.ne));
             cells_visited.addAll(dfs(quadTree.nw));
             cells_visited.addAll(dfs(quadTree.se));
             cells_visited.addAll(dfs(quadTree.sw));
-        }else
+        } else
             cells_visited.addAll(quadTree.cells);
 
         return cells_visited;
