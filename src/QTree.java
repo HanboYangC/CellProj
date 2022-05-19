@@ -29,7 +29,7 @@ public class QTree {
         // TODO : = null as node; = list as leaf (no longer than 4)
 
         // name : only for test
-        public String name;
+//        public String name;
 
         // given rectangle
         public Node(Rectangle rectangle) {
@@ -37,8 +37,8 @@ public class QTree {
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
 
-            // only for test
-            set_name();
+//            // only for test
+//            set_name();
         }
 
         // given rectangle and cells
@@ -51,27 +51,27 @@ public class QTree {
         }
 
         // only for test
-        public void set_name() {
-            if (this.father == null) {
-                this.name = "root";
-                return;
-            }
+//        public void set_name(){
+//            if(this.father == null){
+//                this.name = "root";
+//                return;
+//            }
+//
+//            if(this == this.father.ne){
+//                this.name = this.father.name + "_ne";
+//            }else if(this == this.father.nw){
+//                this.name = this.father.name + "_nw";
+//            }else if(this == this.father.se){
+//                this.name = this.father.name + "_se";
+//            }else {
+//                this.name = this.father.name + "_sw";
+//            }
+//
+//        }
 
-            if (this == this.father.ne) {
-                this.name = this.father.name + "_ne";
-            } else if (this == this.father.nw) {
-                this.name = this.father.name + "_nw";
-            } else if (this == this.father.se) {
-                this.name = this.father.name + "_se";
-            } else {
-                this.name = this.father.name + "_sw";
-            }
-
-        }
-
-        public void print() {
-            System.out.println(this.name);
-        }
+//        public void print(){
+//            System.out.println(this.name);
+//        }
 
 
         //  cells would not overlap in the beginning
@@ -126,12 +126,12 @@ public class QTree {
             this.nw.father = this;
             this.sw.father = this;
 
-            this.ne.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.sw)));
-            this.se.brother = new ArrayList<>((Arrays.asList(this.ne, this.nw, this.sw)));
-            this.nw.brother = new ArrayList<>((Arrays.asList(this.se, this.ne, this.sw)));
-            this.sw.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.ne)));
+            this.ne.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.sw)));
+            this.se.brother = new ArrayList<>((Arrays.asList(this.ne,this.nw,this.sw)));
+            this.nw.brother = new ArrayList<>((Arrays.asList(this.se,this.ne,this.sw)));
+            this.sw.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.ne)));
 
-            this.son = new ArrayList<>(Arrays.asList(this.ne, this.nw, this.se, this.sw));
+            this.son = new ArrayList<>(Arrays.asList(this.ne,this.nw,this.se,this.sw));
 
             this.divided = true;
             this.cells = null;
