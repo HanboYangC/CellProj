@@ -33,7 +33,6 @@ public class QTree {
             this.divided = false;
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
-//            leaves.add(this);
         }
 
         // given rectangle and cells
@@ -42,9 +41,6 @@ public class QTree {
             for (Cell c : cells) {
                 insert(c);
             }
-//            if(!this.divided){
-//                leaves.add(this);
-//            }
         }
 
 
@@ -145,7 +141,6 @@ public class QTree {
 
     }
 
-    // ????
     public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
         ArrayList<Cell> res = new ArrayList<>();
         for (Cell tmp : cells) {
@@ -296,7 +291,10 @@ public class QTree {
                             }
                             cell.move(cell.x + maxBackX, cell.y);
                     }
+
+
                 }
+
             }
         }
         return true;
@@ -316,10 +314,26 @@ public class QTree {
 
     public void color_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp : cells)
+        for (Cell tmp : cells) {
             System.out.println(tmp.color);
+            detect_and_set_color(tmp, root);
+            System.out.println(tmp.color);
+        }
+        System.out.println("----------");
+        for (Cell tmp:cells){
+            detect_and_set_color(tmp, root);
+            System.out.println(tmp.color);
+        }
+        System.out.println("----------");
+        for (Cell tmp:cells) {
+            Cell.queryID(4).change_color(Cell.Color.YELLOW);
+            detect_and_set_color(tmp, root);
+        }
+        for (Cell tmp : cells){
+            System.out.println(tmp.color);
+        }
+        System.out.println("----------");
     }
-
     public static void main(String[] args) {
         QTree qTree = new QTree(new Rectangle(0, 0, 30, 30));
         qTree.insert(new Cell(0, 0, 1, 5, 'r'));
