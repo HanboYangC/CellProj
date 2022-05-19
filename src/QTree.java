@@ -314,10 +314,24 @@ public class QTree {
         cell.setColor(colors_changed);
     }
 
-    public void color_test_output(){
+    public void color_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp: cells)
+        for (Cell tmp : cells) {
             System.out.println(tmp.color);
+            detect_and_set_color(tmp, root);
+            System.out.println(tmp.color);
+        }
+        System.out.println("----------");
+        for (Cell tmp:cells){
+            detect_and_set_color(tmp, root);
+            System.out.println(tmp.color);
+        }
+        System.out.println("----------");
+        for (Cell tmp:cells){
+            Cell.queryID(4).change_color(Cell.Color.YELLOW);
+            detect_and_set_color(tmp, root);
+            System.out.println(tmp.color);
+        }
+        System.out.println("----------");
     }
-
 }
