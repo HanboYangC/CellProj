@@ -331,6 +331,25 @@ public class QTree {
                     break;
             }
         }
+
+        if(cell.check_if_overlapped(this.wall)){
+            switch (cell.color){
+                case RED :
+                    double backY=Wall.height-(cell.y+cell.radius);
+                    cell.move(cell.x,cell.y+backY);
+                    break;
+                case GREEN:
+                    double forwardY=-(cell.y-cell.radius);
+                    cell.move(cell.x,cell.y+forwardY);
+                case BLUE:
+                    double forwardX=0-(cell.x-cell.radius);
+                    cell.move(cell.x+forwardX,cell.y);
+                case YELLOW:
+                    double backX=Wall.width-(cell.x+cell.radius);
+                    cell.move(cell.x+backX,cell.y);
+            }
+        }
+
         return true;
     }
 

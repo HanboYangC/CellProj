@@ -31,7 +31,7 @@ public class Controller {
             System.out.println(cell.node.cells);
         }
 
-        for (int i = 0; i < 1500; i++) {
+        for (int i = 0; i < 150; i++) {
             qTree.moveOneStep();
             //qTree.cellShouldChange();
         }
