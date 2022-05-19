@@ -25,15 +25,20 @@ public class QTree {
         public Node sw;
         public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne, nw, se, sw));
         // leaf
-        private ArrayList<Cell> cells;
+        public ArrayList<Cell> cells;
         // TODO : = null as node; = list as leaf (no longer than 4)
+
+        // name : only for test
+        public String name;
 
         // given rectangle
         public Node(Rectangle rectangle) {
             this.divided = false;
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
-//            leaves.add(this);
+
+            // only for test
+            set_name();
         }
 
         // given rectangle and cells
@@ -42,9 +47,30 @@ public class QTree {
             for (Cell c : cells) {
                 insert(c);
             }
-//            if(!this.divided){
-//                leaves.add(this);
-//            }
+
+        }
+
+        // only for test
+        public void set_name(){
+            if(this.father == null){
+                this.name = "root";
+                return;
+            }
+
+            if(this == this.father.ne){
+                this.name = this.father.name + "_ne";
+            }else if(this == this.father.nw){
+                this.name = this.father.name + "_nw";
+            }else if(this == this.father.se){
+                this.name = this.father.name + "_se";
+            }else {
+                this.name = this.father.name + "_sw";
+            }
+
+        }
+
+        public void print(){
+            System.out.println(this.name);
         }
 
 

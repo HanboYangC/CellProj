@@ -16,7 +16,7 @@ public class Cell {
     }
 
     // Variables & its default value
-    public static int ID = num;  //  default: from 0 to num-1
+    public int ID = num;  //  default: from 0 to num-1
     //    public Color color = Color.RED;
 
     // Node :
