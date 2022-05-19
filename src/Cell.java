@@ -115,8 +115,12 @@ public class Cell {
     public boolean move() {
         // when hit others, stop
         if (hit_others || hit_wall) {
+            hit_wall = false;
+            hit_others = false;
             return false;
         }
+
+
         switch (this.color) {
             case RED:
                 move(this.x, this.y += 1.0 / 15.0);
