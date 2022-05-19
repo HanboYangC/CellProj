@@ -121,7 +121,7 @@ public class QuadTree {
     public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
         ArrayList<Cell> res = new ArrayList<>();
         for (Cell tmp : cells) {
-            if (tmp.check_if_overlapped(tmp, cell))
+            if (tmp.check_if_overlapped( cell))
                 res.add(tmp);
         }
         return res;

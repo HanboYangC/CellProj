@@ -144,7 +144,7 @@ public class QTree {
     public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
         ArrayList<Cell> res = new ArrayList<>();
         for (Cell tmp : cells) {
-            if (tmp.check_if_overlapped(tmp, cell))
+            if (tmp.check_if_overlapped(cell))
                 res.add(tmp);
         }
         return res;
@@ -238,6 +238,7 @@ public class QTree {
                 ArrayList<Cell> collision = this.root.cellInRange(collisionArea,true);
                 collision.remove(cell);
                 cell.move();
+
                 if (cellOverlap(collision, cell).size() != 0) {
                     switch (cell.color) {
                         case RED:
@@ -251,7 +252,9 @@ public class QTree {
                                 if (backY < maxBackY)
                                     maxBackY = backY;
                             }
-                            cell.move(cell.x, cell.y + maxBackY);
+                            maxBackY=(double) Math.round(maxBackY*10000)/10000;
+                            cell.move(cell.x, (double) Math.round(cell.y*10000)/10000 + maxBackY);
+                            break;
                         case GREEN:
                             double maxForwardY = 0;
                             for (Cell collided : collision) {
@@ -263,7 +266,9 @@ public class QTree {
                                 if (forwardY > maxForwardY)
                                     maxForwardY = forwardY;
                             }
-                            cell.move(cell.x, cell.y + maxForwardY);
+                            maxForwardY=(double)Math.round(maxForwardY*10000)/10000;
+                            cell.move(cell.x, (double)Math.round(cell.y*10000)/10000  + maxForwardY);
+                            break;
                         case BLUE:
                             //move(this.x -= 1.0 / 15.0, this.y);
                             double maxForwardX = 0;
@@ -276,7 +281,9 @@ public class QTree {
                                 if (forwardX > maxForwardX)
                                     maxForwardX = forwardX;
                             }
-                            cell.move(cell.x + maxForwardX, cell.y);
+                            maxForwardX=(double)Math.round(maxForwardX*10000)/10000;
+                            cell.move((double)Math.round(cell.x*10000)/10000  + maxForwardX, cell.y);
+                            break;
                         case YELLOW:
                             //move(this.x += 1.0 / 15.0, this.y);
                             double maxBackX = 0;
@@ -289,12 +296,11 @@ public class QTree {
                                 if (backX < maxBackX)
                                     maxBackX = backX;
                             }
-                            cell.move(cell.x + maxBackX, cell.y);
+                            maxBackX=(double)Math.round(maxBackX*10000)/10000;
+                            cell.move((double)Math.round(cell.x*10000)/10000 + maxBackX, cell.y);
+                            break;
                     }
-
-
                 }
-
             }
         }
         return true;
@@ -334,14 +340,20 @@ public class QTree {
         }
         System.out.println("----------");
     }
+
     public static void main(String[] args) {
         QTree qTree = new QTree(new Rectangle(0, 0, 30, 30));
         qTree.insert(new Cell(0, 0, 1, 5, 'r'));
         qTree.insert(new Cell(0, 2, 1, 5, 'b'));
+        qTree.insert(new Cell(-2, 2, 1, 5, 'b'));
+        qTree.insert(new Cell(-2, 0, 1, 5, 'b'));
+
+
         for (Cell cell : qTree.cells) {
             System.out.println(cell.x + "," + cell.y);
         }
         qTree.move(qTree.root);
+        System.out.println("----------------------");
         for (Cell cell : qTree.cells) {
             System.out.println(cell.x + "," + cell.y);
         }
