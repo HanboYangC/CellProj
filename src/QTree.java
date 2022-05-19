@@ -179,8 +179,8 @@ public class QTree {
             return;
         }
 
-        Node n = cell.node;
-        Node rightNode = null;
+        Node n = cell.node; // for upper search
+        Node rightNode = null; // for lower search
         boolean find = false;
 
         // find the right node (upwards)

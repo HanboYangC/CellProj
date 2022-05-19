@@ -43,7 +43,7 @@ public class Rectangle {
                 return true;
             }
             return false;
-        } else {
+        } else { // original (default)
             if (cell.x >= this.west && cell.x < this.east && cell.y >= this.south && cell.y < this.north) {
                 return true;
             }
