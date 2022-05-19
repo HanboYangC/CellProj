@@ -25,14 +25,20 @@ public class QTree {
         public Node sw;
         public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne, nw, se, sw));
         // leaf
-        private ArrayList<Cell> cells;
+        public ArrayList<Cell> cells;
         // TODO : = null as node; = list as leaf (no longer than 4)
+
+        // name : only for test
+        public String name;
 
         // given rectangle
         public Node(Rectangle rectangle) {
             this.divided = false;
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
+
+            // only for test
+            set_name();
         }
 
         // given rectangle and cells
@@ -41,6 +47,30 @@ public class QTree {
             for (Cell c : cells) {
                 insert(c);
             }
+
+        }
+
+        // only for test
+        public void set_name(){
+            if(this.father == null){
+                this.name = "root";
+                return;
+            }
+
+            if(this == this.father.ne){
+                this.name = this.father.name + "_ne";
+            }else if(this == this.father.nw){
+                this.name = this.father.name + "_nw";
+            }else if(this == this.father.se){
+                this.name = this.father.name + "_se";
+            }else {
+                this.name = this.father.name + "_sw";
+            }
+
+        }
+
+        public void print(){
+            System.out.println(this.name);
         }
 
 
@@ -49,7 +79,7 @@ public class QTree {
             if (cell.check_if_overlapped(wall)) {
                 return false;
             }
-            if (!this.isContain(cell,false)) {
+            if (!this.isContain(cell, false)) {
                 return false;
             }
             if (!this.divided && this.cells.size() >= capacity) {
@@ -96,12 +126,12 @@ public class QTree {
             this.nw.father = this;
             this.sw.father = this;
 
-            this.ne.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.sw)));
-            this.se.brother = new ArrayList<>((Arrays.asList(this.ne, this.nw, this.sw)));
-            this.nw.brother = new ArrayList<>((Arrays.asList(this.se, this.ne, this.sw)));
-            this.sw.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.ne)));
+            this.ne.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.sw)));
+            this.se.brother = new ArrayList<>((Arrays.asList(this.ne,this.nw,this.sw)));
+            this.nw.brother = new ArrayList<>((Arrays.asList(this.se,this.ne,this.sw)));
+            this.sw.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.ne)));
 
-            this.son = new ArrayList<>(Arrays.asList(this.ne, this.nw, this.se, this.sw));
+            this.son = new ArrayList<>(Arrays.asList(this.ne,this.nw,this.se,this.sw));
 
             this.divided = true;
             this.cells = null;
@@ -112,12 +142,12 @@ public class QTree {
         }
 
         // whether a certain cell is contained in this node
-        public boolean isContain(Cell cell,boolean critical) {
-            return this.boundary.isContainCell(cell,critical);
+        public boolean isContain(Cell cell, boolean critical) {
+            return this.boundary.isContainCell(cell, critical);
         }
 
         // given a range, find the cells which in this node in the range
-        public ArrayList<Cell> cellInRange(Rectangle range,boolean critical) {
+        public ArrayList<Cell> cellInRange(Rectangle range, boolean critical) {
             ArrayList<Cell> foundCell = new ArrayList<>();
             if (!this.boundary.isOverlap(range)) {
                 return foundCell;
@@ -126,15 +156,15 @@ public class QTree {
             if (!this.divided) {
                 for (int i = 0; i < this.cells.size(); i++) {
                     Cell cell = this.cells.get(i);
-                    if (range.isContainCell(cell,critical)) {
+                    if (range.isContainCell(cell, critical)) {
                         foundCell.add(cell);
                     }
                 }
             } else {
-                foundCell.addAll(this.ne.cellInRange(range,critical));
-                foundCell.addAll(this.se.cellInRange(range,critical));
-                foundCell.addAll(this.nw.cellInRange(range,critical));
-                foundCell.addAll(this.sw.cellInRange(range,critical));
+                foundCell.addAll(this.ne.cellInRange(range, critical));
+                foundCell.addAll(this.se.cellInRange(range, critical));
+                foundCell.addAll(this.nw.cellInRange(range, critical));
+                foundCell.addAll(this.sw.cellInRange(range, critical));
             }
             return foundCell;
         }
@@ -171,35 +201,42 @@ public class QTree {
 
     // for a certain cell, change its place on tree
     public void CellShouldChange(Cell cell) {
-        if (cell.node.isContain(cell,false)) {
+        if (cell.node.isContain(cell, false)) {
             return;
         }
 
-        // remove cell from its original node
-        cell.node.cells.remove(cell);
-
-        Node n = cell.node;
-        Node rightNode;
+        Node n = cell.node; // for upper search
+        Node rightNode = null; // for lower search
         boolean find = false;
 
+        // find the right node (upwards)
         while (!find) {
             for (Node node : n.brother) {
-                if (node.isContain(cell,false)) {
+                if (node.isContain(cell, false)) {
                     find = true;
+                    rightNode = node;
                     break;
                 }
             }
             n = n.father;
         }
 
-//        if(!node.divided){
-//            rightNode = node;
-//            rightNode.insert(cell);
-//        }else{
-//            for(Node n1 : node.son){
-//
-//            }
-//        }
+        // find the exact node (downwards)
+        while (rightNode.divided){
+            for(Node node:rightNode.son){
+                if(node.isContain(cell,false)){
+                    rightNode = node;
+                    break;
+                }
+            }
+        }
+
+        // now that the right node is found
+        // 1. remove cell from its original node
+        cell.node.cells.remove(cell);
+        // 2. add the cell into the right node
+        rightNode.insert(cell);
+
 
     }
 
@@ -235,7 +272,7 @@ public class QTree {
             for (Cell cell : node.cells) {
                 Rectangle collisionArea = new Rectangle(cell.x, cell.y,
                         (cell.radius + 1 / 15 + Cell.maxRadius) * 2, (cell.radius + 1 / 15 + Cell.maxRadius) * 2);
-                ArrayList<Cell> collision = this.root.cellInRange(collisionArea,true);
+                ArrayList<Cell> collision = this.root.cellInRange(collisionArea, true);
                 collision.remove(cell);
                 cell.move();
 
@@ -313,7 +350,7 @@ public class QTree {
     }
 
     public void detect_and_set_color(Cell cell, Node root) {
-        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle,false);
+        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle, false);
         Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
         cell.setColor(colors_changed);
     }
@@ -326,16 +363,16 @@ public class QTree {
             System.out.println(tmp.color);
         }
         System.out.println("----------");
-        for (Cell tmp:cells){
+        for (Cell tmp : cells) {
             detect_and_set_color(tmp, root);
             System.out.println(tmp.color);
         }
         System.out.println("----------");
-        for (Cell tmp:cells) {
+        for (Cell tmp : cells) {
             Cell.queryID(4).change_color(Cell.Color.YELLOW);
             detect_and_set_color(tmp, root);
         }
-        for (Cell tmp : cells){
+        for (Cell tmp : cells) {
             System.out.println(tmp.color);
         }
         System.out.println("----------");

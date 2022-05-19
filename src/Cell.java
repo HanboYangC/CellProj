@@ -16,7 +16,7 @@ public class Cell {
     }
 
     // Variables & its default value
-    public static int ID = num;  //  default: from 0 to num-1
+    public int ID = num;  //  default: from 0 to num-1
     //    public Color color = Color.RED;
 
     // Node :
@@ -57,6 +57,8 @@ public class Cell {
         this.y = y;
         //this.position = new double[]{this.x, this.y};
         this.radius = radius;
+        if (QuadTree.cellOverlap(Cell.cells, this).size() != 0)
+            return;
         this.perception_range = perception_range;
         this.perception_rectangle = new Rectangle(x, y, 2 * perception_range, 2 * perception_range);
         switch (c) {
