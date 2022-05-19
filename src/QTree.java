@@ -23,7 +23,7 @@ public class QTree {
         public Node nw;
         public Node se;
         public Node sw;
-        public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne,nw,se,sw));
+        public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne, nw, se, sw));
         // leaf
         private ArrayList<Cell> cells;
         // TODO : = null as node; = list as leaf (no longer than 4)
@@ -53,7 +53,7 @@ public class QTree {
             if (cell.check_if_overlapped(wall)) {
                 return false;
             }
-            if (!this.isContain(cell)) {
+            if (!this.isContain(cell,false)) {
                 return false;
             }
             if (!this.divided && this.cells.size() >= capacity) {
@@ -100,12 +100,12 @@ public class QTree {
             this.nw.father = this;
             this.sw.father = this;
 
-            this.ne.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.sw)));
-            this.se.brother = new ArrayList<>((Arrays.asList(this.ne,this.nw,this.sw)));
-            this.nw.brother = new ArrayList<>((Arrays.asList(this.se,this.ne,this.sw)));
-            this.sw.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.ne)));
+            this.ne.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.sw)));
+            this.se.brother = new ArrayList<>((Arrays.asList(this.ne, this.nw, this.sw)));
+            this.nw.brother = new ArrayList<>((Arrays.asList(this.se, this.ne, this.sw)));
+            this.sw.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.ne)));
 
-            this.son = new ArrayList<>(Arrays.asList(this.ne,this.nw,this.se,this.sw));
+            this.son = new ArrayList<>(Arrays.asList(this.ne, this.nw, this.se, this.sw));
 
             this.divided = true;
             this.cells = null;
@@ -116,12 +116,12 @@ public class QTree {
         }
 
         // whether a certain cell is contained in this node
-        public boolean isContain(Cell cell) {
-            return this.boundary.isContainCell(cell);
+        public boolean isContain(Cell cell,boolean critical) {
+            return this.boundary.isContainCell(cell,critical);
         }
 
         // given a range, find the cells which in this node in the range
-        public ArrayList<Cell> cellInRange(Rectangle range) {
+        public ArrayList<Cell> cellInRange(Rectangle range,boolean critical) {
             ArrayList<Cell> foundCell = new ArrayList<>();
             if (!this.boundary.isOverlap(range)) {
                 return foundCell;
@@ -130,15 +130,15 @@ public class QTree {
             if (!this.divided) {
                 for (int i = 0; i < this.cells.size(); i++) {
                     Cell cell = this.cells.get(i);
-                    if (range.isContainCell(cell)) {
+                    if (range.isContainCell(cell,critical)) {
                         foundCell.add(cell);
                     }
                 }
             } else {
-                foundCell.addAll(this.ne.cellInRange(range));
-                foundCell.addAll(this.se.cellInRange(range));
-                foundCell.addAll(this.nw.cellInRange(range));
-                foundCell.addAll(this.sw.cellInRange(range));
+                foundCell.addAll(this.ne.cellInRange(range,critical));
+                foundCell.addAll(this.se.cellInRange(range,critical));
+                foundCell.addAll(this.nw.cellInRange(range,critical));
+                foundCell.addAll(this.sw.cellInRange(range,critical));
             }
             return foundCell;
         }
@@ -175,8 +175,8 @@ public class QTree {
     }
 
     // for a certain cell, change its place on tree
-    public void CellShouldChange(Cell cell){
-        if(cell.node.isContain(cell)){
+    public void CellShouldChange(Cell cell) {
+        if (cell.node.isContain(cell,false)) {
             return;
         }
 
@@ -187,9 +187,9 @@ public class QTree {
         Node rightNode;
         boolean find = false;
 
-        while (!find){
-            for(Node node : n.brother){
-                if(node.isContain(cell)){
+        while (!find) {
+            for (Node node : n.brother) {
+                if (node.isContain(cell,false)) {
                     find = true;
                     break;
                 }
@@ -229,7 +229,7 @@ public class QTree {
 
     //
     public boolean move(Node node) {
-        if(node==null)
+        if (node == null)
             return false;
         if (node.divided) {
             move(node.ne);
@@ -238,86 +238,99 @@ public class QTree {
             move(node.sw);
         } else {
             for (Cell cell : node.cells) {
-                Rectangle collisionArea = new Rectangle(cell.x, cell.y, (cell.radius + 1 / 15) * 2, (cell.radius + 1 / 15) * 2);
-                ArrayList<Cell> collision = this.root.cellInRange(collisionArea);
+                Rectangle collisionArea = new Rectangle(cell.x, cell.y,
+                        (cell.radius + 1 / 15 + Cell.maxRadius) * 2, (cell.radius + 1 / 15 + Cell.maxRadius) * 2);
+                ArrayList<Cell> collision = this.root.cellInRange(collisionArea,true);
+                collision.remove(cell);
                 cell.move();
                 if (cellOverlap(collision, cell).size() != 0) {
                     switch (cell.color) {
                         case RED:
-                            double maxBackY=0;
+                            double maxBackY = 0;
                             for (Cell collided : collision) {
-                                double idleDistance=cell.radius+collided.radius;
-                                double deltax=cell.x-collided.x;
-                                double deltay=collided.y-cell.y;//>0
-                                double idledy=Math.sqrt(idleDistance * idleDistance - deltax * deltax);
-                                double backY=deltay-idledy;//<0
-                                if(backY<maxBackY)
-                                    maxBackY=backY;
+                                double idleDistance = cell.radius + collided.radius;
+                                double deltax = cell.x - collided.x;
+                                double deltay = collided.y - cell.y;//>0
+                                double idledy = Math.sqrt(idleDistance * idleDistance - deltax * deltax);
+                                double backY = deltay - idledy;//<0
+                                if (backY < maxBackY)
+                                    maxBackY = backY;
                             }
-                            cell.move(cell.x,cell.y+maxBackY);
+                            cell.move(cell.x, cell.y + maxBackY);
                         case GREEN:
-                            double maxForwardY=0;
+                            double maxForwardY = 0;
                             for (Cell collided : collision) {
-                                double idleDistance=cell.radius+collided.radius;
-                                double deltax=cell.x-collided.x;
-                                double deltay=cell.y-collided.y;//>0
-                                double idledy=Math.sqrt(idleDistance * idleDistance - deltax * deltax);
-                                double forwardY=idledy-deltay;//>0
-                                if(forwardY>maxForwardY)
-                                    maxForwardY=forwardY;
+                                double idleDistance = cell.radius + collided.radius;
+                                double deltax = cell.x - collided.x;
+                                double deltay = cell.y - collided.y;//>0
+                                double idledy = Math.sqrt(idleDistance * idleDistance - deltax * deltax);
+                                double forwardY = idledy - deltay;//>0
+                                if (forwardY > maxForwardY)
+                                    maxForwardY = forwardY;
                             }
-                            cell.move(cell.x,cell.y+maxForwardY);
+                            cell.move(cell.x, cell.y + maxForwardY);
                         case BLUE:
                             //move(this.x -= 1.0 / 15.0, this.y);
-                            double maxForwardX=0;
+                            double maxForwardX = 0;
                             for (Cell collided : collision) {
-                                double idleDistance=cell.radius+collided.radius;
-                                double deltax=cell.x-collided.x;//>0
-                                double deltay=cell.y-collided.y;
-                                double idledx=Math.sqrt(idleDistance * idleDistance - deltay * deltay);
-                                double forwardX=idledx-deltax;//>0
-                                if(forwardX>maxForwardX)
-                                    maxForwardX=forwardX;
+                                double idleDistance = cell.radius + collided.radius;
+                                double deltax = cell.x - collided.x;//>0
+                                double deltay = cell.y - collided.y;
+                                double idledx = Math.sqrt(idleDistance * idleDistance - deltay * deltay);
+                                double forwardX = idledx - deltax;//>0
+                                if (forwardX > maxForwardX)
+                                    maxForwardX = forwardX;
                             }
-                            cell.move(cell.x+maxForwardX,cell.y);
+                            cell.move(cell.x + maxForwardX, cell.y);
                         case YELLOW:
                             //move(this.x += 1.0 / 15.0, this.y);
-                            double maxBackX=0;
+                            double maxBackX = 0;
                             for (Cell collided : collision) {
-                                double idleDistance=cell.radius+collided.radius;
-                                double deltax=collided.x-cell.x;//>0
-                                double deltay=cell.y-collided.y;
-                                double idledx=Math.sqrt(idleDistance * idleDistance - deltay * deltay);
-                                double backX=deltax-idledx;//<0
-                                if(backX<maxBackX)
-                                    maxBackX=backX;
+                                double idleDistance = cell.radius + collided.radius;
+                                double deltax = collided.x - cell.x;//>0
+                                double deltay = cell.y - collided.y;
+                                double idledx = Math.sqrt(idleDistance * idleDistance - deltay * deltay);
+                                double backX = deltax - idledx;//<0
+                                if (backX < maxBackX)
+                                    maxBackX = backX;
                             }
-                            cell.move(cell.x+maxBackX,cell.y);
+                            cell.move(cell.x + maxBackX, cell.y);
                     }
-
-
                 }
-
             }
         }
         return true;
     }
-    public void simple_test_output(){
+
+    public void simple_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp: cells)
+        for (Cell tmp : cells)
             System.out.println(Arrays.toString(tmp.position));
     }
 
     public void detect_and_set_color(Cell cell, Node root) {
-        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle);
+        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle,false);
         Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
         cell.setColor(colors_changed);
     }
 
-    public void color_test_output(){
+    public void color_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp: cells)
+        for (Cell tmp : cells)
             System.out.println(tmp.color);
+    }
+
+    public static void main(String[] args) {
+        QTree qTree = new QTree(new Rectangle(0, 0, 30, 30));
+        qTree.insert(new Cell(0, 0, 1, 5, 'r'));
+        qTree.insert(new Cell(0, 2, 1, 5, 'b'));
+        for (Cell cell : qTree.cells) {
+            System.out.println(cell.x + "," + cell.y);
+        }
+        qTree.move(qTree.root);
+        for (Cell cell : qTree.cells) {
+            System.out.println(cell.x + "," + cell.y);
+        }
     }
 
 }
