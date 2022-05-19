@@ -182,10 +182,23 @@ public class Test {
         System.out.println("--------Color Test Finished--------");
     }
 
+    public static void movetest(){
+        QTree qTree = new QTree(new Rectangle(0, 0, 30, 30));
+        qTree.insert(new Cell(0, 0, 1, 5, 'r'));
+        qTree.insert(new Cell(0, 2, 1, 5, 'b'));
+        qTree.insert(new Cell(-2, 2, 1, 5, 'b'));
+        qTree.insert(new Cell(-2, 0, 1, 5, 'b'));
+        for (int i = 1; i <= 5; i++) {
+            System.out.printf("-------------Round %d-------------\n", i);
+            qTree.move_test_output();
+        }
+    }
+
     public static void main(String[] args) {
         simpletest();
         genData();
         genScenery();
         colortest();
+        movetest();
     }
 }
