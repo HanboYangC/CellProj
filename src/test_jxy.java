@@ -31,7 +31,7 @@ public class test_jxy {
         c5.move(w/8*3,h/8*3);
 
         for(Cell c : cellArrayList){
-            qTree.CellShouldChange(c);
+            qTree.cellShouldChange(c);
         }
 
 

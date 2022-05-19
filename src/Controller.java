@@ -8,13 +8,14 @@ public class Controller {
     public static double h;
     public static int _n_cell;
 
-    public static QTree qTree = new QTree(new Rectangle(w / 2, h / 2, w, h));
+    public static QTree qTree;
 
     public static void init() {
         In fin = new In("./res/data/" + 8 + "CellTest.txt");
-        w= fin.readDouble();
+        w = fin.readDouble();
         h = fin.readDouble();
         Rectangle wall = new Rectangle(w, h);
+        qTree = new QTree(wall);
         _n_cell = fin.readInt();
         for (int j = 0; j < _n_cell; j++) {
             double _x = fin.readDouble();
@@ -26,14 +27,14 @@ public class Controller {
             qTree.insert(new Cell(_x, _y, _r, _pr, _color));
         }
 
-        for(Cell cell : qTree.cells){
-            System.out.println(cell.node);
+        for (Cell cell : qTree.cells) {
+            System.out.println(cell.node.cells);
         }
 
-//        for (int i = 0; i < 1500; i++) {
-////            qTree.moveOneStep();
-////            qTree.cellShouldChange();
-//        }
+        for (int i = 0; i < 1500; i++) {
+            qTree.moveOneStep();
+            //qTree.cellShouldChange();
+        }
     }
 
     public static void main(String[] args) {
