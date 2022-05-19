@@ -49,7 +49,7 @@ public class QTree {
             if (cell.check_if_overlapped(wall)) {
                 return false;
             }
-            if (!this.isContain(cell,false)) {
+            if (!this.isContain(cell, false)) {
                 return false;
             }
             if (!this.divided && this.cells.size() >= capacity) {
@@ -112,12 +112,12 @@ public class QTree {
         }
 
         // whether a certain cell is contained in this node
-        public boolean isContain(Cell cell,boolean critical) {
-            return this.boundary.isContainCell(cell,critical);
+        public boolean isContain(Cell cell, boolean critical) {
+            return this.boundary.isContainCell(cell, critical);
         }
 
         // given a range, find the cells which in this node in the range
-        public ArrayList<Cell> cellInRange(Rectangle range,boolean critical) {
+        public ArrayList<Cell> cellInRange(Rectangle range, boolean critical) {
             ArrayList<Cell> foundCell = new ArrayList<>();
             if (!this.boundary.isOverlap(range)) {
                 return foundCell;
@@ -126,15 +126,15 @@ public class QTree {
             if (!this.divided) {
                 for (int i = 0; i < this.cells.size(); i++) {
                     Cell cell = this.cells.get(i);
-                    if (range.isContainCell(cell,critical)) {
+                    if (range.isContainCell(cell, critical)) {
                         foundCell.add(cell);
                     }
                 }
             } else {
-                foundCell.addAll(this.ne.cellInRange(range,critical));
-                foundCell.addAll(this.se.cellInRange(range,critical));
-                foundCell.addAll(this.nw.cellInRange(range,critical));
-                foundCell.addAll(this.sw.cellInRange(range,critical));
+                foundCell.addAll(this.ne.cellInRange(range, critical));
+                foundCell.addAll(this.se.cellInRange(range, critical));
+                foundCell.addAll(this.nw.cellInRange(range, critical));
+                foundCell.addAll(this.sw.cellInRange(range, critical));
             }
             return foundCell;
         }
@@ -171,7 +171,7 @@ public class QTree {
 
     // for a certain cell, change its place on tree
     public void CellShouldChange(Cell cell) {
-        if (cell.node.isContain(cell,false)) {
+        if (cell.node.isContain(cell, false)) {
             return;
         }
 
@@ -184,7 +184,7 @@ public class QTree {
 
         while (!find) {
             for (Node node : n.brother) {
-                if (node.isContain(cell,false)) {
+                if (node.isContain(cell, false)) {
                     find = true;
                     break;
                 }
@@ -235,7 +235,7 @@ public class QTree {
             for (Cell cell : node.cells) {
                 Rectangle collisionArea = new Rectangle(cell.x, cell.y,
                         (cell.radius + 1 / 15 + Cell.maxRadius) * 2, (cell.radius + 1 / 15 + Cell.maxRadius) * 2);
-                ArrayList<Cell> collision = this.root.cellInRange(collisionArea,true);
+                ArrayList<Cell> collision = this.root.cellInRange(collisionArea, true);
                 collision.remove(cell);
                 cell.move();
                 if (cellOverlap(collision, cell).size() != 0) {
@@ -307,7 +307,7 @@ public class QTree {
     }
 
     public void detect_and_set_color(Cell cell, Node root) {
-        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle,false);
+        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle, false);
         Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
         cell.setColor(colors_changed);
     }
@@ -320,20 +320,21 @@ public class QTree {
             System.out.println(tmp.color);
         }
         System.out.println("----------");
-        for (Cell tmp:cells){
+        for (Cell tmp : cells) {
             detect_and_set_color(tmp, root);
             System.out.println(tmp.color);
         }
         System.out.println("----------");
-        for (Cell tmp:cells) {
+        for (Cell tmp : cells) {
             Cell.queryID(4).change_color(Cell.Color.YELLOW);
             detect_and_set_color(tmp, root);
         }
-        for (Cell tmp : cells){
+        for (Cell tmp : cells) {
             System.out.println(tmp.color);
         }
         System.out.println("----------");
     }
+
     public static void main(String[] args) {
         QTree qTree = new QTree(new Rectangle(0, 0, 30, 30));
         qTree.insert(new Cell(0, 0, 1, 5, 'r'));
