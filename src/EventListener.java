@@ -26,7 +26,7 @@ public class EventListener implements GLEventListener {
         //System.out.println("Hello JOGL");
         GL2 gl=drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        Controller.timeStep();
+        //Controller.timeStep();
         for(Cell cell : Cell.cells){
 
         }
@@ -68,4 +68,5 @@ public class EventListener implements GLEventListener {
             }
         gl.glEnd();
     }
+
 }

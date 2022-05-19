@@ -27,7 +27,7 @@ public class Cell {
     public double x = 0.0;
     public double y = 0.0;
     public double perception_range = 0.1;  // perception range
-    public double[] position = {this.x, this.y};  // position = (x, y)
+    //public double[] position = {this.x, this.y};  // position = (x, y)
     public boolean hit_others = false; // move : stop if hits other cells
     public boolean hit_wall = false;
     public Rectangle perception_rectangle;
@@ -40,8 +40,8 @@ public class Cell {
         Cell.num++;
     }  // default instantiate
 
-    public Cell(double[] position, double radius, int identity, Color color) {
-        this.position = position;
+    public Cell(double radius, int identity, Color color) {
+        //this.position = position;
         this.ID = identity;
         this.color= color;
         this.radius = radius;
@@ -55,7 +55,7 @@ public class Cell {
     public Cell(double x, double y, double radius, double perception_range, char c) {
         this.x = x;
         this.y = y;
-        this.position = new double[]{this.x, this.y};
+        //this.position = new double[]{this.x, this.y};
         this.radius = radius;
         if (QuadTree.cellOverlap(Cell.cells, this).size() != 0)
             return;
@@ -91,11 +91,11 @@ public class Cell {
         return pow2body >= pow2dist;
     }  //Check the cell and the wall, true for overlapped
 
-    public boolean check_if_overlapped(Cell a, Cell b) {
-        double pow2dist = Math.pow((a.y - b.y), 2) + Math.pow((a.x - b.x), 2);
-        double pow2body = Math.pow(a.radius, 2) + Math.pow(b.radius, 2);
-        this.hit_others = pow2body >= pow2dist;
-        return pow2body >= pow2dist;
+    public boolean check_if_overlapped( Cell b) {
+        double pow2dist = Math.sqrt(Math.pow((this.y - b.y), 2) + Math.pow((this.x - b.x), 2));
+        double pow2body = this.radius+b.radius;
+        this.hit_others = pow2body > pow2dist;
+        return pow2body > pow2dist;
     }  //Check the cell a and the cell b, true for overlapped
 
 //    Move the cell at every step
@@ -103,41 +103,36 @@ public class Cell {
     public void move(double x, double y) {
         this.x = x;
         this.y = y;
-        this.position = new double[]{x, y};
+        //this.position = new double[]{x, y};
     }
 
     public void move(double[] position) {
-        this.position = position;
+        //this.position = position;
         this.x = position[0];
         this.y = position[1];
     }
 
     public boolean move() {
         // when hit others, stop
-        if (hit_others || hit_wall) {
-            hit_wall = false;
-            hit_others = false;
+        /*if (hit_others || hit_wall) {
             return false;
-        }
-
-
+        }*/
         switch (this.color) {
             case RED:
-                move(this.x, this.y += 1.0 / 15.0);
+                move(this.x, this.y += 0.0667);
                 break;
             case GREEN:
-                move(this.x, this.y -= 1.0 / 15.0);
+                move(this.x, this.y -= 0.0667);
                 break;
             case BLUE:
-                move(this.x -= 1.0 / 15.0, this.y);
+                move(this.x -= 0.0667, this.y);
                 break;
             case YELLOW:
-                move(this.x += 1.0 / 15.0, this.y);
+                move(this.x += 0.0667, this.y);
                 break;
         }
         return true;
     }
-
 
     // Find and add up all the cells in the perception range
     public int[] perception() {
