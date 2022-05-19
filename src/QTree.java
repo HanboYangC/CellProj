@@ -380,7 +380,7 @@ public class QTree {
     }
 
     public void move_test_output(){
-        move(root);
+        //move(root);
         for (Cell tmp: cells){
             detect_and_set_color(tmp, root);
         }
