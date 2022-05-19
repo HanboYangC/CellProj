@@ -105,7 +105,7 @@ public class QuadTree {
         if (!this.divided) {
             for (int i = 0; i < this.cells.size(); i++) {
                 Cell cell = this.cells.get(i);
-                if (range.isContainCell(cell)) {
+                if (range.isContainCell(cell,false)) {
                     foundCell.add(cell);
                 }
             }
