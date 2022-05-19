@@ -346,7 +346,7 @@ public class QTree {
     public void simple_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
         for (Cell tmp : cells)
-            System.out.println(Arrays.toString(tmp.position));
+            System.out.println(tmp.x+","+tmp.y);
     }
 
     public void detect_and_set_color(Cell cell, Node root) {
