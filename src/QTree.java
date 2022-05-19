@@ -33,7 +33,6 @@ public class QTree {
             this.divided = false;
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
-//            leaves.add(this);
         }
 
         // given rectangle and cells
@@ -42,9 +41,6 @@ public class QTree {
             for (Cell c : cells) {
                 insert(c);
             }
-//            if(!this.divided){
-//                leaves.add(this);
-//            }
         }
 
 
@@ -145,7 +141,6 @@ public class QTree {
 
     }
 
-    // ????
     public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
         ArrayList<Cell> res = new ArrayList<>();
         for (Cell tmp : cells) {
@@ -196,18 +191,7 @@ public class QTree {
             }
             n = n.father;
         }
-
-//        if(!node.divided){
-//            rightNode = node;
-//            rightNode.insert(cell);
-//        }else{
-//            for(Node n1 : node.son){
-//
-//            }
-//        }
-
     }
-
 
     // other functions like dfs
     public ArrayList<Cell> dfs() {
@@ -227,7 +211,6 @@ public class QTree {
         return cells_visited;
     }
 
-    //
     public boolean move(Node node) {
         if(node==null)
             return false;
@@ -294,10 +277,7 @@ public class QTree {
                             }
                             cell.move(cell.x+maxBackX,cell.y);
                     }
-
-
                 }
-
             }
         }
         return true;
