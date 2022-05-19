@@ -271,7 +271,7 @@ public class QTree {
         } else {
             for (Cell cell : node.cells) {
                 Rectangle collisionArea = new Rectangle(cell.x, cell.y,
-                        (cell.radius + 1 / 15 + Cell.maxRadius) * 2, (cell.radius + 1 / 15 + Cell.maxRadius) * 2);
+                        (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2, (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2);
                 ArrayList<Cell> collision = this.root.cellInRange(collisionArea, true);
                 collision.remove(cell);
                 cell.move();

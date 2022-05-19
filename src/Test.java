@@ -116,7 +116,7 @@ public class Test {
                     Query Your Cell Here, One by One
                     */
                     Cell _cell = Cell.queryID(_ID);
-                    StdOut.println(Arrays.toString(_cell.position));
+                    StdOut.println(_cell.x + ',' + _cell.y);
                     /*
                     Query Your Cell Here, One by One
                     */
