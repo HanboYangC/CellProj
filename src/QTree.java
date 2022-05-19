@@ -51,25 +51,25 @@ public class QTree {
         }
 
         // only for test
-        public void set_name(){
-            if(this.father == null){
+        public void set_name() {
+            if (this.father == null) {
                 this.name = "root";
                 return;
             }
 
-            if(this == this.father.ne){
+            if (this == this.father.ne) {
                 this.name = this.father.name + "_ne";
-            }else if(this == this.father.nw){
+            } else if (this == this.father.nw) {
                 this.name = this.father.name + "_nw";
-            }else if(this == this.father.se){
+            } else if (this == this.father.se) {
                 this.name = this.father.name + "_se";
-            }else {
+            } else {
                 this.name = this.father.name + "_sw";
             }
 
         }
 
-        public void print(){
+        public void print() {
             System.out.println(this.name);
         }
 
@@ -126,12 +126,12 @@ public class QTree {
             this.nw.father = this;
             this.sw.father = this;
 
-            this.ne.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.sw)));
-            this.se.brother = new ArrayList<>((Arrays.asList(this.ne,this.nw,this.sw)));
-            this.nw.brother = new ArrayList<>((Arrays.asList(this.se,this.ne,this.sw)));
-            this.sw.brother = new ArrayList<>((Arrays.asList(this.se,this.nw,this.ne)));
+            this.ne.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.sw)));
+            this.se.brother = new ArrayList<>((Arrays.asList(this.ne, this.nw, this.sw)));
+            this.nw.brother = new ArrayList<>((Arrays.asList(this.se, this.ne, this.sw)));
+            this.sw.brother = new ArrayList<>((Arrays.asList(this.se, this.nw, this.ne)));
 
-            this.son = new ArrayList<>(Arrays.asList(this.ne,this.nw,this.se,this.sw));
+            this.son = new ArrayList<>(Arrays.asList(this.ne, this.nw, this.se, this.sw));
 
             this.divided = true;
             this.cells = null;
@@ -200,7 +200,7 @@ public class QTree {
     }
 
     // for a certain cell, change its place on tree
-    public void CellShouldChange(Cell cell) {
+    public void cellShouldChange(Cell cell) {
         if (cell.node.isContain(cell, false)) {
             return;
         }
@@ -222,9 +222,9 @@ public class QTree {
         }
 
         // find the exact node (downwards)
-        while (rightNode.divided){
-            for(Node node:rightNode.son){
-                if(node.isContain(cell,false)){
+        while (rightNode.divided) {
+            for (Node node : rightNode.son) {
+                if (node.isContain(cell, false)) {
                     rightNode = node;
                     break;
                 }
@@ -260,93 +260,92 @@ public class QTree {
     }
 
     //
-    public boolean move(Node node) {
-        if (node == null)
-            return false;
-        if (node.divided) {
-            move(node.ne);
-            move(node.nw);
-            move(node.se);
-            move(node.sw);
-        } else {
-            for (Cell cell : node.cells) {
-                Rectangle collisionArea = new Rectangle(cell.x, cell.y,
-                        (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2, (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2);
-                ArrayList<Cell> collision = this.root.cellInRange(collisionArea, true);
-                collision.remove(cell);
-                cell.move();
+    public boolean move(Cell cell) {
+        Rectangle collisionArea = new Rectangle(cell.x, cell.y,
+                (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2, (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2);
+        ArrayList<Cell> collision = this.root.cellInRange(collisionArea, true);
+        collision.remove(cell);
+        cell.move();
 
-                if (cellOverlap(collision, cell).size() != 0) {
-                    switch (cell.color) {
-                        case RED:
-                            double maxBackY = 0;
-                            for (Cell collided : collision) {
-                                double idleDistance = cell.radius + collided.radius;
-                                double deltax = cell.x - collided.x;
-                                double deltay = collided.y - cell.y;//>0
-                                double idledy = Math.sqrt(idleDistance * idleDistance - deltax * deltax);
-                                double backY = deltay - idledy;//<0
-                                if (backY < maxBackY)
-                                    maxBackY = backY;
-                            }
-                            maxBackY=(double) Math.round(maxBackY*10000)/10000;
-                            cell.move(cell.x, (double) Math.round(cell.y*10000)/10000 + maxBackY);
-                            break;
-                        case GREEN:
-                            double maxForwardY = 0;
-                            for (Cell collided : collision) {
-                                double idleDistance = cell.radius + collided.radius;
-                                double deltax = cell.x - collided.x;
-                                double deltay = cell.y - collided.y;//>0
-                                double idledy = Math.sqrt(idleDistance * idleDistance - deltax * deltax);
-                                double forwardY = idledy - deltay;//>0
-                                if (forwardY > maxForwardY)
-                                    maxForwardY = forwardY;
-                            }
-                            maxForwardY=(double)Math.round(maxForwardY*10000)/10000;
-                            cell.move(cell.x, (double)Math.round(cell.y*10000)/10000  + maxForwardY);
-                            break;
-                        case BLUE:
-                            //move(this.x -= 1.0 / 15.0, this.y);
-                            double maxForwardX = 0;
-                            for (Cell collided : collision) {
-                                double idleDistance = cell.radius + collided.radius;
-                                double deltax = cell.x - collided.x;//>0
-                                double deltay = cell.y - collided.y;
-                                double idledx = Math.sqrt(idleDistance * idleDistance - deltay * deltay);
-                                double forwardX = idledx - deltax;//>0
-                                if (forwardX > maxForwardX)
-                                    maxForwardX = forwardX;
-                            }
-                            maxForwardX=(double)Math.round(maxForwardX*10000)/10000;
-                            cell.move((double)Math.round(cell.x*10000)/10000  + maxForwardX, cell.y);
-                            break;
-                        case YELLOW:
-                            //move(this.x += 1.0 / 15.0, this.y);
-                            double maxBackX = 0;
-                            for (Cell collided : collision) {
-                                double idleDistance = cell.radius + collided.radius;
-                                double deltax = collided.x - cell.x;//>0
-                                double deltay = cell.y - collided.y;
-                                double idledx = Math.sqrt(idleDistance * idleDistance - deltay * deltay);
-                                double backX = deltax - idledx;//<0
-                                if (backX < maxBackX)
-                                    maxBackX = backX;
-                            }
-                            maxBackX=(double)Math.round(maxBackX*10000)/10000;
-                            cell.move((double)Math.round(cell.x*10000)/10000 + maxBackX, cell.y);
-                            break;
+        if (cellOverlap(collision, cell).size() != 0) {
+            switch (cell.color) {
+                case RED:
+                    double maxBackY = 0;
+                    for (Cell collided : collision) {
+                        double idleDistance = cell.radius + collided.radius;
+                        double deltax = cell.x - collided.x;
+                        double deltay = collided.y - cell.y;//>0
+                        double idledy = Math.sqrt(idleDistance * idleDistance - deltax * deltax);
+                        double backY = deltay - idledy;//<0
+                        if (backY < maxBackY)
+                            maxBackY = backY;
                     }
-                }
+                    maxBackY = (double) Math.round(maxBackY * 10000) / 10000;
+                    cell.move(cell.x, (double) Math.round(cell.y * 10000) / 10000 + maxBackY);
+                    break;
+                case GREEN:
+                    double maxForwardY = 0;
+                    for (Cell collided : collision) {
+                        double idleDistance = cell.radius + collided.radius;
+                        double deltax = cell.x - collided.x;
+                        double deltay = cell.y - collided.y;//>0
+                        double idledy = Math.sqrt(idleDistance * idleDistance - deltax * deltax);
+                        double forwardY = idledy - deltay;//>0
+                        if (forwardY > maxForwardY)
+                            maxForwardY = forwardY;
+                    }
+                    maxForwardY = (double) Math.round(maxForwardY * 10000) / 10000;
+                    cell.move(cell.x, (double) Math.round(cell.y * 10000) / 10000 + maxForwardY);
+                    break;
+                case BLUE:
+                    //move(this.x -= 1.0 / 15.0, this.y);
+                    double maxForwardX = 0;
+                    for (Cell collided : collision) {
+                        double idleDistance = cell.radius + collided.radius;
+                        double deltax = cell.x - collided.x;//>0
+                        double deltay = cell.y - collided.y;
+                        double idledx = Math.sqrt(idleDistance * idleDistance - deltay * deltay);
+                        double forwardX = idledx - deltax;//>0
+                        if (forwardX > maxForwardX)
+                            maxForwardX = forwardX;
+                    }
+                    maxForwardX = (double) Math.round(maxForwardX * 10000) / 10000;
+                    cell.move((double) Math.round(cell.x * 10000) / 10000 + maxForwardX, cell.y);
+                    break;
+                case YELLOW:
+                    //move(this.x += 1.0 / 15.0, this.y);
+                    double maxBackX = 0;
+                    for (Cell collided : collision) {
+                        double idleDistance = cell.radius + collided.radius;
+                        double deltax = collided.x - cell.x;//>0
+                        double deltay = cell.y - collided.y;
+                        double idledx = Math.sqrt(idleDistance * idleDistance - deltay * deltay);
+                        double backX = deltax - idledx;//<0
+                        if (backX < maxBackX)
+                            maxBackX = backX;
+                    }
+                    maxBackX = (double) Math.round(maxBackX * 10000) / 10000;
+                    cell.move((double) Math.round(cell.x * 10000) / 10000 + maxBackX, cell.y);
+                    break;
             }
         }
         return true;
     }
 
+    public void moveOneStep() {
+        for (Cell cell : this.cells) {
+            move(cell);
+            cellShouldChange(cell);
+        }
+        for (Cell cell : this.cells) {
+            detect_and_set_color(cell,root);
+        }
+    }
+
     public void simple_test_output() {
         ArrayList<Cell> cells_visited = dfs(root);
         for (Cell tmp : cells)
-            System.out.println(tmp.x+","+tmp.y);
+            System.out.println(tmp.x + "," + tmp.y);
     }
 
     public void detect_and_set_color(Cell cell, Node root) {
@@ -389,7 +388,7 @@ public class QTree {
         for (Cell cell : qTree.cells) {
             System.out.println(cell.x + "," + cell.y);
         }
-        qTree.move(qTree.root);
+        qTree.moveOneStep();
         System.out.println("----------------------");
         for (Cell cell : qTree.cells) {
             System.out.println(cell.x + "," + cell.y);
