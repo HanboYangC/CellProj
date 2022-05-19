@@ -183,12 +183,14 @@ public class QTree {
 
     // construct function 1
     QTree(Rectangle rectangle) {
+        Cell.release();
         wall = new Wall(rectangle.h, rectangle.w);
         root = new Node(rectangle);
     }
 
     // construct function 2
     QTree(Rectangle rectangle, ArrayList<Cell> cellArrayList) {
+        Cell.release();
         wall = new Wall(rectangle.h, rectangle.w);
         root = new Node(rectangle, cellArrayList);
         cells = cellArrayList; // actually the number of cells would not change
@@ -377,6 +379,16 @@ public class QTree {
             System.out.println(tmp.color);
         }
         System.out.println("----------");
+    }
+
+    public void move_test_output(){
+        move(root);
+        for (Cell tmp: cells){
+            detect_and_set_color(tmp, root);
+        }
+        for (Cell tmp: cells){
+            tmp.print_basic_info();
+        }
     }
 
     public static void main(String[] args) {

@@ -217,6 +217,15 @@ public class Cell {
         }
     }
 
+    public void print_basic_info(){
+        System.out.println("----------Cell Basic Info-----------");
+        System.out.printf("Cell ID: %d\n", ID);
+        System.out.printf("Position: %f, %f\n", x, y);
+        System.out.printf("Color: %s\n", color.toString());
+        System.out.printf("Perception: %f; Radius: %f\n", perception_range, radius);
+        System.out.println("----------Cell Basic Info-----------");
+    }
+
     public static Cell queryID(int num) {
         return cells.get(num);
     }
