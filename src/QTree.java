@@ -267,16 +267,16 @@ public class QTree {
         Rectangle collisionArea ;
         switch (cell.color){
             case RED :
-                collisionArea=new Rectangle(cell.x,cell.y+(0.667+cell.radius)/2,2*cell.radius,0.667+cell.radius);
+                collisionArea=new Rectangle(cell.x,cell.y+(0.667+Cell.maxRadius+cell.radius)/2,2*Cell.maxRadius,0.667+Cell.maxRadius);
                 break;
             case GREEN:
-                collisionArea=new Rectangle(cell.x,cell.y-(0.667+cell.radius)/2,2*cell.radius,0.667+cell.radius);
+                collisionArea=new Rectangle(cell.x,cell.y-(0.667+Cell.maxRadius+cell.radius)/2,2*Cell.maxRadius,0.667+Cell.maxRadius);
                 break;
             case BLUE:
-                collisionArea=new Rectangle(cell.x-(0.667+cell.radius)/2,cell.y,0.667+cell.radius,2*cell.radius);
+                collisionArea=new Rectangle(cell.x-(0.667+Cell.maxRadius+cell.radius)/2,cell.y,0.667+Cell.maxRadius,2*Cell.maxRadius);
                 break;
             case YELLOW:
-                collisionArea=new Rectangle(cell.x+(0.667+cell.radius)/2,cell.y,0.667+cell.radius,2*cell.radius);
+                collisionArea=new Rectangle(cell.x+(0.667+Cell.maxRadius+cell.radius)/2,cell.y,0.667+Cell.maxRadius,2*Cell.maxRadius);
                 break;
             default:
                 collisionArea=null;
