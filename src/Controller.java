@@ -87,12 +87,14 @@ public class Controller {
     }
 
     public static void sampletest() {
-
+        File file = new File("./res/sample/" + 8 + "CellTest.txt");
+        qTree = build_QTree_from_file(file);
     }
 
     public static void main(String[] args) {
 //        init();
-        init_guo();
+//        init_guo();
+        sampletest();
         Renderer.init();
     }
 }
