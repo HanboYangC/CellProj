@@ -11,7 +11,7 @@ public class Controller {
     public static QTree qTree;
 
     public static void init() {
-        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+        In fin = new In("./res/sample2.txt");
         w = fin.readDouble();
         h = fin.readDouble();
         Renderer.winWidth=600;
