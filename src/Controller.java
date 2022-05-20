@@ -11,9 +11,11 @@ public class Controller {
     public static QTree qTree;
 
     public static void init() {
-        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+//        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+        In fin = new In("./sample/sample" + 2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
+//        Renderer.winWidth=300;
         Renderer.winWidth=600;
         Renderer.winHeight= (int) (h/w*Renderer.winWidth);
 
@@ -36,9 +38,12 @@ public class Controller {
 
     }
 
+
     public static void called(){
-        qTree.moveOneStep();
-    }
+            qTree.moveOneStep();
+            //qTree.cellShouldChange();
+        }
+
 
     public static void main(String[] args) {
         init();

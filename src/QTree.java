@@ -1,3 +1,4 @@
+import javax.crypto.spec.PSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -203,14 +204,26 @@ public class QTree {
 
     // for a certain cell, change its place on tree
     public void cellShouldChange(Cell cell) {
-        System.out.println(cell.ID);
+//        System.out.println(cell.ID);
         if (cell.node.isContain(cell, false)) {
             return;
         }
 
         Node n = cell.node; // for upper search
+
+//        if(n.brother==null){
+//            System.out.println("this brother is null");
+//            System.out.println(cell.ID);
+//            return;
+//        }
+//        System.out.println(n.brother);
         Node rightNode = null; // for lower search
         boolean find = false;
+
+        // find the right node (upwards)
+        if(cell.ID==6)
+            System.out.println('m');
+        System.out.println(cell.ID);
 
         // find the right node (upwards)
         while (!find) {
