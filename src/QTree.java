@@ -73,6 +73,9 @@ public class QTree {
 //            System.out.println(this.name);
 //        }
 
+        public Rectangle getBoundary(){
+            return this.boundary;
+        }
 
         //  cells would not overlap in the beginning
         public boolean insert(Cell cell) {
