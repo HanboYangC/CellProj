@@ -124,7 +124,6 @@ public class Controller {
             }
         }
     }
-
     public static double[] gen_queryArray_from_file(File queryFile) {
         In fin = new In(queryFile.getPath());
         System.out.println(fin.readDouble());
@@ -133,7 +132,6 @@ public class Controller {
         System.out.println(n_lines_to_jump);
         for (int i = n_lines_to_jump; i >= 0; i--)
             fin.readLine();
-
         int query_num = fin.readInt();
         double[] queryArray = new double[query_num * 2];
         for (int i = 0; i < query_num; i++) {
@@ -147,32 +145,41 @@ public class Controller {
         return queryArray;
     }
 
-    public static void querysample2test() {
-        File file = new File("./res/sample/sample2.txt");
-        qTree = build_QTree_from_file(file);
-
+//    public static void querysample2test() {
+//        File file = new File("./res/sample/sample2.txt");
+//        qTree = build_QTree_from_file(file);
+//
+//        Rectangle boundry = qTree.root.getBoundary();
+//        h = boundry.h;
+//        w = boundry.w;
+//        Renderer.winWidth = 600;
+//        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+//
+//        File queriesfile = new File("./res/sample/sample2.txt");
+//        double[] queryArray = gen_queryArray_from_file(queriesfile);
+//        for (int i = 0; i < queryArray.length / 2; i++) {
+//            double _t = queryArray[2 * i];
+//            int _ID = (int) queryArray[2 * i + 1];
+//        }
+//        int idx = 0;
+//
+//    }
+    public static void initFromMain(QTree qTreeFromMain){
+        qTree = qTreeFromMain;
         Rectangle boundry = qTree.root.getBoundary();
         h = boundry.h;
         w = boundry.w;
         Renderer.winWidth = 600;
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
-
-        File queriesfile = new File("./res/sample/sample2.txt");
-        double[] queryArray = gen_queryArray_from_file(queriesfile);
-        for (int i = 0; i < queryArray.length / 2; i++) {
-            double _t = queryArray[2 * i];
-            int _ID = (int) queryArray[2 * i + 1];
-        }
-        int idx = 0;
-
     }
+
 
     public static void main(String[] args) {
 //        init();
 //        init_guo();
 //        sampletest();
 //        test_color();
-        querysample2test();
+//        querysample2test();
 //        Renderer.init();
     }
 }
