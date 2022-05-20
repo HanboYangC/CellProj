@@ -35,13 +35,10 @@ public class EventListener implements GLEventListener {
         gl.glVertex2d(Controller.w, Controller.h);
         gl.glVertex2d(0, Controller.h);
         gl.glEnd();
-        for (Cell cell : Cell.cells) {
-
+        for (Cell cell : Controller.qTree.cells) {
+            drawSingleCircle(gl,cell.x,cell.y,cell.radius,cell.color);
         }
-        drawSingleCircle(gl, 30, 40, 5, 'r');
-        drawSingleCircle(gl, 6, 6, 6, 'g');
-        drawSingleCircle(gl, 10, 10, 4, 'b');
-        drawSingleCircle(gl, 20, 20, 8, 'y');
+        Controller.qTree.moveOneStep();
 
     }
 
@@ -54,7 +51,7 @@ public class EventListener implements GLEventListener {
         double unit;
         double rulerW;
         double rulerH;
-        if (Controller.w>Controller.h) {
+        if (Controller.w > Controller.h) {
             unit = (int) (Renderer.getWindowW() / Controller.w);
             rulerW = Renderer.getWindowW() / unit;
             rulerH = rulerW * ratio;
@@ -66,20 +63,20 @@ public class EventListener implements GLEventListener {
         gl.glOrtho(0, rulerW, 0, rulerH, -1, 1);
     }
 
-    public void drawSingleCircle(GL2 gl, double x, double y, double r, char c) {
+    public void drawSingleCircle(GL2 gl, double x, double y, double r, Cell.Color c) {
 
         //gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         switch (c) {
-            case 'r':
+            case RED:
                 gl.glColor3f(1, 0, 0);
                 break;
-            case 'g':
+            case GREEN:
                 gl.glColor3f(0, 1, 0);
                 break;
-            case 'b':
+            case BLUE:
                 gl.glColor3f(0, 0, 1);
                 break;
-            case 'y':
+            case YELLOW:
                 gl.glColor3f(1, 1, 0);
                 break;
         }
