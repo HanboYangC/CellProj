@@ -14,6 +14,9 @@ public class Controller {
         In fin = new In("./res/data/" + 8 + "CellTest.txt");
         w = fin.readDouble();
         h = fin.readDouble();
+        Renderer.winWidth=600;
+        Renderer.winHeight= (int) (h/w*Renderer.winWidth);
+
         Rectangle wall = new Rectangle(w, h);
         qTree = new QTree(wall);
         _n_cell = fin.readInt();
@@ -27,17 +30,20 @@ public class Controller {
             qTree.insert(new Cell(_x, _y, _r, _pr, _color));
         }
 
-        for (Cell cell : qTree.cells) {
+        /*for (Cell cell : qTree.cells) {
             System.out.println(cell.node.cells);
-        }
+        }*/
 
-        for (int i = 0; i < 50; i++) {
-            qTree.moveOneStep();
-        }
+    }
+
+    public static void called(){
+        qTree.moveOneStep();
     }
 
     public static void main(String[] args) {
         init();
+        Renderer.init();
+
 
     }
 
