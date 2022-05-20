@@ -277,7 +277,6 @@ public class QTree {
         return cells_visited;
     }
 
-    //
     public boolean move(Cell cell) {
         Rectangle collisionArea ;
         switch (cell.color){

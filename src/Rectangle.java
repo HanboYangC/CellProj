@@ -50,6 +50,4 @@ public class Rectangle {
             return false;
         }
     }
-
-
 }
