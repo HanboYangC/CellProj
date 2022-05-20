@@ -1,17 +1,17 @@
 public class Wall {
-    public static double width ;
-    public static double height;
+    public  double width ;
+    public  double height;
 
     public Wall(double width, double height) {
-        Wall.width = width;
-        Wall.height = height;
+        this.width = width;
+        this.height = height;
     }
 
     public double[] x_range() {
-        return new double[]{0.0, Wall.width};
+        return new double[]{0.0, this.width};
     }
 
     public double[] y_range() {
-        return new double[]{0.0, Wall.height};
+        return new double[]{0.0, this.height};
     }
 }

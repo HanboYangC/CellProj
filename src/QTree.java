@@ -183,7 +183,7 @@ public class QTree {
     // construct function 1
     QTree(Rectangle rectangle) {
         Cell.release();
-        wall = new Wall(rectangle.h, rectangle.w);
+        wall = new Wall( rectangle.w,rectangle.h);
         root = new Node(rectangle);
     }
 
@@ -203,6 +203,7 @@ public class QTree {
 
     // for a certain cell, change its place on tree
     public void cellShouldChange(Cell cell) {
+        System.out.println(cell.ID);
         if (cell.node.isContain(cell, false)) {
             return;
         }
@@ -353,7 +354,7 @@ public class QTree {
         if(cell.check_if_overlapped(this.wall)){
             switch (cell.color){
                 case RED :
-                    double backY=Wall.height-(cell.y+cell.radius);
+                    double backY=this.wall.height-(cell.y+cell.radius);
                     cell.move(cell.x,cell.y+backY);
                     break;
                 case GREEN:
@@ -363,7 +364,7 @@ public class QTree {
                     double forwardX=0-(cell.x-cell.radius);
                     cell.move(cell.x+forwardX,cell.y);
                 case YELLOW:
-                    double backX=Wall.width-(cell.x+cell.radius);
+                    double backX=this.wall.width-(cell.x+cell.radius);
                     cell.move(cell.x+backX,cell.y);
             }
         }
