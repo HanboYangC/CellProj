@@ -14,14 +14,16 @@ public class Controller {
 
     public static void init_guo() {
         File file = new File("./res/data/" + 8 + "CellTest.txt");
-        QTree qTree = build_QTree_from_file(file);
+        qTree = build_QTree_from_file(file);
 
         Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
         Renderer.winWidth = 600;
-        Renderer.winHeight = (int) (boundry.h / boundry.w * Renderer.winWidth);
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
 
         for (Cell cell: qTree.cells){
-            System.out.println(cell.node.cells);
+            System.out.println(cell.node.cells.get(0).color);
         }
     }
 
@@ -29,6 +31,7 @@ public class Controller {
         In fin = new In("./res/data/" + 8 + "CellTest.txt");
         w = fin.readDouble();
         h = fin.readDouble();
+        System.out.println(w);
         Renderer.winWidth=600;
         Renderer.winHeight= (int) (h/w*Renderer.winWidth);
 
@@ -83,8 +86,13 @@ public class Controller {
         qTree.moveOneStep();
     }
 
+    public static void sampletest() {
+
+    }
+
     public static void main(String[] args) {
-        init();
+//        init();
+        init_guo();
         Renderer.init();
     }
 }
