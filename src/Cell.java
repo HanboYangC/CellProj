@@ -85,10 +85,9 @@ public class Cell {
 //    Check if overlapped, with wall or another cell
 
     public boolean check_if_overlapped(Wall wall) {
-        double pow2dist = Math.pow((wall.height - this.y), 2) + Math.pow((wall.width - this.x), 2);
-        double pow2body = Math.pow(this.radius, 2);
-        this.hit_wall = pow2body > pow2dist;
-        return pow2body > pow2dist;
+        if(this.x<this.radius || this.y<this.radius || this.x> wall.width-this.radius || this.y > wall.height-this.radius)
+            return true;
+        return false;
     }  //Check the cell and the wall, true for overlapped
 
     public boolean check_if_overlapped( Cell b) {
