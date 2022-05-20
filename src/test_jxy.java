@@ -37,7 +37,7 @@ public class test_jxy {
 
         for(Cell c : cellArrayList){
             System.out.print(c.ID);
-            System.out.println(c.node.cells);
+            System.out.println(c.node.brother);
         }
 //        System.out.println(qTree.root.cells);
 

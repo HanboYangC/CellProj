@@ -62,7 +62,8 @@ public class Cell {
         if (QuadTree.cellOverlap(Cell.cells, this).size() != 0)
             return;
         this.perception_range = perception_range;
-        this.perception_rectangle = new Rectangle(x, y, 2 * perception_range, 2 * perception_range);
+        this.perception_rectangle = new Rectangle(x, y,  2 * perception_range,  2 * perception_range);
+
         switch (c) {
             case 'r':
                 this.color = Color.RED;
@@ -77,8 +78,10 @@ public class Cell {
                 this.color = Color.YELLOW;
         }
 //        this.ID = num;
-        if(this.radius>maxRadius)
+        if(this.radius>maxRadius){
             maxRadius=this.radius;
+        }
+
         cells.add(this);
         Cell.num++;
     }

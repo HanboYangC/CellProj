@@ -28,7 +28,8 @@ public class Controller {
     }
 
     public static void init() {
-        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+//        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+        In fin = new In("./sample/sample" + 2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
         System.out.println(w);
@@ -97,6 +98,19 @@ public class Controller {
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
 
     }
+
+    public static void test_color(){
+        h = 2;
+        w = 3;
+        Renderer.winWidth=600;
+        Renderer.winHeight= (int) (h/w*Renderer.winWidth);
+        Rectangle wall = new Rectangle(w, h);
+        qTree = new QTree(wall);
+        ;
+
+
+    }
+
 
     public static void main(String[] args) {
 //        init();
