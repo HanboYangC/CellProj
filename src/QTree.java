@@ -414,6 +414,7 @@ public class QTree {
     public void detect_and_set_color(Node root){
         for (Cell cell : cells) {
             cell.perception_cells = root.cellInRange(cell.perception_rectangle, false);
+            cell.perception_cells.remove(cell);
             cell.perception_colors = cell.count_detected_cells(cell.perception_cells);
         }
         for (Cell cell : cells){

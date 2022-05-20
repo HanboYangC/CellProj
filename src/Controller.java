@@ -12,12 +12,27 @@ public class Controller {
 
     public static QTree qTree;
 
+//    public static void init_guo() {
+//        File file = new File("./res/data/" + 8 + "CellTest.txt");
+//        QTree qTree = build_QTree_from_file(file);
+//
+//        Rectangle boundry = qTree.root.getBoundary();
+//        Renderer.winWidth = 600;
+//        Renderer.winHeight = (int) (boundry.h / boundry.w * Renderer.winWidth);
+//
+////        for (Cell cell: qTree.cells){
+////            System.out.println(cell.node.cells);
+////        }
+//
+//    }
+
     public static void init() {
-        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+//        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+        In fin = new In("./sample/sample" + 2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
-        Renderer.winWidth=600;
-        Renderer.winHeight= (int) (h/w*Renderer.winWidth);
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
 
         Rectangle wall = new Rectangle(w, h);
         qTree = new QTree(wall);
@@ -60,6 +75,7 @@ public class Controller {
     }
 
     public static void main(String[] args) {
+//        init_guo();
         init();
         Renderer.init();
 
