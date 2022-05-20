@@ -100,22 +100,38 @@ public class Controller {
     }
 
     public static void test_color(){
-        h = 2;
-        w = 3;
+        h = 8;
+        w = 8;
         Renderer.winWidth=600;
         Renderer.winHeight= (int) (h/w*Renderer.winWidth);
         Rectangle wall = new Rectangle(w, h);
         qTree = new QTree(wall);
-        ;
+        double p = 3;
+        double r = 1;
+        double x = 0;
+        double y = 0;
+        Cell cell;
+        for (int i = 0; i < 4; i++) {
+            y = 2*i + 1;
+            for (int j = 0; j < 2; j++) {
+                x = 2*j + 1;
+                qTree.insert(new Cell(x,y,r,p,'g'));
+            }
+            for (int j = 2; j < 4; j++) {
+                x = 2*j + 1;
+                qTree.insert(new Cell(x,y,r,p,'b'));
+            }
+        }
 
 
     }
 
 
     public static void main(String[] args) {
-//        init();
+        init();
 //        init_guo();
-        sampletest();
+//        sampletest();
+//        test_color();
         Renderer.init();
     }
 }

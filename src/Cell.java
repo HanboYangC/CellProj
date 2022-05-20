@@ -177,7 +177,7 @@ public class Cell {
         }
         double[] prop_color = new double[4];
         for (int i = 0; i < prop_color.length; i++) {
-            prop_color[i] = (double) count_color[i] / count_color.length;
+            prop_color[i] = (double) count_color[i] / perception_color.length;
         }
 
         // 0-red; 1-green; 2-blue; 3-yellow
