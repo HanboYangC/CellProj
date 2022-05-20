@@ -263,8 +263,26 @@ public class QTree {
 
     //
     public boolean move(Cell cell) {
-        Rectangle collisionArea = new Rectangle(cell.x, cell.y,
-                (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2, (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2);
+        Rectangle collisionArea ;
+        switch (cell.color){
+            case RED :
+                collisionArea=new Rectangle(cell.x,cell.y+(0.667+cell.radius)/2,2*cell.radius,0.667+cell.radius);
+                break;
+            case GREEN:
+                collisionArea=new Rectangle(cell.x,cell.y-(0.667+cell.radius)/2,2*cell.radius,0.667+cell.radius);
+                break;
+            case BLUE:
+                collisionArea=new Rectangle(cell.x-(0.667+cell.radius)/2,cell.y,0.667+cell.radius,2*cell.radius);
+                break;
+            case YELLOW:
+                collisionArea=new Rectangle(cell.x+(0.667+cell.radius)/2,cell.y,0.667+cell.radius,2*cell.radius);
+                break;
+            default:
+                collisionArea=null;
+
+        }
+        //= new Rectangle(cell.x, cell.y,
+        //        (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2, (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2);
         ArrayList<Cell> collision = this.root.cellInRange(collisionArea, true);
         collision.remove(cell);
         cell.move();
