@@ -172,7 +172,6 @@ public class QTree {
             }
             return foundCell;
         }
-
     }
 
     public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
@@ -416,6 +415,8 @@ public class QTree {
             cell.perception_cells = root.cellInRange(cell.perception_rectangle, false);
             cell.perception_cells.remove(cell);
             cell.perception_colors = cell.count_detected_cells(cell.perception_cells);
+//            if (cell.perception_colors.length>=7&&cell.perception_colors[0]!=cell.perception_colors[4]&&cell.perception_colors[4]!= cell.perception_colors[7])
+//                System.out.println(cell.perception_colors);
         }
         for (Cell cell : cells){
             cell.setColor(cell.perception_colors);
