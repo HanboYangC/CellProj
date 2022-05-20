@@ -20,7 +20,9 @@ public class Controller {
 //        Renderer.winWidth = 600;
 //        Renderer.winHeight = (int) (boundry.h / boundry.w * Renderer.winWidth);
 //
-//        System.out.println(qTree.root.getBoundary().w);
+//        for (Cell cell: qTree.cells){
+//            System.out.println(cell.node.cells);
+//        }
 //    }
 
     public static void init() {
@@ -51,9 +53,9 @@ public class Controller {
             qTree.insert(new Cell(_x, _y, _r, _pr, _color));
         }
 
-        /*for (Cell cell : qTree.cells) {
-            System.out.println(cell.node.cells);
-        }*/
+//        for (Cell cell : qTree.cells) {
+//            System.out.println(cell.node.cells);
+//        }
 
     }
 

@@ -383,9 +383,7 @@ public class QTree {
             move(cell);
             cellShouldChange(cell);
         }
-        for (Cell cell : this.cells) {
-            detect_and_set_color(cell,root);
-        }
+        detect_and_set_color(root);
     }
 
     public void simple_test_output() {
@@ -394,40 +392,56 @@ public class QTree {
             System.out.println(tmp.x + "," + tmp.y);
     }
 
-    public void detect_and_set_color(Cell cell, Node root) {
-        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle, false);
-        Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
-        cell.setColor(colors_changed);
+//    public void detect_and_set_color(Cell cell, Node root) {
+//        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle, false);
+//        Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
+//        cell.setColor(colors_changed);
+//    }
+
+    public void detect_and_set_color(Node root){
+        for (Cell cell : cells) {
+            cell.perception_cells = root.cellInRange(cell.perception_rectangle, false);
+            cell.perception_colors = cell.count_detected_cells(cell.perception_cells);
+        }
+        for (Cell cell : cells){
+            cell.setColor(cell.perception_colors);
+        }
     }
 
     public void color_test_output() {
-        ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp : cells) {
-            System.out.println(tmp.color);
-            detect_and_set_color(tmp, root);
-            System.out.println(tmp.color);
-        }
-        System.out.println("----------");
-        for (Cell tmp : cells) {
-            detect_and_set_color(tmp, root);
-            System.out.println(tmp.color);
-        }
-        System.out.println("----------");
-        for (Cell tmp : cells) {
-            Cell.queryID(4).change_color(Cell.Color.YELLOW);
-            detect_and_set_color(tmp, root);
-        }
         for (Cell tmp : cells) {
             System.out.println(tmp.color);
         }
-        System.out.println("----------");
+        detect_and_set_color(root);
+        for (Cell tmp : cells) {
+            System.out.println(tmp.color);
+        }
+//        ArrayList<Cell> cells_visited = dfs(root);
+//        for (Cell tmp : cells) {
+//            System.out.println(tmp.color);
+//            detect_and_set_color(tmp, root);
+//            System.out.println(tmp.color);
+//        }
+//        System.out.println("----------");
+//        for (Cell tmp : cells) {
+//            detect_and_set_color(tmp, root);
+//            System.out.println(tmp.color);
+//        }
+//        System.out.println("----------");
+//        for (Cell tmp : cells) {
+//            Cell.queryID(4).change_color(Cell.Color.YELLOW);
+//            detect_and_set_color(tmp, root);
+//        }
+//        for (Cell tmp : cells) {
+//            System.out.println(tmp.color);
+//        }
+//        System.out.println("----------");
     }
 
     public void move_test_output(){
         //move(root);
-        for (Cell tmp: cells){
-            detect_and_set_color(tmp, root);
-        }
+        detect_and_set_color(root);
+
         for (Cell tmp: cells){
             tmp.print_basic_info();
         }

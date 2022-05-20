@@ -23,6 +23,8 @@ public class Cell {
     public QTree.Node node;
 
     public Color color;
+    public Color[] perception_colors;
+    public ArrayList<Cell> perception_cells;
     public double radius = 0.0;
     public double x = 0.0;
     public double y = 0.0;
