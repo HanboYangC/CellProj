@@ -87,8 +87,15 @@ public class Controller {
     }
 
     public static void sampletest() {
-        File file = new File("./res/sample/" + 8 + "CellTest.txt");
+        File file = new File("./res/sample/sample2.txt");
         qTree = build_QTree_from_file(file);
+
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+
     }
 
     public static void main(String[] args) {
