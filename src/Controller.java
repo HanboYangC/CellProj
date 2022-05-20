@@ -126,9 +126,18 @@ public class Controller {
 
     }
 
+    public static void initFromMain(QTree qTreeFromMain){
+        qTree = qTreeFromMain;
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+    }
+
 
     public static void main(String[] args) {
-        init();
+//        init();
 //        init_guo();
 //        sampletest();
 //        test_color();
