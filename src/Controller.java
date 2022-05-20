@@ -5,34 +5,44 @@ import java.io.File;
 public class Controller {
 
     public static boolean isGUI = true;
-    public static double TIME_STEP = 1 / 15;
+    public static double TIME_STEP = 1 / 15.0;
     public static double w;
     public static double h;
     public static int _n_cell;
 
     public static QTree qTree;
 
-//    public static void init_guo() {
-//        File file = new File("./res/data/" + 8 + "CellTest.txt");
-//        QTree qTree = build_QTree_from_file(file);
-//
-//        Rectangle boundry = qTree.root.getBoundary();
-//        Renderer.winWidth = 600;
-//        Renderer.winHeight = (int) (boundry.h / boundry.w * Renderer.winWidth);
-//
-////        for (Cell cell: qTree.cells){
-////            System.out.println(cell.node.cells);
-////        }
-//
-//    }
+    public static void init_guo() {
+        File file = new File("./res/data/" + 8 + "CellTest.txt");
+        qTree = build_QTree_from_file(file);
+
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+
+        for (Cell cell: qTree.cells){
+            System.out.println(cell.node.cells.get(0).color);
+        }
+    }
 
     public static void init() {
 //        In fin = new In("./res/data/" + 8 + "CellTest.txt");
         In fin = new In("./sample/sample" + 2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
-        Renderer.winWidth = 600;
-        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+        System.out.println(w);
+        Renderer.winWidth=600;
+        Renderer.winHeight= (int) (h/w*Renderer.winWidth);
+
+//        File file = new File("./res/data/" + 8 + "CellTest.txt");
+//        QTree qTree = build_QTree_from_file(file);
+//        Rectangle boundry = qTree.root.getBoundary();
+//        double w = boundry.w;
+//        double h = boundry.h;
+//        Renderer.winWidth=600;
+//        Renderer.winHeight= (int) (h/w*Renderer.winWidth);
 
         Rectangle wall = new Rectangle(w, h);
         qTree = new QTree(wall);
@@ -47,6 +57,9 @@ public class Controller {
             qTree.insert(new Cell(_x, _y, _r, _pr, _color));
         }
 
+//        for (Cell cell : qTree.cells) {
+//            System.out.println(cell.node.cells);
+//        }
 
     }
 
@@ -74,13 +87,13 @@ public class Controller {
         qTree.moveOneStep();
     }
 
-    public static void main(String[] args) {
-//        init_guo();
-        init();
-        Renderer.init();
-
+    public static void sampletest() {
 
     }
 
-
+    public static void main(String[] args) {
+//        init();
+        init_guo();
+        Renderer.init();
+    }
 }
