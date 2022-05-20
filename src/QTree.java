@@ -360,12 +360,15 @@ public class QTree {
                 case GREEN:
                     double forwardY=-(cell.y-cell.radius);
                     cell.move(cell.x,cell.y+forwardY);
+                    break;
                 case BLUE:
                     double forwardX=0-(cell.x-cell.radius);
                     cell.move(cell.x+forwardX,cell.y);
+                    break;
                 case YELLOW:
                     double backX=this.wall.width-(cell.x+cell.radius);
                     cell.move(cell.x+backX,cell.y);
+                    break;
             }
         }
 

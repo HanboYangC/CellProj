@@ -19,7 +19,7 @@ public class Renderer {
         window.setSize(winWidth,winHeight);
         //window.setResizable(false);
         window.addGLEventListener(new EventListener());
-        FPSAnimator animator=new FPSAnimator(window,15);
+        FPSAnimator animator=new FPSAnimator(window,150);
         animator.start();
         window.setVisible(true);
 
