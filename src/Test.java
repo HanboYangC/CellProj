@@ -256,12 +256,11 @@ public class Test {
             BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
 
             for (int i = 0; i <= max_step; i++) {
-                qTree.moveOneStep();
+//                qTree.moveOneStep();
                 if(queryStepCell.containsKey(i)){
                     List<Integer> id_at_step = queryStepCell.get(i);
                     for(int id : id_at_step){
                         Cell cellQueried = Cell.queryID(id);
-
                         String queryResult = String.format("%f %f %c\n",cellQueried.x, cellQueried.y,cellQueried.getColorChar());
                         out.write(queryResult);
                         out.flush();
@@ -269,6 +268,7 @@ public class Test {
 //                        System.out.printf("[ID : %s] x : %f  y : %f  color : %s \n",cellQueried.ID, cellQueried.x, cellQueried.y,cellQueried.color);
                     }
                 }
+                qTree.moveOneStep();
             }
             out.close();
         }catch (Exception e){
