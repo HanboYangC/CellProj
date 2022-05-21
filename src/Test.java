@@ -291,17 +291,19 @@ public class Test {
         char c1,c2;
 //        while (fin1.hasNextLine()){
         for (int i = 0; i < numOfQuery; i++) {
+            // the answer
             x1 = fin1.readDouble();
             y1 = fin1.readDouble();
             fin1.readChar();
             c1 = fin1.readChar();
 
+            // the result of query
             x2 = fin2.readDouble();
             y2 = fin2.readDouble();
             fin2.readChar();
             c2 = fin2.readChar();
 
-            if(Math.abs(x1-x2) > epsilon || Math.abs(y1-y2) > epsilon || c1 != c2){
+            if(Math.abs(x1-x2) > x1*(0.05) || Math.abs(y1-y2) > y1*(0.05)|| c1 != c2){
                 System.out.println("something is wrong!");
                 System.out.printf("[line %d] x : %f  y : %f  color : %s || x : %f  y : %f  color : %s \n",i, x1, y1,c1,x2, y2,c2);
 //                break;
