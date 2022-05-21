@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class Cell {
     enum Color {
         RED, GREEN, BLUE, YELLOW;
+
+
     }
 
     public static int num = 0;  // total number of cells
@@ -152,6 +154,16 @@ public class Cell {
 
     public void change_color(Color color_changed) {
         this.color = color_changed;
+    }
+    public char getColorChar(){
+        switch (this.color){
+            case RED : return 'r';
+            case GREEN: return 'g';
+            case BLUE: return 'b';
+            case YELLOW: return 'y';
+        }
+        System.out.println("Invalid color");
+        return '#';
     }
 
     // input : Color[] perception_color

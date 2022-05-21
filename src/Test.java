@@ -1,9 +1,5 @@
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 
 import edu.princeton.cs.algs4.*;
 
@@ -194,11 +190,134 @@ public class Test {
         }
     }
 
+    public static void query_test(){
+//        System.out.println("in test");
+        Scanner fin = new Scanner(System.in);
+        // build tree
+        double w = fin.nextDouble();
+        double h = fin.nextDouble();
+//        System.out.printf("w : %f  h : %f \n", w, h);
+        Rectangle wall = new Rectangle(w, h);
+        QTree qTree = new QTree(wall);
+
+        int _n_cell = fin.nextInt();
+        for (int j = 0; j < _n_cell; j++) {
+            double _x = fin.nextDouble();
+            double _y = fin.nextDouble();
+            double _r = fin.nextDouble();
+            double _pr = fin.nextDouble();
+            char _color = fin.next().charAt(0);
+//                System.out.printf("%f, %f, %f, %f, %s \n",_x, _y, _r, _pr, _color);
+            qTree.insert(new Cell(_x, _y, _r, _pr, _color));
+        }
+
+        // get query request
+        int _n_query = fin.nextInt();
+//        HashMap<Double, List<Integer>> queryTimeCell = new HashMap<>();
+        HashMap<Integer,List<Integer>> queryStepCell = new HashMap<>();
+        int max_step = 0;
+
+        for (int j = 0; j < _n_query; j++) {
+            double _t = fin.nextDouble();
+            int _ID = fin.nextInt();
+//            System.out.printf("t : %f  ID : %d \n", _t, _ID);
+            int _step = (int) _t * 15;
+
+            if(_step > max_step){
+                max_step = _step;
+            }
+//            if(queryTimeCell.containsKey(_t)){
+//                queryTimeCell.get(_t).add(_ID);
+//            }else{
+//                List<Integer> id_at_t = new ArrayList<>();
+//                id_at_t.add(_ID);
+//                queryTimeCell.put(_t,id_at_t);
+//            }
+            if(queryStepCell.containsKey(_step)){
+                queryStepCell.get(_step).add(_ID);
+            }else{
+                List<Integer> id_at_step = new ArrayList<>();
+                id_at_step.add(_ID);
+                queryStepCell.put(_step,id_at_step);
+            }
+
+        }
+//        System.out.println(max_step);
+
+
+        // do query
+        // print the result in the terminal
+        // save the result in file 'test_sample1.txt'
+        int fileNum = 2;
+        try{
+            String outPath = "./res/output/test_sample"+fileNum+".txt";
+            File outFile = new File(outPath);
+            outFile.createNewFile();
+            BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
+
+            for (int i = 0; i <= max_step; i++) {
+                qTree.moveOneStep();
+                if(queryStepCell.containsKey(i)){
+                    List<Integer> id_at_step = queryStepCell.get(i);
+                    for(int id : id_at_step){
+                        Cell cellQueried = Cell.queryID(id);
+
+                        String queryResult = String.format("%f %f %c\n",cellQueried.x, cellQueried.y,cellQueried.getColorChar());
+                        out.write(queryResult);
+                        out.flush();
+//                        System.out.print(queryResult);
+//                        System.out.printf("[ID : %s] x : %f  y : %f  color : %s \n",cellQueried.ID, cellQueried.x, cellQueried.y,cellQueried.color);
+                    }
+                }
+            }
+            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        // do the compare
+        CompareResult(fileNum, _n_query,0.001);
+
+    }
+
+
+    public static void CompareResult(int fileNum, int numOfQuery,double epsilon){
+        In fin1 = new In("./sample/sample" + fileNum + "_out.txt"); // the correct answer
+        In fin2 = new In("./res/output/test_sample"+fileNum +".txt"); // our output
+//        int numOfQuery = 3;
+//        double delta = 0.001;
+        double x1,x2,y1,y2;
+        char c1,c2;
+//        while (fin1.hasNextLine()){
+        for (int i = 0; i < numOfQuery; i++) {
+            x1 = fin1.readDouble();
+            y1 = fin1.readDouble();
+            fin1.readChar();
+            c1 = fin1.readChar();
+
+            x2 = fin2.readDouble();
+            y2 = fin2.readDouble();
+            fin2.readChar();
+            c2 = fin2.readChar();
+
+            if(Math.abs(x1-x2) > epsilon || Math.abs(y1-y2) > epsilon || c1 != c2){
+                System.out.println("something is wrong!");
+                System.out.printf("[line %d] x : %f  y : %f  color : %s || x : %f  y : %f  color : %s \n",i, x1, y1,c1,x2, y2,c2);
+//                break;
+                return;
+            }
+        }
+        System.out.println("all correct!");
+
+    }
+
     public static void main(String[] args) {
-        simpletest();
-        genData();
-        genScenery();
-        colortest();
-        movetest();
+//        CompareResult(1,3,0.001);
+        query_test();
+//        simpletest();
+//        genData();
+//        genScenery();
+//        colortest();
+//        movetest();
     }
 }
