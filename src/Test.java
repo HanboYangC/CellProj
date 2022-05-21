@@ -126,7 +126,6 @@ public class Test {
                 /*  Write the test code here */
 
 
-
                 // Color Change Test
 
                 // Overlap Test
@@ -147,14 +146,14 @@ public class Test {
         }
     }
 
-    public static void simpletest(){
+    public static void simpletest() {
         QTree qt = new QTree(new Rectangle(4, 4));
         double[] x_seq = new double[]{1, 2, 3, 1, 3};
         double[] y_seq = new double[]{3, 2, 3, 1, 1};
         double r = 0.1;
         double pr = 0.2;
         char c = 'r';
-        for (int i=0;i<5;i++)
+        for (int i = 0; i < 5; i++)
             qt.insert(new Cell(x_seq[i], y_seq[i], r, pr, c));
 
         System.out.println("------------Simple Test-------------");
@@ -163,14 +162,14 @@ public class Test {
         System.out.println("--------Simple Test Finished--------");
     }
 
-    public static void colortest(){
+    public static void colortest() {
         QTree qt = new QTree(new Rectangle(4, 4));
         double[] x_seq = new double[]{1, 2, 3, 1, 3, 1.5, 2.5, 3.5, 1.5, 3.5};
         double[] y_seq = new double[]{3, 2, 3, 1, 1, 3.5, 2.5, 3.5, 1.5, 1.5};
         double r = 0.1;
         double pr = 1.6;
         char c = 'r';
-        for (int i=0;i<10;i++)
+        for (int i = 0; i < 10; i++)
             qt.insert(new Cell(x_seq[i], y_seq[i], r, pr, c));
         System.out.println("------------Color Test-------------");
         qt.color_test_output();
@@ -178,7 +177,7 @@ public class Test {
         System.out.println("--------Color Test Finished--------");
     }
 
-    public static void movetest(){
+    public static void movetest() {
         QTree qTree = new QTree(new Rectangle(0, 0, 30, 30));
         qTree.insert(new Cell(0, 0, 1, 5, 'r'));
         qTree.insert(new Cell(0, 2, 1, 5, 'b'));
@@ -190,9 +189,8 @@ public class Test {
         }
     }
 
-    public static void query_test(){
+    public static void query_test() {
 //        System.out.println("in test");
-        
         Scanner fin = new Scanner(System.in);
         // build tree
         double w = fin.nextDouble();
@@ -215,7 +213,7 @@ public class Test {
         // get query request
         int _n_query = fin.nextInt();
 //        HashMap<Double, List<Integer>> queryTimeCell = new HashMap<>();
-        HashMap<Integer,List<Integer>> queryStepCell = new HashMap<>();
+        HashMap<Integer, List<Integer>> queryStepCell = new HashMap<>();
         int max_step = 0;
 
         for (int j = 0; j < _n_query; j++) {
@@ -224,7 +222,7 @@ public class Test {
 //            System.out.printf("t : %f  ID : %d \n", _t, _ID);
             int _step = (int) Math.floor(_t * 15); // TODO : find the problem
 
-            if(_step > max_step){
+            if (_step > max_step) {
                 max_step = _step;
             }
 //            if(queryTimeCell.containsKey(_t)){
@@ -234,12 +232,12 @@ public class Test {
 //                id_at_t.add(_ID);
 //                queryTimeCell.put(_t,id_at_t);
 //            }
-            if(queryStepCell.containsKey(_step)){
+            if (queryStepCell.containsKey(_step)) {
                 queryStepCell.get(_step).add(_ID);
-            }else{
+            } else {
                 List<Integer> id_at_step = new ArrayList<>();
                 id_at_step.add(_ID);
-                queryStepCell.put(_step,id_at_step);
+                queryStepCell.put(_step, id_at_step);
             }
 
         }
@@ -251,19 +249,19 @@ public class Test {
         // save the result in file 'test_sample1.txt'
         int fileNum = 2;
 
-        try{
-            String outPath = "./res/output/test_sample"+fileNum+".txt";
+        try {
+            String outPath = "./res/output/test_sample" + fileNum + ".txt";
             File outFile = new File(outPath);
             outFile.createNewFile();
             BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
 
             for (int i = 0; i <= max_step; i++) {
 //                qTree.moveOneStep();
-                if(queryStepCell.containsKey(i)){
+                if (queryStepCell.containsKey(i)) {
                     List<Integer> id_at_step = queryStepCell.get(i);
-                    for(int id : id_at_step){
+                    for (int id : id_at_step) {
                         Cell cellQueried = Cell.queryID(id);
-                        String queryResult = String.format("%f %f %c\n",cellQueried.x, cellQueried.y,cellQueried.getColorChar());
+                        String queryResult = String.format("%f %f %c\n", cellQueried.x, cellQueried.y, cellQueried.getColorChar());
                         out.write(queryResult);
                         out.flush();
 //                        System.out.print(queryResult);
@@ -273,23 +271,82 @@ public class Test {
                 qTree.moveOneStep();
             }
             out.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         // do the compare
-        CompareResult(fileNum, _n_query,0.001);
+        CompareResult(fileNum, _n_query, 0.001);
 
     }
 
+    public static void query_test_guo(int fileNum) {
+        Out fout = new Out("./res/output/test_sample" + fileNum + "_out.txt");
 
-    public static void CompareResult(int fileNum, int numOfQuery,double epsilon){
+        File samplefile = new File("./res/sample/sample" + fileNum + ".txt");
+        QTree qTree = build_QTree_from_samplefile(samplefile);
+        double[] queryArray = gen_queryArray_from_samplefile(samplefile);
+
+        for (int i = 0; i < queryArray.length / 2; i++) {
+            if (Math.abs(qTree.time - queryArray[2 * i]) < 0.01) {
+                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
+                fout.println(output_cell.standard_output());
+            } else {
+                qTree.moveOneStep();
+                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
+                fout.println(output_cell.standard_output());
+            }
+        }
+    }
+
+    public static QTree build_QTree_from_samplefile(File file) {
+        In fin = new In(file.getPath());
+        double w = fin.readDouble();
+        double h = fin.readDouble();
+        Rectangle wall = new Rectangle(w, h);
+        QTree qTree = new QTree(wall);
+
+        int _n_cell = fin.readInt();
+        for (int j = 0; j < _n_cell; j++) {
+            double _x = fin.readDouble();
+            double _y = fin.readDouble();
+            double _r = fin.readDouble();
+            double _pr = fin.readDouble();
+            fin.readChar();  // Trim the space
+            char _color = fin.readChar();
+            qTree.insert(new Cell(_x, _y, _r, _pr, _color));
+        }
+        return qTree;
+    }
+
+    public static double[] gen_queryArray_from_samplefile(File queryFile) {
+        In fin = new In(queryFile.getPath());
+        System.out.println(fin.readDouble());
+        System.out.println(fin.readDouble());
+        int n_lines_to_jump = (int) fin.readDouble();
+        System.out.println(n_lines_to_jump);
+        for (int i = n_lines_to_jump; i >= 0; i--)
+            fin.readLine();
+        int query_num = fin.readInt();
+        double[] queryArray = new double[query_num * 2];
+        for (int i = 0; i < query_num; i++) {
+            double t = fin.readDouble();
+            queryArray[2 * i] = t;
+            System.out.println(t);
+            int ID = (int) fin.readDouble();
+            System.out.println(ID);
+            queryArray[2 * i + 1] = ID;
+        }
+        return queryArray;
+    }
+
+    public static void CompareResult(int fileNum, int numOfQuery, double epsilon) {
         In fin1 = new In("./res/sample/sample" + fileNum + "_out.txt"); // the correct answer
-        In fin2 = new In("./res/output/test_sample"+fileNum +".txt"); // our output
+        In fin2 = new In("./res/output/test_sample" + fileNum + "_out.txt"); // our output
 //        int numOfQuery = 3;
 //        double delta = 0.001;
-        double x1,x2,y1,y2;
-        char c1,c2;
+        double x1, x2, y1, y2;
+        char c1, c2;
 //        while (fin1.hasNextLine()){
         for (int i = 0; i < numOfQuery; i++) {
             // the answer
@@ -304,9 +361,9 @@ public class Test {
             fin2.readChar();
             c2 = fin2.readChar();
 
-            if(Math.abs(x1-x2) > x1*(0.05) || Math.abs(y1-y2) > y1*(0.05)|| c1 != c2){
+            if (Math.abs(x1 - x2) > x1 * (0.05) || Math.abs(y1 - y2) > y1 * (0.05) || c1 != c2) {
                 System.out.println("something is wrong!");
-                System.out.printf("[line %d] x : %f  y : %f  color : %s || x : %f  y : %f  color : %s \n",i, x1, y1,c1,x2, y2,c2);
+                System.out.printf("[line %d] x : %f  y : %f  color : %s || x : %f  y : %f  color : %s \n", i, x1, y1, c1, x2, y2, c2);
 //                break;
                 return;
             }
@@ -317,7 +374,8 @@ public class Test {
 
     public static void main(String[] args) {
 //        CompareResult(1,3,0.001);
-        query_test();
+//        query_test();
+        query_test_guo(2);
 //        simpletest();
 //        genData();
 //        genScenery();

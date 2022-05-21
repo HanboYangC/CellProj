@@ -1,7 +1,6 @@
 import edu.princeton.cs.algs4.In;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class Controller {
 
@@ -15,7 +14,7 @@ public class Controller {
 
     public static void init_guo() {
         File file = new File("./res/data/" + 8 + "CellTest.txt");
-        qTree = build_QTree_from_file(file);
+        qTree = build_QTree_from_samplefile(file);
 
         Rectangle boundry = qTree.root.getBoundary();
         h = boundry.h;
@@ -64,7 +63,7 @@ public class Controller {
 
     }
 
-    public static QTree build_QTree_from_file(File file) {
+    public static QTree build_QTree_from_samplefile(File file) {
         In fin = new In(file.getPath());
         double w = fin.readDouble();
         double h = fin.readDouble();
@@ -90,7 +89,7 @@ public class Controller {
 
     public static void sampletest() {
         File file = new File("./res/sample/sample2.txt");
-        qTree = build_QTree_from_file(file);
+        qTree = build_QTree_from_samplefile(file);
 
         Rectangle boundry = qTree.root.getBoundary();
         h = boundry.h;
@@ -125,7 +124,7 @@ public class Controller {
         }
     }
 
-    public static double[] gen_queryArray_from_file(File queryFile) {
+    public static double[] gen_queryArray_from_samplefile(File queryFile) {
         In fin = new In(queryFile.getPath());
         System.out.println(fin.readDouble());
         System.out.println(fin.readDouble());
@@ -144,6 +143,20 @@ public class Controller {
             queryArray[2 * i + 1] = ID;
         }
         return queryArray;
+    }
+
+    public static void test_query(){
+        File samplefile = new File("./res/sample/sample2.txt");
+        double[] queryArray = gen_queryArray_from_samplefile(samplefile);
+        qTree = build_QTree_from_samplefile(samplefile);
+
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+
+
     }
 
 //    public static void querysample2test() {
