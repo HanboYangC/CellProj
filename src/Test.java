@@ -48,7 +48,6 @@ public class Test {
                 fout.println(i);
                 for (int j = 0; j < i; j++) {
                     fout.println(x_seq[j] + " " + y_seq[j] + " " + r_seq[j] + " " + pr_seq[j] + " " + c_seq[j] + " ");
-
                 }
                 fout.println(i);
                 for (int j = 0; j < i; j++) {
@@ -288,7 +287,7 @@ public class Test {
         double[] queryArray = gen_queryArray_from_samplefile(samplefile);
 
         for (int i = 0; i < queryArray.length / 2; i++) {
-            if (Math.abs(qTree.time - queryArray[2 * i]) < 0.01) {
+            if (Math.abs(qTree.time - queryArray[2 * i]) < 0.03) {
                 Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
                 fout.println(output_cell.standard_output());
             } else {
@@ -296,6 +295,38 @@ public class Test {
                 Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
                 fout.println(output_cell.standard_output());
             }
+        }
+
+        File out = new File("./res/output/test_sample" + fileNum + "_out.txt");
+        File ref = new File("./res/sample/sample" + fileNum + "_out.txt");
+        compare_out_file(out, ref);
+    }
+
+    public static void compare_out_file(File out, File ref) {  // output and the ref correct answers
+        In fin_out = new In(out.getPath());
+        In fin_ref = new In(ref.getPath());
+
+        double _x_out;
+        double _x_ref;
+        double _y_out;
+        double _y_ref;
+        char _color_out;
+        char _color_ref;
+
+        int query_num = 0;  // query line num, not the cell ID
+        while (!fin_out.isEmpty()) {
+            _x_out = fin_out.readDouble();
+            _y_out = fin_out.readDouble();
+            _x_ref = fin_ref.readDouble();
+            _y_ref = fin_ref.readDouble();
+            fin_out.readChar();  // Trim the space
+            fin_ref.readChar();  // Trim the space
+            _color_out = fin_out.readChar();
+            _color_ref = fin_ref.readChar();
+            if (Math.abs(_x_out + _y_out - _x_ref - _y_ref) > 0.01 || _color_out != _color_ref) {
+                System.out.printf("Cell ID QueryArray[%d] Error: out: %f %f %c ref: %f %f %c\n", query_num * 2 + 1, _x_out, _y_out, _color_out, _x_ref, _y_ref, _color_ref);
+            }
+            query_num++;
         }
     }
 
@@ -321,10 +352,12 @@ public class Test {
 
     public static double[] gen_queryArray_from_samplefile(File queryFile) {
         In fin = new In(queryFile.getPath());
-        System.out.println(fin.readDouble());
-        System.out.println(fin.readDouble());
+        fin.readDouble();
+        fin.readDouble();
+//        System.out.println(fin.readDouble());
+//        System.out.println(fin.readDouble());
         int n_lines_to_jump = (int) fin.readDouble();
-        System.out.println(n_lines_to_jump);
+//        System.out.println(n_lines_to_jump);
         for (int i = n_lines_to_jump; i >= 0; i--)
             fin.readLine();
         int query_num = fin.readInt();
@@ -332,9 +365,9 @@ public class Test {
         for (int i = 0; i < query_num; i++) {
             double t = fin.readDouble();
             queryArray[2 * i] = t;
-            System.out.println(t);
+//            System.out.println(t);
             int ID = (int) fin.readDouble();
-            System.out.println(ID);
+//            System.out.println(ID);
             queryArray[2 * i + 1] = ID;
         }
         return queryArray;
@@ -372,9 +405,58 @@ public class Test {
 
     }
 
+    public static void GenBigSquare(int cell_num_to_test) {
+        Out samplefile = new Out("./res/sample/diy_sample" + cell_num_to_test + ".txt");
+
+        // Generate Basic Info of a QTree
+        double a = Math.ceil(Math.sqrt(cell_num_to_test));  // square's height or width
+        double max_radius = 0.5;
+        double max_pr = 2.0 * max_radius;
+        String str = "rgby";
+
+        samplefile.println(a + " " + a);
+
+        // Generate Data of iCellTest.txt files
+        // Setup
+        double[] x_seq = new double[cell_num_to_test];
+        double[] y_seq = new double[cell_num_to_test];
+        double[] r_seq = new double[cell_num_to_test];
+        double[] pr_seq = new double[cell_num_to_test];
+        char[] c_seq = new char[cell_num_to_test];
+        // Query i times for i cells
+        double[] t_seq = new double[cell_num_to_test];
+        int[] n_seq = new int[cell_num_to_test];
+
+        for (int i = 0; i < cell_num_to_test; i++) {
+            // Generate Data of Cells
+            x_seq[i] = max_radius + (2 * i + 1) % a;
+            y_seq[i] = 2 * max_radius * Math.floor(i/a) + max_radius;
+            r_seq[i] = StdRandom.uniform(0.01, max_radius);
+            pr_seq[i] = StdRandom.uniform(r_seq[i], max_pr);
+            c_seq[i] = str.charAt(StdRandom.uniform(4));
+        }
+
+        // Generate Data of Queries
+        for (int i = 0; i < cell_num_to_test; i++) {
+            t_seq[i] = i * 1.0 / 15.0 + StdRandom.uniform(0, 1.0 / 15.0);
+            n_seq[i] = StdRandom.uniform(cell_num_to_test);
+        }
+
+        // Write rest Data into the test file
+        samplefile.println(cell_num_to_test);  // num of cells
+        for (int i = 0; i < cell_num_to_test; i++) {
+            samplefile.println(x_seq[i] + " " + y_seq[i] + " " + r_seq[i] + " " + pr_seq[i] + " " + c_seq[i] + " ");
+        }
+        samplefile.println(cell_num_to_test);  // num of queries
+        for (int i = 0; i < cell_num_to_test; i++) {
+            samplefile.println(t_seq[i] + " " + n_seq[i]);
+        }
+    }
+
     public static void main(String[] args) {
 //        CompareResult(1,3,0.001);
 //        query_test();
+        GenBigSquare(2000);
         query_test_guo(2);
 //        simpletest();
 //        genData();
