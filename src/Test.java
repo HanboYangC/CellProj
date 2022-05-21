@@ -222,7 +222,7 @@ public class Test {
             double _t = fin.nextDouble();
             int _ID = fin.nextInt();
 //            System.out.printf("t : %f  ID : %d \n", _t, _ID);
-            int _step = (int) _t * 15;
+            int _step = (int) Math.floor(_t * 15); // TODO : find the problem
 
             if(_step > max_step){
                 max_step = _step;
@@ -250,6 +250,7 @@ public class Test {
         // print the result in the terminal
         // save the result in file 'test_sample1.txt'
         int fileNum = 2;
+
         try{
             String outPath = "./res/output/test_sample"+fileNum+".txt";
             File outFile = new File(outPath);
