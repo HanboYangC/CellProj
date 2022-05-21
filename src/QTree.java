@@ -1,4 +1,7 @@
+import edu.princeton.cs.algs4.In;
+
 import javax.crypto.spec.PSource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,6 +10,9 @@ public class QTree {
     public Wall wall;
     public Node root = null;
     public ArrayList<Cell> cells = new ArrayList<Cell>();
+
+    public double time = 0.0;
+    public double timestep = 1 / 15.0;
 //    public HashMap<Cell,Node> cn_link = new HashMap<>();
 //    public HashMap<Node, ArrayList<Cell>> nc_link = new HashMap<>();
 //    public ArrayList<Node> leaves = new ArrayList<>();
@@ -413,6 +419,7 @@ public class QTree {
             cellShouldChange(cell);
         }
         detect_and_set_color(root);
+        time += timestep;
     }
 
     public void simple_test_output() {

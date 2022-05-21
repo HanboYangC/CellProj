@@ -3,16 +3,14 @@ import java.util.ArrayList;
 public class Cell {
     enum Color {
         RED, GREEN, BLUE, YELLOW;
-
-
     }
 
     public static int num = 0;  // total number of cells
     public static ArrayList<Cell> cells = new ArrayList<Cell>();
-    public static double maxRadius=0;
+    public static double maxRadius = 0;
     public static double step = 1.0 / 0.15;  // default move step
 
-    public static void release(){
+    public static void release() {
         num = 0;
         cells.clear();
     }
@@ -38,8 +36,8 @@ public class Cell {
 
     public Cell() {
 
-        if(this.radius>maxRadius)
-            maxRadius=this.radius;
+        if (this.radius > maxRadius)
+            maxRadius = this.radius;
         cells.add(this);
         Cell.num++;
     }  // default instantiate
@@ -47,10 +45,10 @@ public class Cell {
     public Cell(double radius, int identity, Color color) {
         //this.position = position;
         this.ID = identity;
-        this.color= color;
+        this.color = color;
         this.radius = radius;
-        if(this.radius>maxRadius)
-            maxRadius=this.radius;
+        if (this.radius > maxRadius)
+            maxRadius = this.radius;
         cells.add(this);
         Cell.num++;
     }
@@ -64,7 +62,7 @@ public class Cell {
         if (QuadTree.cellOverlap(Cell.cells, this).size() != 0)
             return;
         this.perception_range = perception_range;
-        this.perception_rectangle = new Rectangle(x, y,  2 * perception_range,  2 * perception_range);
+        this.perception_rectangle = new Rectangle(x, y, 2 * perception_range, 2 * perception_range);
 
         switch (c) {
             case 'r':
@@ -80,8 +78,8 @@ public class Cell {
                 this.color = Color.YELLOW;
         }
 //        this.ID = num;
-        if(this.radius>maxRadius){
-            maxRadius=this.radius;
+        if (this.radius > maxRadius) {
+            maxRadius = this.radius;
         }
 
         cells.add(this);
@@ -92,14 +90,14 @@ public class Cell {
 //    Check if overlapped, with wall or another cell
 
     public boolean check_if_overlapped(Wall wall) {
-        if(this.x<this.radius || this.y<this.radius || this.x> wall.width-this.radius || this.y > wall.height-this.radius)
+        if (this.x < this.radius || this.y < this.radius || this.x > wall.width - this.radius || this.y > wall.height - this.radius)
             return true;
         return false;
     }  //Check the cell and the wall, true for overlapped
 
-    public boolean check_if_overlapped( Cell b) {
+    public boolean check_if_overlapped(Cell b) {
         double pow2dist = Math.sqrt(Math.pow((this.y - b.y), 2) + Math.pow((this.x - b.x), 2));
-        double pow2body = this.radius+b.radius;
+        double pow2body = this.radius + b.radius;
         this.hit_others = pow2body > pow2dist;
         return pow2body > pow2dist;
     }  //Check the cell a and the cell b, true for overlapped
@@ -155,12 +153,17 @@ public class Cell {
     public void change_color(Color color_changed) {
         this.color = color_changed;
     }
-    public char getColorChar(){
-        switch (this.color){
-            case RED : return 'r';
-            case GREEN: return 'g';
-            case BLUE: return 'b';
-            case YELLOW: return 'y';
+
+    public char getColorChar() {
+        switch (this.color) {
+            case RED:
+                return 'r';
+            case GREEN:
+                return 'g';
+            case BLUE:
+                return 'b';
+            case YELLOW:
+                return 'y';
         }
         System.out.println("Invalid color");
         return '#';
@@ -233,7 +236,7 @@ public class Cell {
         }
     }
 
-    public void print_basic_info(){
+    public void print_basic_info() {
         System.out.println("----------Cell Basic Info-----------");
         System.out.printf("Cell ID: %d\n", ID);
         System.out.printf("Position: %f, %f\n", x, y);
@@ -242,13 +245,17 @@ public class Cell {
         System.out.println("----------Cell Basic Info-----------");
     }
 
+    public String standard_output() {
+        return this.x + " " + this.y + " " + this.color.toString().substring(0, 1).toLowerCase();
+    }
+
     public static Cell queryID(int num) {
         return cells.get(num);
     }
 
-    public Color[] count_detected_cells(ArrayList<Cell> detected_cells){
+    public Color[] count_detected_cells(ArrayList<Cell> detected_cells) {
         Color[] colors = new Color[detected_cells.size()];
-        for (int i=0;i<detected_cells.size();i++)
+        for (int i = 0; i < detected_cells.size(); i++)
             colors[i] = detected_cells.get(i).color;
         return colors;
     }
