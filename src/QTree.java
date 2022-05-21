@@ -173,24 +173,24 @@ public class QTree {
             return foundCell;
         }
 
-        public ArrayList<Cell> cellInPerception(Rectangle range) {
+        public ArrayList<Cell> cellInPerception(Rectangle searchRange,Rectangle judgeRange) {
             ArrayList<Cell> foundCell = new ArrayList<>();
-            if (!this.boundary.isOverlap(range)) {
+            if (!this.boundary.isOverlap(searchRange)) {
                 return foundCell;
             }
 
             if (!this.divided) {
                 for (int i = 0; i < this.cells.size(); i++) {
                     Cell cell = this.cells.get(i);
-                    if (range.isContainCellPart(cell)) {
+                    if (judgeRange.isContainCellPart(cell)) {
                         foundCell.add(cell);
                     }
                 }
             } else {
-                foundCell.addAll(this.ne.cellInPerception(range));
-                foundCell.addAll(this.se.cellInPerception(range));
-                foundCell.addAll(this.nw.cellInPerception(range));
-                foundCell.addAll(this.sw.cellInPerception(range));
+                foundCell.addAll(this.ne.cellInPerception(searchRange,judgeRange));
+                foundCell.addAll(this.se.cellInPerception(searchRange,judgeRange));
+                foundCell.addAll(this.nw.cellInPerception(searchRange,judgeRange));
+                foundCell.addAll(this.sw.cellInPerception(searchRange,judgeRange));
             }
             return foundCell;
         }
@@ -435,14 +435,9 @@ public class QTree {
         for (Cell cell : cells) {
             Rectangle perception_exact = cell.perception_rectangle;
             Rectangle perception_area = new Rectangle(perception_exact.x,perception_exact.y,perception_exact.w + 2*Cell.maxRadius,perception_exact.h + 2*Cell.maxRadius);
-            ArrayList<Cell> perception_may = root.cellInPerception(perception_area);
-            cell.perception_cells = new ArrayList<>();
-            perception_may.remove(cell);
-            for(Cell c : perception_may){
-                if(perception_exact.isContainCellPart(c)){
-                    cell.perception_cells.add(c);
-                }
-            }
+
+            cell.perception_cells = root.cellInPerception(perception_area,perception_exact);
+            cell.perception_cells.remove(cell);
             cell.perception_colors = cell.count_detected_cells(cell.perception_cells);
 //            if (cell.perception_colors.length>=7&&cell.perception_colors[0]!=cell.perception_colors[4]&&cell.perception_colors[4]!= cell.perception_colors[7])
 //                System.out.println(cell.perception_colors);
