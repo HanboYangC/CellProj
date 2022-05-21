@@ -221,7 +221,7 @@ public class Test {
             double _t = fin.nextDouble();
             int _ID = fin.nextInt();
 //            System.out.printf("t : %f  ID : %d \n", _t, _ID);
-            int _step = (int) _t * 15;
+            int _step = (int) _t * 15; // TODO : find the problem
 
             if(_step > max_step){
                 max_step = _step;
