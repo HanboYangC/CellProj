@@ -244,10 +244,6 @@ public class QTree {
         Node rightNode = null; // for lower search
         boolean find = false;
 
-        // find the right node (upwards)
-        if(cell.ID==6)
-            System.out.println('m');
-        System.out.println(cell.ID);
 
         // find the right node (upwards)
         while (!find) {
@@ -439,8 +435,6 @@ public class QTree {
             cell.perception_cells = root.cellInPerception(perception_area,perception_exact);
             cell.perception_cells.remove(cell);
             cell.perception_colors = cell.count_detected_cells(cell.perception_cells);
-//            if (cell.perception_colors.length>=7&&cell.perception_colors[0]!=cell.perception_colors[4]&&cell.perception_colors[4]!= cell.perception_colors[7])
-//                System.out.println(cell.perception_colors);
         }
         for (Cell cell : cells){
             cell.setColor(cell.perception_colors);
