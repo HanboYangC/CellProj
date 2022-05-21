@@ -407,13 +407,14 @@ public class Test {
 
     public static void GenBigSquare(int cell_num_to_test) {
         Out samplefile = new Out("./res/sample/diy_sample" + cell_num_to_test + ".txt");
-        double a = Math.ceil(Math.sqrt(cell_num_to_test));  // square's height or width
 
-        // Generate Data of Wall
-        samplefile.println(a + " " + a);
+        // Generate Basic Info of a QTree
+        double a = Math.ceil(Math.sqrt(cell_num_to_test));  // square's height or width
         double max_radius = a / (cell_num_to_test * 2.0);
         double max_pr = 2.0 * max_radius;
         String str = "rgby";
+
+        samplefile.println(a + " " + a);
 
         // Generate Data of iCellTest.txt files
         // Setup
@@ -423,20 +424,38 @@ public class Test {
         double[] pr_seq = new double[cell_num_to_test];
         char[] c_seq = new char[cell_num_to_test];
         // Query i times for i cells
-        int[] t_seq = new int[cell_num_to_test];
+        double[] t_seq = new double[cell_num_to_test];
         int[] n_seq = new int[cell_num_to_test];
 
         for (int i = 0; i < cell_num_to_test; i++) {
             // Generate Data of Cells
             x_seq[i] = max_radius * ((2 * i + 1) % a);
             y_seq[i] = Math.floorMod(i, (int) a) + max_radius;
+            r_seq[i] = StdRandom.uniform(0.01, max_radius);
+            pr_seq[i] = StdRandom.uniform(r_seq[i], max_pr);
+            c_seq[i] = str.charAt(StdRandom.uniform(4));
         }
 
+        // Generate Data of Queries
+        for (int i = 0; i < cell_num_to_test; i++) {
+            t_seq[i] = i * 1.0 / 15.0;
+            n_seq[i] = StdRandom.uniform(cell_num_to_test);
+        }
+
+        // Write rest Data into the test file
+        samplefile.println(cell_num_to_test);
+        for (int i = 0; i < cell_num_to_test; i++){
+            samplefile.println(x_seq[i] + " " + y_seq[i] + " " + r_seq[i] + " " + pr_seq[i] + " " + c_seq[i] + " ");
+        }
+        for (int i = 0; i < cell_num_to_test; i++){
+            samplefile.println(t_seq[i] + " " + n_seq[i]);
+        }
     }
 
     public static void main(String[] args) {
 //        CompareResult(1,3,0.001);
 //        query_test();
+        GenBigSquare(2000);
         query_test_guo(2);
 //        simpletest();
 //        genData();

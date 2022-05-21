@@ -185,6 +185,21 @@ public class Controller {
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
     }
 
+    public static void init_diy_guo(int cell_num_to_test){
+
+        File file = new File("./res/data/diy_sample" + cell_num_to_test + ".txt");
+        qTree = build_QTree_from_samplefile(file);
+
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+
+        for (Cell cell : qTree.cells) {
+            System.out.println(cell.node.cells.get(0).color);
+        }
+    }
 
     public static void main(String[] args) {
 //        init();
