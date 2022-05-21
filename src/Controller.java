@@ -30,7 +30,7 @@ public class Controller {
 
     public static void init() {
 //        In fin = new In("./res/data/" + 8 + "CellTest.txt");
-        In fin = new In("./sample/sample" + 2 + ".txt");
+        In fin = new In("./res/sample/sample" +2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
         System.out.println(w);
@@ -176,11 +176,11 @@ public class Controller {
 
 
     public static void main(String[] args) {
-//        init();
+        init();
 //        init_guo();
 //        sampletest();
 //        test_color();
 //        querysample2test();
-//        Renderer.init();
+        Renderer.init();
     }
 }
