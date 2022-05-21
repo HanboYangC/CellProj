@@ -172,6 +172,28 @@ public class QTree {
             }
             return foundCell;
         }
+
+        public ArrayList<Cell> cellInPerception(Rectangle range) {
+            ArrayList<Cell> foundCell = new ArrayList<>();
+            if (!this.boundary.isOverlap(range)) {
+                return foundCell;
+            }
+
+            if (!this.divided) {
+                for (int i = 0; i < this.cells.size(); i++) {
+                    Cell cell = this.cells.get(i);
+                    if (range.isContainCellPart(cell)) {
+                        foundCell.add(cell);
+                    }
+                }
+            } else {
+                foundCell.addAll(this.ne.cellInPerception(range));
+                foundCell.addAll(this.se.cellInPerception(range));
+                foundCell.addAll(this.nw.cellInPerception(range));
+                foundCell.addAll(this.sw.cellInPerception(range));
+            }
+            return foundCell;
+        }
     }
 
     public static ArrayList<Cell> cellOverlap(ArrayList<Cell> cells, Cell cell) {
@@ -411,7 +433,7 @@ public class QTree {
 
     public void detect_and_set_color(Node root){
         for (Cell cell : cells) {
-            cell.perception_cells = root.cellInRange(cell.perception_rectangle, false);
+            cell.perception_cells = root.cellInPerception(cell.perception_rectangle);
             cell.perception_cells.remove(cell);
             cell.perception_colors = cell.count_detected_cells(cell.perception_cells);
 //            if (cell.perception_colors.length>=7&&cell.perception_colors[0]!=cell.perception_colors[4]&&cell.perception_colors[4]!= cell.perception_colors[7])
