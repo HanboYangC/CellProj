@@ -124,6 +124,7 @@ public class Controller {
             }
         }
     }
+
     public static double[] gen_queryArray_from_file(File queryFile) {
         In fin = new In(queryFile.getPath());
         System.out.println(fin.readDouble());

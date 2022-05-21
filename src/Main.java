@@ -11,7 +11,6 @@ public class Main {
     public static void main(String[] args) {
         try {
             Scanner fin = new Scanner(System.in);
-//            In fin = new In(String.valueOf(System.in));
             double w = fin.nextDouble();
             double h = fin.nextDouble();
 //            System.out.printf("w : %f  h : %f \n", w, h);
@@ -24,7 +23,6 @@ public class Main {
                 double _y = fin.nextDouble();
                 double _r = fin.nextDouble();
                 double _pr = fin.nextDouble();
-//                fin.next();  // Trim the space
                 char _color = fin.next().charAt(0);
 //                System.out.printf("%f, %f, %f, %f, %s \n",_x, _y, _r, _pr, _color);
                 qTree.insert(new Cell(_x, _y, _r, _pr, _color));
