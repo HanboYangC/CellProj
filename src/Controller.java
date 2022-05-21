@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.In;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class Controller {
 
@@ -12,25 +13,29 @@ public class Controller {
 
     public static QTree qTree;
 
-//    public static void init() {
-//        File file = new File("./res/data/" + 8 + "CellTest.txt");
-//        QTree qTree = build_QTree_from_file(file);
-//
-//        Rectangle boundry = qTree.root.getBoundary();
-//        Renderer.winWidth = 600;
-//        Renderer.winHeight = (int) (boundry.h / boundry.w * Renderer.winWidth);
-//
-//        for (Cell cell: qTree.cells){
-//            System.out.println(cell.node.cells);
-//        }
-//    }
+    public static void init_guo() {
+        File file = new File("./res/data/" + 8 + "CellTest.txt");
+        qTree = build_QTree_from_file(file);
+
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+
+        for (Cell cell : qTree.cells) {
+            System.out.println(cell.node.cells.get(0).color);
+        }
+    }
 
     public static void init() {
-        In fin = new In("./res/sample2.txt");
+//        In fin = new In("./res/data/" + 8 + "CellTest.txt");
+        In fin = new In("./sample/sample" + 2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
-        Renderer.winWidth=600;
-        Renderer.winHeight= (int) (h/w*Renderer.winWidth);
+        System.out.println(w);
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
 
 //        File file = new File("./res/data/" + 8 + "CellTest.txt");
 //        QTree qTree = build_QTree_from_file(file);
@@ -83,8 +88,98 @@ public class Controller {
         qTree.moveOneStep();
     }
 
+    public static void sampletest() {
+        File file = new File("./res/sample/sample2.txt");
+        qTree = build_QTree_from_file(file);
+
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+
+    }
+
+    public static void test_color() {
+        h = 8;
+        w = 8;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+        Rectangle wall = new Rectangle(w, h);
+        qTree = new QTree(wall);
+        double p = 3;
+        double r = 1;
+        double x = 0;
+        double y = 0;
+        Cell cell;
+        for (int i = 0; i < 4; i++) {
+            y = 2 * i + 1;
+            for (int j = 0; j < 2; j++) {
+                x = 2 * j + 1;
+                qTree.insert(new Cell(x, y, r, p, 'g'));
+            }
+            for (int j = 2; j < 4; j++) {
+                x = 2 * j + 1;
+                qTree.insert(new Cell(x, y, r, p, 'b'));
+            }
+        }
+    }
+    public static double[] gen_queryArray_from_file(File queryFile) {
+        In fin = new In(queryFile.getPath());
+        System.out.println(fin.readDouble());
+        System.out.println(fin.readDouble());
+        int n_lines_to_jump = (int) fin.readDouble();
+        System.out.println(n_lines_to_jump);
+        for (int i = n_lines_to_jump; i >= 0; i--)
+            fin.readLine();
+        int query_num = fin.readInt();
+        double[] queryArray = new double[query_num * 2];
+        for (int i = 0; i < query_num; i++) {
+            double t = fin.readDouble();
+            queryArray[2 * i] = t;
+            System.out.println(t);
+            int ID = (int) fin.readDouble();
+            System.out.println(ID);
+            queryArray[2 * i + 1] = ID;
+        }
+        return queryArray;
+    }
+
+//    public static void querysample2test() {
+//        File file = new File("./res/sample/sample2.txt");
+//        qTree = build_QTree_from_file(file);
+//
+//        Rectangle boundry = qTree.root.getBoundary();
+//        h = boundry.h;
+//        w = boundry.w;
+//        Renderer.winWidth = 600;
+//        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+//
+//        File queriesfile = new File("./res/sample/sample2.txt");
+//        double[] queryArray = gen_queryArray_from_file(queriesfile);
+//        for (int i = 0; i < queryArray.length / 2; i++) {
+//            double _t = queryArray[2 * i];
+//            int _ID = (int) queryArray[2 * i + 1];
+//        }
+//        int idx = 0;
+//
+//    }
+    public static void initFromMain(QTree qTreeFromMain){
+        qTree = qTreeFromMain;
+        Rectangle boundry = qTree.root.getBoundary();
+        h = boundry.h;
+        w = boundry.w;
+        Renderer.winWidth = 600;
+        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
+    }
+
+
     public static void main(String[] args) {
-        init();
-        Renderer.init();
+//        init();
+//        init_guo();
+//        sampletest();
+//        test_color();
+//        querysample2test();
+//        Renderer.init();
     }
 }
