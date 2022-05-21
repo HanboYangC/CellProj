@@ -302,7 +302,7 @@ public class Test {
         compare_out_file(out, ref);
     }
 
-    public static void compare_out_file(File out, File ref){  // output and the ref correct answers
+    public static void compare_out_file(File out, File ref) {  // output and the ref correct answers
         In fin_out = new In(out.getPath());
         In fin_ref = new In(ref.getPath());
 
@@ -314,7 +314,7 @@ public class Test {
         char _color_ref;
 
         int query_num = 0;  // query line num, not the cell ID
-        while(!fin_out.isEmpty()){
+        while (!fin_out.isEmpty()) {
             _x_out = fin_out.readDouble();
             _y_out = fin_out.readDouble();
             _x_ref = fin_ref.readDouble();
@@ -323,7 +323,7 @@ public class Test {
             fin_ref.readChar();  // Trim the space
             _color_out = fin_out.readChar();
             _color_ref = fin_ref.readChar();
-            if (Math.abs(_x_out+_y_out-_x_ref-_y_ref) > 0.01 || _color_out!=_color_ref){
+            if (Math.abs(_x_out + _y_out - _x_ref - _y_ref) > 0.01 || _color_out != _color_ref) {
                 System.out.printf("Cell ID QueryArray[%d] Error: out: %f %f %c ref: %f %f %c\n", query_num * 2 + 1, _x_out, _y_out, _color_out, _x_ref, _y_ref, _color_ref);
             }
             query_num++;
@@ -352,6 +352,8 @@ public class Test {
 
     public static double[] gen_queryArray_from_samplefile(File queryFile) {
         In fin = new In(queryFile.getPath());
+        fin.readDouble();
+        fin.readDouble();
 //        System.out.println(fin.readDouble());
 //        System.out.println(fin.readDouble());
         int n_lines_to_jump = (int) fin.readDouble();
@@ -400,6 +402,35 @@ public class Test {
             }
         }
         System.out.println("all correct!");
+
+    }
+
+    public static void GenBigSquare(int cell_num_to_test) {
+        Out samplefile = new Out("./res/sample/diy_sample" + cell_num_to_test + ".txt");
+        double a = Math.ceil(Math.sqrt(cell_num_to_test));  // square's height or width
+
+        // Generate Data of Wall
+        samplefile.println(a + " " + a);
+        double max_radius = a / (cell_num_to_test * 2.0);
+        double max_pr = 2.0 * max_radius;
+        String str = "rgby";
+
+        // Generate Data of iCellTest.txt files
+        // Setup
+        double[] x_seq = new double[cell_num_to_test];
+        double[] y_seq = new double[cell_num_to_test];
+        double[] r_seq = new double[cell_num_to_test];
+        double[] pr_seq = new double[cell_num_to_test];
+        char[] c_seq = new char[cell_num_to_test];
+        // Query i times for i cells
+        int[] t_seq = new int[cell_num_to_test];
+        int[] n_seq = new int[cell_num_to_test];
+
+        for (int i = 0; i < cell_num_to_test; i++) {
+            // Generate Data of Cells
+            x_seq[i] = max_radius * ((2 * i + 1) % a);
+            y_seq[i] = Math.floorMod(i, (int) a) + max_radius;
+        }
 
     }
 
