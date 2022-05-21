@@ -410,7 +410,7 @@ public class Test {
 
         // Generate Basic Info of a QTree
         double a = Math.ceil(Math.sqrt(cell_num_to_test));  // square's height or width
-        double max_radius = a / (cell_num_to_test * 2.0);
+        double max_radius = 0.5;
         double max_pr = 2.0 * max_radius;
         String str = "rgby";
 
@@ -429,8 +429,8 @@ public class Test {
 
         for (int i = 0; i < cell_num_to_test; i++) {
             // Generate Data of Cells
-            x_seq[i] = max_radius * ((2 * i + 1) % a);
-            y_seq[i] = Math.floorMod(i, (int) a) + max_radius;
+            x_seq[i] = max_radius + (2 * i + 1) % a;
+            y_seq[i] = 2 * max_radius * Math.floor(i/a) + max_radius;
             r_seq[i] = StdRandom.uniform(0.01, max_radius);
             pr_seq[i] = StdRandom.uniform(r_seq[i], max_pr);
             c_seq[i] = str.charAt(StdRandom.uniform(4));
@@ -438,16 +438,17 @@ public class Test {
 
         // Generate Data of Queries
         for (int i = 0; i < cell_num_to_test; i++) {
-            t_seq[i] = i * 1.0 / 15.0;
+            t_seq[i] = i * 1.0 / 15.0 + StdRandom.uniform(0, 1.0 / 15.0);
             n_seq[i] = StdRandom.uniform(cell_num_to_test);
         }
 
         // Write rest Data into the test file
-        samplefile.println(cell_num_to_test);
-        for (int i = 0; i < cell_num_to_test; i++){
+        samplefile.println(cell_num_to_test);  // num of cells
+        for (int i = 0; i < cell_num_to_test; i++) {
             samplefile.println(x_seq[i] + " " + y_seq[i] + " " + r_seq[i] + " " + pr_seq[i] + " " + c_seq[i] + " ");
         }
-        for (int i = 0; i < cell_num_to_test; i++){
+        samplefile.println(cell_num_to_test);  // num of queries
+        for (int i = 0; i < cell_num_to_test; i++) {
             samplefile.println(t_seq[i] + " " + n_seq[i]);
         }
     }

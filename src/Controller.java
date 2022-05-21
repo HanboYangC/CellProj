@@ -186,8 +186,8 @@ public class Controller {
     }
 
     public static void init_diy_guo(int cell_num_to_test){
-
-        File file = new File("./res/data/diy_sample" + cell_num_to_test + ".txt");
+        Test.GenBigSquare(cell_num_to_test);
+        File file = new File("./res/sample/diy_sample" + cell_num_to_test + ".txt");
         qTree = build_QTree_from_samplefile(file);
 
         Rectangle boundry = qTree.root.getBoundary();
@@ -196,8 +196,8 @@ public class Controller {
         Renderer.winWidth = 600;
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
 
-        for (Cell cell : qTree.cells) {
-            System.out.println(cell.node.cells.get(0).color);
+        for (Cell cell : Cell.cells) {
+            System.out.println(cell.color);
         }
     }
 
@@ -207,7 +207,8 @@ public class Controller {
 //        sampletest();
 //        test_color();
 //        querysample2test();
-        test_query();
+//        test_query();
+        init_diy_guo(2000);
         Renderer.init();
     }
 }
