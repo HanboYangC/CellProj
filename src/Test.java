@@ -192,6 +192,7 @@ public class Test {
 
     public static void query_test(){
 //        System.out.println("in test");
+        
         Scanner fin = new Scanner(System.in);
         // build tree
         double w = fin.nextDouble();
@@ -282,7 +283,7 @@ public class Test {
 
 
     public static void CompareResult(int fileNum, int numOfQuery,double epsilon){
-        In fin1 = new In("./sample/sample" + fileNum + "_out.txt"); // the correct answer
+        In fin1 = new In("./res/sample/sample" + fileNum + "_out.txt"); // the correct answer
         In fin2 = new In("./res/output/test_sample"+fileNum +".txt"); // our output
 //        int numOfQuery = 3;
 //        double delta = 0.001;
