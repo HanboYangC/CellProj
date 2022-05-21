@@ -37,6 +37,7 @@ public class Rectangle {
         return true;
     }
 
+    // if the cell's center is contained in the rectangle
     public boolean isContainCell(Cell cell, boolean isCritical) {
         if (isCritical) {
             if (cell.x >= this.west && cell.x <= this.east && cell.y >= this.south && cell.y <= this.north) {
@@ -49,5 +50,34 @@ public class Rectangle {
             }
             return false;
         }
+    }
+
+
+    // whether part of the cell is in the rectangle
+    public boolean isContainCellPart(Cell cell){
+        if (cell.x >= this.west && cell.x <= this.east && cell.y >= this.south && cell.y <= this.north) {
+            return true;
+        }else if( cell.x >= this.west && cell.x <= this.east ){
+            double d1 = Math.abs(cell.y - this.south);
+            double d2 = Math.abs(cell.y - this.north);
+            return Math.min(d1,d2) <= cell.radius;
+        }else if(cell.y >= this.south && cell.y <= this.north){
+            double d1 = Math.abs(cell.x - this.west);
+            double d2 = Math.abs(cell.x - this.east);
+            return Math.min(d1,d2) <= cell.radius;
+        }else {
+            double d1 = distanceOfPoints(cell.x,this.east,cell.y,this.north);
+            double d2 = distanceOfPoints(cell.x,this.east,cell.y,this.south);
+            double d3 = distanceOfPoints(cell.x,this.north,cell.y,this.north);
+            double d4 = distanceOfPoints(cell.x,this.north,cell.y,this.south);
+            return Math.min(Math.min(d1,d2),Math.min(d3,d4)) <= cell.radius;
+        }
+
+    }
+
+    public double distanceOfPoints(double x1,double x2, double y1, double y2){
+        double delta_x =  x1 - x2;
+        double delta_y = y1- y2;
+        return(Math.sqrt(delta_x*delta_x + delta_y*delta_y ));
     }
 }

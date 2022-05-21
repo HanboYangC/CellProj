@@ -27,7 +27,7 @@ public class Main {
 //                System.out.printf("%f, %f, %f, %f, %s \n",_x, _y, _r, _pr, _color);
                 qTree.insert(new Cell(_x, _y, _r, _pr, _color));
             }
-            System.out.println(qTree.cells);
+//            System.out.println(qTree.cells);
 
             // default
             if(args.length == 0 || Objects.equals(args[0], "gui")){
