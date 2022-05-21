@@ -155,8 +155,6 @@ public class Controller {
         w = boundry.w;
         Renderer.winWidth = 600;
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
-
-
     }
 
 //    public static void querysample2test() {
@@ -194,6 +192,7 @@ public class Controller {
 //        sampletest();
 //        test_color();
 //        querysample2test();
-//        Renderer.init();
+        test_query();
+        Renderer.init();
     }
 }
