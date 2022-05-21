@@ -433,8 +433,16 @@ public class QTree {
 
     public void detect_and_set_color(Node root){
         for (Cell cell : cells) {
-            cell.perception_cells = root.cellInPerception(cell.perception_rectangle);
-            cell.perception_cells.remove(cell);
+            Rectangle perception_exact = cell.perception_rectangle;
+            Rectangle perception_area = new Rectangle(perception_exact.x,perception_exact.y,perception_exact.w + 2*Cell.maxRadius,perception_exact.h + 2*Cell.maxRadius);
+            ArrayList<Cell> perception_may = root.cellInPerception(perception_area);
+            cell.perception_cells = new ArrayList<>();
+            perception_may.remove(cell);
+            for(Cell c : perception_may){
+                if(perception_exact.isContainCellPart(c)){
+                    cell.perception_cells.add(c);
+                }
+            }
             cell.perception_colors = cell.count_detected_cells(cell.perception_cells);
 //            if (cell.perception_colors.length>=7&&cell.perception_colors[0]!=cell.perception_colors[4]&&cell.perception_colors[4]!= cell.perception_colors[7])
 //                System.out.println(cell.perception_colors);
