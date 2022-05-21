@@ -30,7 +30,7 @@ public class Controller {
 
     public static void init() {
 //        In fin = new In("./res/data/" + 8 + "CellTest.txt");
-        In fin = new In("./res/sample/sample" +2 + ".txt");
+        In fin = new In("./res/sample/sample" +3 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
         System.out.println(w);
