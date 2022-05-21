@@ -196,9 +196,9 @@ public class Controller {
         Renderer.winWidth = 600;
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
 
-        for (Cell cell : Cell.cells) {
-            System.out.println(cell.color);
-        }
+//        for (Cell cell : Cell.cells) {
+//            System.out.println(cell.color);
+//        }
     }
 
     public static void main(String[] args) {
@@ -208,7 +208,7 @@ public class Controller {
 //        test_color();
 //        querysample2test();
 //        test_query();
-        init_diy_guo(2000);
+        init_diy_guo(5000);
         Renderer.init();
     }
 }
