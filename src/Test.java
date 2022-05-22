@@ -416,7 +416,7 @@ public class Test {
 
         // Generate Basic Info of a QTree
         double a = Math.ceil(Math.sqrt(cell_num_to_test) + 0.5);  // square's height or width
-        if (a < 10) a = 10;
+        //if (a < 10) a = 10;
         double max_radius = 0.5;
         double max_pr = 2.0 * max_radius;
         String str = "rgby";
