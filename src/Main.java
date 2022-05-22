@@ -27,7 +27,6 @@ public class Main {
             }
 //            System.out.println(qTree.cells);
             // default
-            System.out.println("args"+Arrays.toString(args));
             if (args.length == 0 || Objects.equals(args[0], "gui")) {
                 Controller.initFromMain(qTree);
                 Renderer.init();
