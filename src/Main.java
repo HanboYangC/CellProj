@@ -27,11 +27,12 @@ public class Main {
             }
 //            System.out.println(qTree.cells);
             // default
-            System.out.println(Arrays.toString(args));
             if (args.length == 0 || Objects.equals(args[0], "gui")) {
                 Controller.initFromMain(qTree);
                 Renderer.init();
-            } else if (Objects.equals(args[0], "terminal")) {
+
+            }
+            else if (Objects.equals(args[0], "terminal")) {
                 // get query request
                 int _n_query = fin.nextInt();
                 HashMap<Integer, List<Integer>> queryStepCell = new HashMap<>();
@@ -40,14 +41,11 @@ public class Main {
                 for (int j = 0; j < _n_query; j++) {
                     double _t = fin.nextDouble();
                     int _ID = fin.nextInt();
-//            System.out.printf("t : %f  ID : %d \n", _t, _ID);
                     int _step = (int) Math.floor(_t * 15);
 
                     if (_step > max_step) {
                         max_step = _step;
                     }
-
-//            }
                     if (queryStepCell.containsKey(_step)) {
                         queryStepCell.get(_step).add(_ID);
                     } else {
@@ -68,12 +66,12 @@ public class Main {
                             System.out.print(queryResult);
                         }
                     }
-
                     qTree.moveOneStep();
                 }
 
 
-            } else {
+            }
+            else {
                 System.out.println("Invalid Arguments");
             }
 
