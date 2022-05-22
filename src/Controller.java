@@ -208,7 +208,7 @@ public class Controller {
 //        test_color();
 //        querysample2test();
 //        test_query();
-        init_diy_guo(100);
+        init_diy_guo(10);
         Renderer.init();
     }
 }
