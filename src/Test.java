@@ -411,8 +411,6 @@ public class Test {
         return queryArray;
     }
 
-
-
     public static void GenBigSquare(int cell_num_to_test) {
         Out samplefile = new Out("./res/sample/diy_sample" + cell_num_to_test + ".txt");
 
@@ -438,7 +436,7 @@ public class Test {
 
         for (int i = 0; i < cell_num_to_test; i++) {
             // Generate Data of Cells
-            x_seq[i] = max_radius + (2 * i + 1) % a;
+            x_seq[i] = max_radius + i % a;
             y_seq[i] = 2 * max_radius * Math.floor(i / a) + max_radius;
             r_seq[i] = StdRandom.uniform(0.01, max_radius);
             pr_seq[i] = StdRandom.uniform(r_seq[i], max_pr);
