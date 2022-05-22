@@ -12,8 +12,8 @@ public class QTree {
     public Node root = null;
     public ArrayList<Cell> cells = new ArrayList<Cell>();
 
-    public double time = 0.0;
-    public double timestep = 1 / 15.0;
+//    public double time = 0.0;
+//    public double timestep = 1 / 15.0;
 //    public HashMap<Cell,Node> cn_link = new HashMap<>();
 //    public HashMap<Node, ArrayList<Cell>> nc_link = new HashMap<>();
 //    public ArrayList<Node> leaves = new ArrayList<>();
@@ -415,26 +415,12 @@ public class QTree {
     }
 
     public void moveOneStep() {
-        time += timestep;
         for (Cell cell : this.cells) {
             move(cell);
             cellShouldChange(cell);
         }
         detect_and_set_color(root);
-//        time += timestep;
     }
-
-    public void simple_test_output() {
-        ArrayList<Cell> cells_visited = dfs(root);
-        for (Cell tmp : cells)
-            System.out.println(tmp.x + "," + tmp.y);
-    }
-
-//    public void detect_and_set_color(Cell cell, Node root) {
-//        ArrayList<Cell> detected_cells = root.cellInRange(cell.perception_rectangle, false);
-//        Cell.Color[] colors_changed = cell.count_detected_cells(detected_cells);
-//        cell.setColor(colors_changed);
-//    }
 
     public void detect_and_set_color(Node root){
         for (Cell cell : cells) {
@@ -448,6 +434,12 @@ public class QTree {
         for (Cell cell : cells){
             cell.setColor(cell.perception_colors);
         }
+    }
+
+    public void simple_test_output() {
+        ArrayList<Cell> cells_visited = dfs(root);
+        for (Cell tmp : cells)
+            System.out.println(tmp.x + "," + tmp.y);
     }
 
     public void color_test_output() {

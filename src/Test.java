@@ -222,13 +222,6 @@ public class Test {
                 if (_step > max_step) {
                     max_step = _step;
                 }
-//            if(queryTimeCell.containsKey(_t)){
-//                queryTimeCell.get(_t).add(_ID);
-//            }else{
-//                List<Integer> id_at_t = new ArrayList<>();
-//                id_at_t.add(_ID);
-//                queryTimeCell.put(_t,id_at_t);
-//            }
                 if (queryStepCell.containsKey(_step)) {
                     queryStepCell.get(_step).add(_ID);
                 } else {
@@ -263,9 +256,12 @@ public class Test {
                     qTree.moveOneStep();
                 }
                 out.close();
+                System.out.println("-- results of query are in :" + outPath);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
 
             // do the compare
             CompareResult(num_sample, _n_query);
@@ -307,28 +303,28 @@ public class Test {
 
     }
 
-    public static void query_test_guo(int fileNum) {
-        Out fout = new Out("./res/output/test_sample" + fileNum + "_out.txt");
-
-        File samplefile = new File("./res/sample/sample" + fileNum + ".txt");
-        QTree qTree = build_QTree_from_samplefile(samplefile);
-        double[] queryArray = gen_queryArray_from_samplefile(samplefile);
-
-        for (int i = 0; i < queryArray.length / 2; i++) {
-            if (Math.abs(qTree.time - queryArray[2 * i]) < 0.03) {
-                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
-                fout.println(output_cell.standard_output());
-            } else {
-                qTree.moveOneStep();
-                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
-                fout.println(output_cell.standard_output());
-            }
-        }
-
-        File out = new File("./res/output/test_sample" + fileNum + "_out.txt");
-        File ref = new File("./res/sample/sample" + fileNum + "_out.txt");
-        compare_out_file(out, ref);
-    }
+//    public static void query_test_guo(int fileNum) {
+//        Out fout = new Out("./res/output/test_sample" + fileNum + "_out.txt");
+//
+//        File samplefile = new File("./res/sample/sample" + fileNum + ".txt");
+//        QTree qTree = build_QTree_from_samplefile(samplefile);
+//        double[] queryArray = gen_queryArray_from_samplefile(samplefile);
+//
+//        for (int i = 0; i < queryArray.length / 2; i++) {
+//            if (Math.abs(qTree.time - queryArray[2 * i]) < 0.03) {
+//                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
+//                fout.println(output_cell.standard_output());
+//            } else {
+//                qTree.moveOneStep();
+//                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
+//                fout.println(output_cell.standard_output());
+//            }
+//        }
+//
+//        File out = new File("./res/output/test_sample" + fileNum + "_out.txt");
+//        File ref = new File("./res/sample/sample" + fileNum + "_out.txt");
+//        compare_out_file(out, ref);
+//    }
 
     public static void compare_out_file(File out, File ref) {  // output and the ref correct answers
         In fin_out = new In(out.getPath());
@@ -453,7 +449,12 @@ public class Test {
 
     public static void main(String[] args) throws FileNotFoundException {
 //        CompareResult(1,3,0.001);
+        System.out.println("--------------- test sample 1 ---------------");
+        query_test(1);
+        System.out.println("--------------- test sample 2 ---------------");
         query_test(2);
+        System.out.println("--------------- test sample 3 ---------------");
+        query_test(3);
 //        GenBigSquare(2000);
 //        query_test_guo(2);
 //        simpletest();

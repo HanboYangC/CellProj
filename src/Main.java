@@ -31,6 +31,7 @@ public class Main {
             if (args.length == 0 || Objects.equals(args[0], "gui")) {
                 Controller.initFromMain(qTree);
                 Renderer.init();
+
             }
             else if (Objects.equals(args[0], "terminal")) {
                 // get query request
@@ -41,19 +42,11 @@ public class Main {
                 for (int j = 0; j < _n_query; j++) {
                     double _t = fin.nextDouble();
                     int _ID = fin.nextInt();
-//            System.out.printf("t : %f  ID : %d \n", _t, _ID);
                     int _step = (int) Math.floor(_t * 15);
 
                     if (_step > max_step) {
                         max_step = _step;
                     }
-//            if(queryTimeCell.containsKey(_t)){
-//                queryTimeCell.get(_t).add(_ID);
-//            }else{
-//                List<Integer> id_at_t = new ArrayList<>();
-//                id_at_t.add(_ID);
-//                queryTimeCell.put(_t,id_at_t);
-//            }
                     if (queryStepCell.containsKey(_step)) {
                         queryStepCell.get(_step).add(_ID);
                     } else {

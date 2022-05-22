@@ -24,6 +24,7 @@ public class EventListener implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
+//        System.out.println();
         //System.out.println("Hello JOGL");
         GL2 gl = drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);

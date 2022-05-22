@@ -22,6 +22,7 @@ public class Renderer {
         FPSAnimator animator=new FPSAnimator(window,15);
         animator.start();
         window.setVisible(true);
+
     }
 
     public static double getWindowH() {
