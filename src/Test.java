@@ -66,10 +66,6 @@ public class Test {
         // Read Params from txt
         for (int i = 1; i <= 8; ++i) {
             try {
-                // 你好！我是一段测试代码，可以把我放在任何地方来测试哦~
-                // StdOut.println(_AnyVariable);   // Verify the reading program
-                // 你好！我是一段测试代码，可以把我放在任何地方来测试哦~
-
                 In fin = new In("./res/data/" + i + "CellTest.txt");
 
                 double _w = fin.readDouble();
@@ -277,12 +273,6 @@ public class Test {
             e.printStackTrace();
         }
 //        System.out.println("in test");
-
-
-
-
-
-
     }
 
     public static void CompareResult(int fileNum, int numOfQuery) {
