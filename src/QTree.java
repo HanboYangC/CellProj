@@ -414,12 +414,13 @@ public class QTree {
     }
 
     public void moveOneStep() {
+        time += timestep;
         for (Cell cell : this.cells) {
             move(cell);
             cellShouldChange(cell);
         }
         detect_and_set_color(root);
-        time += timestep;
+//        time += timestep;
     }
 
     public void simple_test_output() {
