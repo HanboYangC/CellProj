@@ -2,9 +2,7 @@ import edu.princeton.cs.algs4.In;
 
 import java.io.File;
 import java.sql.Time;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.Timer;
+import java.util.*;
 
 public class Main {
 
@@ -28,13 +26,55 @@ public class Main {
                 qTree.insert(new Cell(_x, _y, _r, _pr, _color));
             }
 //            System.out.println(qTree.cells);
-
             // default
-            if(args.length == 0 || Objects.equals(args[0], "gui")){
+            if (args.length == 0 || Objects.equals(args[0], "gui")) {
                 Controller.initFromMain(qTree);
                 Renderer.init();
             } else if (Objects.equals(args[0], "terminal")) {
-                // print the required information in the terminal.
+                // get query request
+                int _n_query = fin.nextInt();
+                HashMap<Integer, List<Integer>> queryStepCell = new HashMap<>();
+                int max_step = 0;
+
+                for (int j = 0; j < _n_query; j++) {
+                    double _t = fin.nextDouble();
+                    int _ID = fin.nextInt();
+//            System.out.printf("t : %f  ID : %d \n", _t, _ID);
+                    int _step = (int) Math.floor(_t * 15);
+
+                    if (_step > max_step) {
+                        max_step = _step;
+                    }
+//            if(queryTimeCell.containsKey(_t)){
+//                queryTimeCell.get(_t).add(_ID);
+//            }else{
+//                List<Integer> id_at_t = new ArrayList<>();
+//                id_at_t.add(_ID);
+//                queryTimeCell.put(_t,id_at_t);
+//            }
+                    if (queryStepCell.containsKey(_step)) {
+                        queryStepCell.get(_step).add(_ID);
+                    } else {
+                        List<Integer> id_at_step = new ArrayList<>();
+                        id_at_step.add(_ID);
+                        queryStepCell.put(_step, id_at_step);
+                    }
+
+                }
+
+                // query and print the result in the terminal
+                for (int i = 0; i <= max_step; i++) {
+                    if (queryStepCell.containsKey(i)) {
+                        List<Integer> id_at_step = queryStepCell.get(i);
+                        for (int id : id_at_step) {
+                            Cell cellQueried = Cell.queryID(id);
+                            String queryResult = String.format("%f %f %c\n", cellQueried.x, cellQueried.y, cellQueried.getColorChar());
+                            System.out.print(queryResult);
+                        }
+                    }
+                    qTree.moveOneStep();
+                }
+
 
             } else {
                 System.out.println("Invalid Arguments");
