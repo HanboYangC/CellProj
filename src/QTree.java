@@ -12,12 +12,6 @@ public class QTree {
     public Node root = null;
     public ArrayList<Cell> cells = new ArrayList<Cell>();
 
-//    public double time = 0.0;
-//    public double timestep = 1 / 15.0;
-//    public HashMap<Cell,Node> cn_link = new HashMap<>();
-//    public HashMap<Node, ArrayList<Cell>> nc_link = new HashMap<>();
-//    public ArrayList<Node> leaves = new ArrayList<>();
-
     class Node {
         public Rectangle boundary;
         public boolean divided; // if divided ? node : leaf
@@ -37,7 +31,6 @@ public class QTree {
         // TODO : = null as node; = list as leaf (no longer than 4)
 
         // name : only for test
-//        public String name;
 
         // given rectangle
         public Node(Rectangle rectangle) {
@@ -45,8 +38,6 @@ public class QTree {
             this.boundary = rectangle;
             this.cells = new ArrayList<>();
 
-//            // only for test
-//            set_name();
         }
 
         // given rectangle and cells
@@ -58,28 +49,6 @@ public class QTree {
 
         }
 
-        // only for test
-//        public void set_name(){
-//            if(this.father == null){
-//                this.name = "root";
-//                return;
-//            }
-//
-//            if(this == this.father.ne){
-//                this.name = this.father.name + "_ne";
-//            }else if(this == this.father.nw){
-//                this.name = this.father.name + "_nw";
-//            }else if(this == this.father.se){
-//                this.name = this.father.name + "_se";
-//            }else {
-//                this.name = this.father.name + "_sw";
-//            }
-//
-//        }
-
-//        public void print(){
-//            System.out.println(this.name);
-//        }
 
         public Rectangle getBoundary(){
             return this.boundary;
@@ -241,13 +210,6 @@ public class QTree {
         }
 
         Node n = cell.node; // for upper search
-
-//        if(n.brother==null){
-//            System.out.println("this brother is null");
-//            System.out.println(cell.ID);
-//            return;
-//        }
-//        System.out.println(n.brother);
         Node rightNode = null; // for lower search
         boolean find = false;
 
@@ -289,7 +251,7 @@ public class QTree {
         return dfs(this.root);
     }
 
-    private ArrayList<Cell> dfs(Node node) {  //纯DFS遍历，返回遍历过的Cell
+    private ArrayList<Cell> dfs(Node node) {
         ArrayList<Cell> cells_visited = new ArrayList<>();
         if (node.divided) {
             cells_visited.addAll(dfs(node.ne));
@@ -321,8 +283,6 @@ public class QTree {
                 collisionArea=null;
 
         }
-        //= new Rectangle(cell.x, cell.y,
-        //        (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2, (cell.radius + 1 / 15.0 + Cell.maxRadius) * 2);
         ArrayList<Cell> collision = this.root.cellInRange(collisionArea, true);
         collision.remove(cell);
         cell.move();
@@ -358,7 +318,6 @@ public class QTree {
                     cell.move(cell.x, (double) Math.round(cell.y * 10000) / 10000 + maxForwardY);
                     break;
                 case BLUE:
-                    //move(this.x -= 1.0 / 15.0, this.y);
                     double maxForwardX = 0;
                     for (Cell collided : collision) {
                         double idleDistance = cell.radius + collided.radius;
@@ -373,7 +332,6 @@ public class QTree {
                     cell.move((double) Math.round(cell.x * 10000) / 10000 + maxForwardX, cell.y);
                     break;
                 case YELLOW:
-                    //move(this.x += 1.0 / 15.0, this.y);
                     double maxBackX = 0;
                     for (Cell collided : collision) {
                         double idleDistance = cell.radius + collided.radius;
@@ -450,30 +408,9 @@ public class QTree {
         for (Cell tmp : cells) {
             System.out.println(tmp.color);
         }
-//        ArrayList<Cell> cells_visited = dfs(root);
-//        for (Cell tmp : cells) {
-//            System.out.println(tmp.color);
-//            detect_and_set_color(tmp, root);
-//            System.out.println(tmp.color);
-//        }
-//        System.out.println("----------");
-//        for (Cell tmp : cells) {
-//            detect_and_set_color(tmp, root);
-//            System.out.println(tmp.color);
-//        }
-//        System.out.println("----------");
-//        for (Cell tmp : cells) {
-//            Cell.queryID(4).change_color(Cell.Color.YELLOW);
-//            detect_and_set_color(tmp, root);
-//        }
-//        for (Cell tmp : cells) {
-//            System.out.println(tmp.color);
-//        }
-//        System.out.println("----------");
     }
 
     public void move_test_output(){
-        //move(root);
         detect_and_set_color(root);
 
         for (Cell tmp: cells){

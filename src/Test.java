@@ -8,140 +8,7 @@ public class Test {
     static double width = 40;
     static double height = 50;
 
-    // Basic Initialization
-    public static void genData() {
-        new File("./res/data/");
-
-        for (int i = 1; i <= 8; ++i) {
-            try (PrintWriter fout = new PrintWriter("./res/data/" + i + "CellTest.txt")) {
-                // Generate Data of Wall
-                fout.println(width + " " + height);
-
-                double max_radius = width / (i * 2.0);
-                if (max_radius > height / (i * 2.0)) max_radius = height / (i * 2.0);
-
-                // Generate Data of iCellTest.txt files
-                // Setup
-                double[] x_seq = new double[i];
-                double[] y_seq = new double[i];
-                double[] r_seq = new double[i];
-                double[] pr_seq = new double[i];
-                char[] c_seq = new char[i];
-                // Query i times for i cells
-                int[] t_seq = new int[i];
-                int[] n_seq = new int[i];
-                for (int j = 0; j < i; j++) {
-                    // Generate Data of Cells
-                    // Diagonal start-up
-                    x_seq[j] = width / (i * 2.0) + width / i * j;
-                    y_seq[j] = height / (i * 2.0) + height / i * j;
-                    r_seq[j] = StdRandom.uniform(0.01, max_radius);
-                    pr_seq[j] = StdRandom.uniform(r_seq[j], max_radius);
-                    String str = "rgby";
-                    c_seq[j] = str.charAt(StdRandom.uniform(4));
-                    // Generate Data of Queries
-                    t_seq[j] = StdRandom.uniform(10);  // random int less than 10
-                    n_seq[j] = StdRandom.uniform(i);  // random int less than i
-                }
-
-                // Write Data into the test file
-                fout.println(i);
-                for (int j = 0; j < i; j++) {
-                    fout.println(x_seq[j] + " " + y_seq[j] + " " + r_seq[j] + " " + pr_seq[j] + " " + c_seq[j] + " ");
-
-                }
-                fout.println(i);
-                for (int j = 0; j < i; j++) {
-                    fout.println(t_seq[j] + " " + n_seq[j]);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void genScenery() {
-
-        // Read Params from txt
-        for (int i = 1; i <= 8; ++i) {
-            try {
-                In fin = new In("./res/data/" + i + "CellTest.txt");
-
-                double _w = fin.readDouble();
-                double _h = fin.readDouble();
-
-                /*
-                    Generate Your Wall Here
-                */
-                Rectangle wall = new Rectangle(_w, _h);
-                /*
-                    Generate Your Wall Here
-                */
-
-                QTree qTree = new QTree(wall);
-                int _n_cell = fin.readInt();
-
-                for (int j = 0; j < _n_cell; j++) {
-                    double _x = fin.readDouble();
-                    double _y = fin.readDouble();
-                    double _r = fin.readDouble();
-                    double _pr = fin.readDouble();
-                    fin.readChar();  // Trim the space
-                    char _color = fin.readChar();
-                    /*
-                    Generate Your Cell Here, One by One
-                */
-                    qTree.insert(new Cell(_x, _y, _r, _pr, _color));
-                /*
-                    Generate Your Wall Here, One by One
-                */
-                }
-
-                int _n_query = fin.readInt();  // int _n_query = (int) arr_double[7];
-
-                for (int j = 0; j < _n_query; j++) {
-                    int _t = fin.readInt();
-                    int _ID = fin.readInt();
-
-                    /*
-                    Query Your Cell Here, One by One
-                    */
-                    Cell _cell = Cell.queryID(_ID);
-                    StdOut.println(_cell.x + ',' + _cell.y);
-                    /*
-                    Query Your Cell Here, One by One
-                    */
-                }
-
-                fin.close();
-
-                StdOut.printf("Testing in %dCellTest.txt:", i);
-                Stopwatch timer = new Stopwatch();
-
-                /*  Write the test code here */
-
-
-                // Color Change Test
-
-                // Overlap Test
-
-                // Complex Test
-
-                /*  Write the test code here */
-
-                StdOut.printf(" number of cells: %d, time spent: %f seconds.\n", i, timer.elapsedTime());
-
-                // this is really important and could prevent the test data to another loop
-                Cell.release();
-                // This Command is intended to release all the static class variables so that the mistake can be prevented.
-
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
+    // test Basic Initialization
     public static void simpletest() {
         QTree qt = new QTree(new Rectangle(4, 4));
         double[] x_seq = new double[]{1, 2, 3, 1, 3};
@@ -158,6 +25,7 @@ public class Test {
         System.out.println("--------Simple Test Finished--------");
     }
 
+    // test color change
     public static void colortest() {
         QTree qt = new QTree(new Rectangle(4, 4));
         double[] x_seq = new double[]{1, 2, 3, 1, 3, 1.5, 2.5, 3.5, 1.5, 3.5};
@@ -173,6 +41,7 @@ public class Test {
         System.out.println("--------Color Test Finished--------");
     }
 
+    // test movements
     public static void movetest() {
         QTree qTree = new QTree(new Rectangle(0, 0, 30, 30));
         qTree.insert(new Cell(0, 0, 1, 5, 'r'));
@@ -193,7 +62,6 @@ public class Test {
             // build tree
             double w = fin.nextDouble();
             double h = fin.nextDouble();
-//        System.out.printf("w : %f  h : %f \n", w, h);
             Rectangle wall = new Rectangle(w, h);
             QTree qTree = new QTree(wall);
 
@@ -303,29 +171,6 @@ public class Test {
 
     }
 
-//    public static void query_test_guo(int fileNum) {
-//        Out fout = new Out("./res/output/test_sample" + fileNum + "_out.txt");
-//
-//        File samplefile = new File("./res/sample/sample" + fileNum + ".txt");
-//        QTree qTree = build_QTree_from_samplefile(samplefile);
-//        double[] queryArray = gen_queryArray_from_samplefile(samplefile);
-//
-//        for (int i = 0; i < queryArray.length / 2; i++) {
-//            if (Math.abs(qTree.time - queryArray[2 * i]) < 0.03) {
-//                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
-//                fout.println(output_cell.standard_output());
-//            } else {
-//                qTree.moveOneStep();
-//                Cell output_cell = Cell.queryID((int) queryArray[2 * i + 1]);
-//                fout.println(output_cell.standard_output());
-//            }
-//        }
-//
-//        File out = new File("./res/output/test_sample" + fileNum + "_out.txt");
-//        File ref = new File("./res/sample/sample" + fileNum + "_out.txt");
-//        compare_out_file(out, ref);
-//    }
-
     public static void compare_out_file(File out, File ref) {  // output and the ref correct answers
         In fin_out = new In(out.getPath());
         In fin_ref = new In(ref.getPath());
@@ -372,30 +217,6 @@ public class Test {
             qTree.insert(new Cell(_x, _y, _r, _pr, _color));
         }
         return qTree;
-    }
-
-    public static double[] gen_queryArray_from_samplefile(File queryFile) {
-        In fin = new In(queryFile.getPath());
-
-        // Jump over the QTree Data
-        fin.readDouble();
-        fin.readDouble();
-        int n_lines_to_jump = (int) fin.readDouble();
-        for (int i = n_lines_to_jump; i >= 0; i--)
-            fin.readLine();
-        // Jump over the QTree Data Done
-
-        // Read the Query Data and store them in an array
-        int query_num = fin.readInt();
-        double[] queryArray = new double[query_num * 2];
-        for (int i = 0; i < query_num; i++) {
-            double t = fin.readDouble();
-            queryArray[2 * i] = t;
-            int ID = (int) fin.readDouble();
-            queryArray[2 * i + 1] = ID;
-        }
-        // Read the Query Data and store them in an array Done
-        return queryArray;
     }
 
     public static void GenBigSquare(int cell_num_to_test) {
@@ -447,20 +268,29 @@ public class Test {
         }
     }
 
+    public static void testTime(int cell_num_to_test,int steps){
+        Test.GenBigSquare(cell_num_to_test);
+        File file = new File("./res/sample/diy_sample" + cell_num_to_test + ".txt");
+        QTree qTree = build_QTree_from_samplefile(file);
+        Stopwatch stopwatch=new Stopwatch();
+        for (int i = 0; i < steps; i++) {
+            qTree.moveOneStep();
+        }
+        System.out.println(stopwatch.elapsedTime());
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
-//        CompareResult(1,3,0.001);
+        // compare the query result with given sample
         System.out.println("--------------- test sample 1 ---------------");
         query_test(1);
         System.out.println("--------------- test sample 2 ---------------");
         query_test(2);
         System.out.println("--------------- test sample 3 ---------------");
         query_test(3);
-//        GenBigSquare(2000);
-//        query_test_guo(2);
-//        simpletest();
-//        genData();
-//        genScenery();
-//        colortest();
-//        movetest();
+
+        // test time complicity
+        for (int i = 100; i < 10000; i+=100) {
+            testTime(i,20);
+        }
     }
 }

@@ -17,7 +17,6 @@ public class Cell {
 
     // Variables & its default value
     public int ID = num;  //  default: from 0 to num-1
-    //    public Color color = Color.RED;
 
     // Node :
     public QTree.Node node;
@@ -29,7 +28,6 @@ public class Cell {
     public double x = 0.0;
     public double y = 0.0;
     public double perception_range = 0.1;  // perception range
-    //public double[] position = {this.x, this.y};  // position = (x, y)
     public boolean hit_others = false; // move : stop if hits other cells
     public boolean hit_wall = false;
     public Rectangle perception_rectangle;
@@ -43,7 +41,6 @@ public class Cell {
     }  // default instantiate
 
     public Cell(double radius, int identity, Color color) {
-        //this.position = position;
         this.ID = identity;
         this.color = color;
         this.radius = radius;
@@ -57,7 +54,6 @@ public class Cell {
     public Cell(double x, double y, double radius, double perception_range, char c) {
         this.x = x;
         this.y = y;
-        //this.position = new double[]{this.x, this.y};
         this.radius = radius;
         if (QTree.cellOverlap(Cell.cells, this).size() != 0)
             return;
@@ -77,7 +73,6 @@ public class Cell {
             case 'y':
                 this.color = Color.YELLOW;
         }
-//        this.ID = num;
         if (this.radius > maxRadius) {
             maxRadius = this.radius;
         }
@@ -107,20 +102,14 @@ public class Cell {
     public void move(double x, double y) {
         this.x = x;
         this.y = y;
-        //this.position = new double[]{x, y};
     }
 
     public void move(double[] position) {
-        //this.position = position;
         this.x = position[0];
         this.y = position[1];
     }
 
     public boolean move() {
-        // when hit others, stop
-        /*if (hit_others || hit_wall) {
-            return false;
-        }*/
         switch (this.color) {
             case RED:
                 move(this.x, this.y += 0.0667);
@@ -199,37 +188,29 @@ public class Cell {
         switch (this.color) {
             case RED:
                 if (count_color[0] >= 3 & prop_color[0] > 0.7) {
-//                    this.color_before = Color.GREEN;
                     change_color(Color.GREEN);
                 } else if (count_color[3] >= 1 & prop_color[3] < 0.1) {
-//                    this.color_before = Color.YELLOW;
                     change_color(Color.YELLOW);
                 }
                 break;
             case GREEN:
                 if (count_color[1] >= 3 & prop_color[1] > 0.7) {
-//                    this.color_before = Color.BLUE;
                     change_color(Color.BLUE);
                 } else if (count_color[0] >= 1 & prop_color[0] < 0.1) {
-//                    this.color_before = Color.RED;
                     change_color(Color.RED);
                 }
                 break;
             case BLUE:
                 if (count_color[2] >= 3 & prop_color[2] > 0.7) {
-//                    this.color_before = Color.YELLOW;
                     change_color(Color.YELLOW);
                 } else if (count_color[1] >= 1 & prop_color[1] < 0.1) {
-//                    this.color_before = Color.GREEN;
                     change_color(Color.GREEN);
                 }
                 break;
             case YELLOW:
                 if (count_color[3] >= 3 & prop_color[3] > 0.7) {
-//                    this.color_before = Color.RED;
                     change_color(Color.RED);
                 } else if (count_color[2] >= 1 & prop_color[2] < 0.1) {
-//                    this.color_before = Color.BLUE;
                     change_color(Color.BLUE);
                 }
                 break;

@@ -11,7 +11,6 @@ public class Main {
             Scanner fin = new Scanner(System.in);
             double w = fin.nextDouble();
             double h = fin.nextDouble();
-//            System.out.printf("w : %f  h : %f \n", w, h);
             Rectangle wall = new Rectangle(w, h);
             QTree qTree = new QTree(wall);
 
@@ -22,10 +21,8 @@ public class Main {
                 double _r = fin.nextDouble();
                 double _pr = fin.nextDouble();
                 char _color = fin.next().charAt(0);
-//                System.out.printf("%f, %f, %f, %f, %s \n",_x, _y, _r, _pr, _color);
                 qTree.insert(new Cell(_x, _y, _r, _pr, _color));
             }
-//            System.out.println(qTree.cells);
             // default
             if (args.length == 0 || Objects.equals(args[0], "gui")) {
                 Controller.initFromMain(qTree);
@@ -79,8 +76,5 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-
-
-        // get the input ffrom
     }
 }

@@ -11,7 +11,6 @@ public class EventListener implements GLEventListener {
 
     @Override
     public void init(GLAutoDrawable drawable) {
-        //System.out.println("Hello,OpenGL");
         GL2 gl = drawable.getGL().getGL2();
         gl.glClearColor(0, 1, 1, 0);
 
@@ -24,11 +23,8 @@ public class EventListener implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
-//        System.out.println();
-        //System.out.println("Hello JOGL");
         GL2 gl = drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        //Controller.timeStep();
         gl.glColor4d(0, 0, 0, 0);
         gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2d(0, 0);
@@ -65,8 +61,6 @@ public class EventListener implements GLEventListener {
     }
 
     public void drawSingleCircle(GL2 gl, double x, double y, double r, Cell.Color c) {
-
-        //gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         switch (c) {
             case RED:
                 gl.glColor3f(1, 0, 0);
@@ -81,7 +75,6 @@ public class EventListener implements GLEventListener {
                 gl.glColor3f(1, 1, 0);
                 break;
         }
-//        gl.glColor3f(1,0,0);
         gl.glBegin(GL2.GL_TRIANGLE_FAN);
         int seg = 360 * 2;
         gl.glVertex2d(x, y);

@@ -10,15 +10,13 @@ public class Renderer {
     public static GLWindow window;
     public static int winWidth=600;
     public static int winHeight=600;
-    //public static int unit= (int) (winWidth/Controller.w);
+
     public static void init(){
-        //GLProfile.initSingleton();
         GLProfile profile=GLProfile.get(GLProfile.GL2);
         GLCapabilities caps=new GLCapabilities(profile);
 
         window=GLWindow.create(caps);
         window.setSize(winWidth,winHeight);
-        //window.setResizable(false);
         window.addGLEventListener(new EventListener());
         FPSAnimator animator=new FPSAnimator(window,15);
         animator.start();
@@ -34,7 +32,4 @@ public class Renderer {
         return window.getWidth();
     }
 
-    /*public static void main(String[] args) {
-        init();
-    }*/
 }

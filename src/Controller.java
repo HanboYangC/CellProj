@@ -12,37 +12,13 @@ public class Controller {
 
     public static QTree qTree;
 
-    public static void init_guo() {
-        File file = new File("./res/data/" + 8 + "CellTest.txt");
-        qTree = build_QTree_from_samplefile(file);
-
-        Rectangle boundry = qTree.root.getBoundary();
-        h = boundry.h;
-        w = boundry.w;
-        Renderer.winWidth = 600;
-        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
-
-        for (Cell cell : qTree.cells) {
-            System.out.println(cell.node.cells.get(0).color);
-        }
-    }
-
     public static void init() {
 //        In fin = new In("./res/data/" + 8 + "CellTest.txt");
         In fin = new In("./res/sample/sample" + 2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
-        //System.out.println(w);
         Renderer.winWidth = 800;
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
-
-//        File file = new File("./res/data/" + 8 + "CellTest.txt");
-//        QTree qTree = build_QTree_from_file(file);
-//        Rectangle boundry = qTree.root.getBoundary();
-//        double w = boundry.w;
-//        double h = boundry.h;
-//        Renderer.winWidth=600;
-//        Renderer.winHeight= (int) (h/w*Renderer.winWidth);
 
         Rectangle wall = new Rectangle(w, h);
         qTree = new QTree(wall);
@@ -56,10 +32,6 @@ public class Controller {
             char _color = fin.readChar();
             qTree.insert(new Cell(_x, _y, _r, _pr, _color));
         }
-
-//        for (Cell cell : qTree.cells) {
-//            System.out.println(cell.node.cells);
-//        }
 
     }
 
@@ -157,25 +129,6 @@ public class Controller {
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
     }
 
-//    public static void querysample2test() {
-//        File file = new File("./res/sample/sample2.txt");
-//        qTree = build_QTree_from_file(file);
-//
-//        Rectangle boundry = qTree.root.getBoundary();
-//        h = boundry.h;
-//        w = boundry.w;
-//        Renderer.winWidth = 600;
-//        Renderer.winHeight = (int) (h / w * Renderer.winWidth);
-//
-//        File queriesfile = new File("./res/sample/sample2.txt");
-//        double[] queryArray = gen_queryArray_from_file(queriesfile);
-//        for (int i = 0; i < queryArray.length / 2; i++) {
-//            double _t = queryArray[2 * i];
-//            int _ID = (int) queryArray[2 * i + 1];
-//        }
-//        int idx = 0;
-//
-//    }
     public static void initFromMain(QTree qTreeFromMain){
         qTree = qTreeFromMain;
         Rectangle boundry = qTree.root.getBoundary();
@@ -189,8 +142,6 @@ public class Controller {
         Test.GenBigSquare(cell_num_to_test);
         File file = new File("./res/sample/diy_sample" + cell_num_to_test + ".txt");
         qTree = build_QTree_from_samplefile(file);
-
-
         Rectangle boundry = qTree.root.getBoundary();
         h = boundry.h;
         w = boundry.w;
@@ -198,15 +149,9 @@ public class Controller {
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
     }
 
-
     public static void main(String[] args) {
-        //init();
-//        init_guo();
-//        sampletest();
-//        test_color();
-//        querysample2test();
-//        test_query();
-        init_diy_guo(10000);
+        // self-generate (large) data animation
+        init_diy_guo(100);
         Renderer.init();
     }
 }
