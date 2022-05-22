@@ -46,12 +46,7 @@ public class Main {
                     if (_step > max_step) {
                         max_step = _step;
                     }
-//            if(queryTimeCell.containsKey(_t)){
-//                queryTimeCell.get(_t).add(_ID);
-//            }else{
-//                List<Integer> id_at_t = new ArrayList<>();
-//                id_at_t.add(_ID);
-//                queryTimeCell.put(_t,id_at_t);
+
 //            }
                     if (queryStepCell.containsKey(_step)) {
                         queryStepCell.get(_step).add(_ID);
@@ -73,6 +68,7 @@ public class Main {
                             System.out.print(queryResult);
                         }
                     }
+
                     qTree.moveOneStep();
                 }
 

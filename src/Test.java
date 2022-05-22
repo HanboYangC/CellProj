@@ -451,9 +451,24 @@ public class Test {
         }
     }
 
+    public static void testTime(int cell_num_to_test,int steps){
+        Test.GenBigSquare(cell_num_to_test);
+        File file = new File("./res/sample/diy_sample" + cell_num_to_test + ".txt");
+        QTree qTree = build_QTree_from_samplefile(file);
+        Stopwatch stopwatch=new Stopwatch();
+        for (int i = 0; i < steps; i++) {
+            qTree.moveOneStep();
+        }
+        System.out.println(stopwatch.elapsedTime());
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
+        for (int i = 100; i <= 10000; i+=100) {
+            testTime(i,20);
+        }
+
 //        CompareResult(1,3,0.001);
-        query_test(2);
+//        query_test(2);
 //        GenBigSquare(2000);
 //        query_test_guo(2);
 //        simpletest();

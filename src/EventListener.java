@@ -1,9 +1,11 @@
+import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 import java.util.ArrayList;
 
@@ -24,8 +26,11 @@ public class EventListener implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
+
+ //       System.out.println(Renderer.window.getDefaultCloseOperation());
         //System.out.println("Hello JOGL");
         GL2 gl = drawable.getGL().getGL2();
+
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         //Controller.timeStep();
         gl.glColor4d(0, 0, 0, 0);
@@ -39,7 +44,6 @@ public class EventListener implements GLEventListener {
             drawSingleCircle(gl,cell.x,cell.y,cell.radius,cell.color);
         }
         Controller.qTree.moveOneStep();
-
     }
 
     @Override

@@ -1,3 +1,4 @@
+import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
@@ -6,7 +7,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.FPSAnimator;
 
 public class Renderer {
-    private static GLWindow window;
+    public static GLWindow window;
     public static int winWidth=600;
     public static int winHeight=600;
     //public static int unit= (int) (winWidth/Controller.w);

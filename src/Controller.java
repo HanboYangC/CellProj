@@ -29,11 +29,11 @@ public class Controller {
 
     public static void init() {
 //        In fin = new In("./res/data/" + 8 + "CellTest.txt");
-        In fin = new In("./sample/sample" + 2 + ".txt");
+        In fin = new In("./res/sample/sample" + 2 + ".txt");
         w = fin.readDouble();
         h = fin.readDouble();
-        System.out.println(w);
-        Renderer.winWidth = 600;
+        //System.out.println(w);
+        Renderer.winWidth = 800;
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
 
 //        File file = new File("./res/data/" + 8 + "CellTest.txt");
@@ -190,6 +190,7 @@ public class Controller {
         File file = new File("./res/sample/diy_sample" + cell_num_to_test + ".txt");
         qTree = build_QTree_from_samplefile(file);
 
+
         Rectangle boundry = qTree.root.getBoundary();
         h = boundry.h;
         w = boundry.w;
@@ -197,14 +198,15 @@ public class Controller {
         Renderer.winHeight = (int) (h / w * Renderer.winWidth);
     }
 
+
     public static void main(String[] args) {
-//        init();
+        //init();
 //        init_guo();
 //        sampletest();
 //        test_color();
 //        querysample2test();
 //        test_query();
-        init_diy_guo(30);
+        init_diy_guo(10000);
         Renderer.init();
     }
 }
