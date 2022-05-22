@@ -109,7 +109,6 @@ public class Test {
                 BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
 
                 for (int i = 0; i <= max_step; i++) {
-//                qTree.moveOneStep();
                     if (queryStepCell.containsKey(i)) {
                         List<Integer> id_at_step = queryStepCell.get(i);
                         for (int id : id_at_step) {
@@ -134,7 +133,6 @@ public class Test {
         }catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-//        System.out.println("in test");
     }
 
     public static void CompareResult(int fileNum, int numOfQuery) {
@@ -158,7 +156,6 @@ public class Test {
             if (Math.abs(x1 - x2) > x1 * (0.05) || Math.abs(y1 - y2) > y1 * (0.05) || c1 != c2) {
                 System.out.println("something is wrong!");
                 System.out.printf("[line %d] x : %f  y : %f  color : %s || x : %f  y : %f  color : %s \n", i, x1, y1, c1, x2, y2, c2);
-//                break;
                 return;
             }
         }
@@ -166,33 +163,6 @@ public class Test {
 
     }
 
-    public static void compare_out_file(File out, File ref) {  // output and the ref correct answers
-        In fin_out = new In(out.getPath());
-        In fin_ref = new In(ref.getPath());
-
-        double _x_out;
-        double _x_ref;
-        double _y_out;
-        double _y_ref;
-        char _color_out;
-        char _color_ref;
-
-        int query_num = 0;  // query line num, not the cell ID
-        while (!fin_out.isEmpty()) {
-            _x_out = fin_out.readDouble();
-            _y_out = fin_out.readDouble();
-            _x_ref = fin_ref.readDouble();
-            _y_ref = fin_ref.readDouble();
-            fin_out.readChar();  // Trim the space
-            fin_ref.readChar();  // Trim the space
-            _color_out = fin_out.readChar();
-            _color_ref = fin_ref.readChar();
-            if (Math.abs(_x_out + _y_out - _x_ref - _y_ref) > 0.01 || _color_out != _color_ref) {
-                System.out.printf("Cell ID QueryArray[%d] Error: out: %f %f %c ref: %f %f %c\n", query_num * 2 + 1, _x_out, _y_out, _color_out, _x_ref, _y_ref, _color_ref);
-            }
-            query_num++;
-        }
-    }
 
     public static QTree build_QTree_from_samplefile(File file) {
         In fin = new In(file.getPath());
