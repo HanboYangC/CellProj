@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+//@SuppressWarnings("unchecked")
 public class QTree {
     public Wall wall;
     public Node root = null;
