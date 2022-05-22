@@ -390,24 +390,25 @@ public class Test {
 
     public static double[] gen_queryArray_from_samplefile(File queryFile) {
         In fin = new In(queryFile.getPath());
+
+        // Jump over the QTree Data
         fin.readDouble();
         fin.readDouble();
-//        System.out.println(fin.readDouble());
-//        System.out.println(fin.readDouble());
         int n_lines_to_jump = (int) fin.readDouble();
-//        System.out.println(n_lines_to_jump);
         for (int i = n_lines_to_jump; i >= 0; i--)
             fin.readLine();
+        // Jump over the QTree Data Done
+
+        // Read the Query Data and store them in an array
         int query_num = fin.readInt();
         double[] queryArray = new double[query_num * 2];
         for (int i = 0; i < query_num; i++) {
             double t = fin.readDouble();
             queryArray[2 * i] = t;
-//            System.out.println(t);
             int ID = (int) fin.readDouble();
-//            System.out.println(ID);
             queryArray[2 * i + 1] = ID;
         }
+        // Read the Query Data and store them in an array Done
         return queryArray;
     }
 
