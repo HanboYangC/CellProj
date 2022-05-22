@@ -409,7 +409,7 @@ public class Test {
         Out samplefile = new Out("./res/sample/diy_sample" + cell_num_to_test + ".txt");
 
         // Generate Basic Info of a QTree
-        double a = Math.ceil(Math.sqrt(cell_num_to_test));  // square's height or width
+        double a = Math.ceil(Math.sqrt(cell_num_to_test) + 0.5);  // square's height or width
         if (a < 10) a = 10;
         double max_radius = 0.5;
         double max_pr = 2.0 * max_radius;
@@ -431,7 +431,7 @@ public class Test {
         for (int i = 0; i < cell_num_to_test; i++) {
             // Generate Data of Cells
             x_seq[i] = max_radius + (2 * i + 1) % a;
-            y_seq[i] = 2 * max_radius * Math.floor(i/a) + max_radius;
+            y_seq[i] = 2 * max_radius * Math.floor(i / a) + max_radius;
             r_seq[i] = StdRandom.uniform(0.01, max_radius);
             pr_seq[i] = StdRandom.uniform(r_seq[i], max_pr);
             c_seq[i] = str.charAt(StdRandom.uniform(4));
