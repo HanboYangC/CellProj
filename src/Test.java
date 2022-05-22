@@ -129,8 +129,6 @@ public class Test {
                 e.printStackTrace();
             }
 
-
-
             // do the compare
             CompareResult(num_sample, _n_query);
         }catch (FileNotFoundException e) {
@@ -142,11 +140,8 @@ public class Test {
     public static void CompareResult(int fileNum, int numOfQuery) {
         In fin1 = new In("./res/sample/sample" + fileNum + "_out.txt"); // the correct answer
         In fin2 = new In("./res/output/test_sample" + fileNum + ".txt"); // our output
-//        int numOfQuery = 3;
-//        double delta = 0.001;
         double x1, x2, y1, y2;
         char c1, c2;
-//        while (fin1.hasNextLine()){
         for (int i = 0; i < numOfQuery; i++) {
             // the answer
             x1 = fin1.readDouble();
