@@ -136,7 +136,7 @@ public class Test {
 
                 StdOut.printf(" number of cells: %d, time spent: %f seconds.\n", i, timer.elapsedTime());
 
-                // 这个清空Cell类静态变量的指令非常重要，可以防止前一轮测试的对象跑到后一轮去
+                // this is really important and could prevent the test data to another loop
                 Cell.release();
                 // This Command is intended to release all the static class variables so that the mistake can be prevented.
 
@@ -417,7 +417,7 @@ public class Test {
 
         // Generate Basic Info of a QTree
         double a = Math.ceil(Math.sqrt(cell_num_to_test) + 0.5);  // square's height or width
-        if (a < 10) a = 10;
+        //if (a < 10) a = 10;
         double max_radius = 0.5;
         double max_pr = 2.0 * max_radius;
         String str = "rgby";

@@ -28,7 +28,7 @@ public class EventListener implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         //Controller.timeStep();
-        gl.glColor4d(0.5, 0.5, 0, 1);
+        gl.glColor4d(0, 0, 0, 0);
         gl.glBegin(GL2.GL_QUADS);
         gl.glVertex2d(0, 0);
         gl.glVertex2d(Controller.w, 0);
@@ -52,11 +52,11 @@ public class EventListener implements GLEventListener {
         double rulerW;
         double rulerH;
         if (Controller.w > Controller.h) {
-            unit = (int) (Renderer.getWindowW() / Controller.w);
+            unit =  (Renderer.getWindowW() / Controller.w);
             rulerW = Renderer.getWindowW() / unit;
             rulerH = rulerW * ratio;
         } else {
-            unit = (int) (Renderer.getWindowH() / Controller.h);
+            unit =  (Renderer.getWindowH() / Controller.h);
             rulerH = Renderer.getWindowH() / unit;
             rulerW = rulerH / ratio;
         }
