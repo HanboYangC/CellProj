@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-//@SuppressWarnings("unchecked")
+
 public class QTree {
     public Wall wall;
     public Node root = null;
@@ -28,9 +28,7 @@ public class QTree {
         public ArrayList<Node> son = new ArrayList<>(Arrays.asList(ne, nw, se, sw));
         // leaf
         public ArrayList<Cell> cells;
-        // TODO : = null as node; = list as leaf (no longer than 4)
 
-        // name : only for test
 
         // given rectangle
         public Node(Rectangle rectangle) {
